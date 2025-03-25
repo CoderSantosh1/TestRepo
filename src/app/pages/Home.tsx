@@ -1,8 +1,6 @@
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { useTheme } from "next-themes";
-import { Button } from "@/components/ui/button";
 
 const data = {
   result: [

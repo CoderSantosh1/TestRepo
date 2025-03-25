@@ -1,5 +1,5 @@
 import Link from "next/link";
-
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -31,16 +31,15 @@ export default function Footer() {
             
             <div className="flex space-x-6">
               <a href="#" className="text-blue-600 hover:text-blue-800">
-                <img src="./facebook.png" alt="Facebook" className="w-6 h-6" />
+                <Image src="/facebook.png" alt="Facebook" width={24} height={24} />
               </a>
               <a href="#" className="text-blue-600 hover:text-blue-800">
-                 <img src="./insta.png" alt="Instagram" className="w-6 h-6" />
+                <Image src="/insta.png" alt="Instagram" width={24} height={24} />
               </a>
               <a href="#" className="text-blue-600 hover:text-blue-800">
-                 <img src="./whatspp.png" alt="Whsatspp" className="w-6 h-6" />
+                <Image src="/whatspp.png" alt="Whatsapp" width={24} height={24} />
               </a>
             </div>
-          
           </div>
         </div>
         
