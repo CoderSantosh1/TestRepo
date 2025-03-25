@@ -1,5 +1,8 @@
 import Link from "next/link";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import { useTheme } from "next-themes";
+import { Button } from "@/components/ui/button";
 
 const data = {
   result: [
@@ -43,10 +46,11 @@ const data = {
 export default function Home() {
   return (
     <>
-      <Header /> {/* ✅ Added Header component */}
-      <div className="flex flex-col items-center justify-center mt-12">
-        <h1 className="text-3xl font-bold mb-4">Welcome to Sarkari Result</h1>
-        <table className="min-w-full table-auto border-collapse border border-orange-500">
+   <Header /> {/* ✅ Added Header component */}
+   
+      <div className="flex flex-col items-center justify-center mt-12 w-10/14 max-w-7xl mx-auto px-4">
+        <h1 className="text-3xl font-bold mb-4">Welcome to JobsPlatform</h1>
+        <table className="min-w-full table-auto border-collapse border border-orange-500 ">
           <thead>
             <tr className="bg-red-600 text-white">
               <th className="p-3 text-center">Result</th>
@@ -57,7 +61,7 @@ export default function Home() {
           <tbody>
             {Array.from({ length: Math.max(data.result.length, data.admitCard.length, data.latestJobs.length) })
               .map((_, index) => (
-                <tr key={index} className="border-t-2 border-red-500">
+                <tr key={index} className="border-t-2 border-red-500 ">
                   <td className="p-3 shadow-sm">
                     {data.result[index] ? (
                       <a href="#" className="text-blue-500 hover:underline">{data.result[index]}</a>
@@ -77,12 +81,8 @@ export default function Home() {
               ))}
           </tbody>
         </table>
-
-        {/* ✅ Link to About Page */}
-        <div className="mt-6">
-          <Link href="/about" className="text-blue-600 hover:underline">Go to About Page</Link>
-        </div>
       </div>
+      <Footer /> {/* ✅ Added Footer component */}
     </>
   );
 }

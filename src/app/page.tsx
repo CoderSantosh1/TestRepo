@@ -1,9 +1,11 @@
 
-import Home from "./pages/Home"; // Import the Home component
+import Home from "./pages/Home";
+
 
 export default function About() {
   return (
     <>
+     
       <Home /> {/* Use the Home component */}
     </>
   );

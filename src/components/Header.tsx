@@ -1,13 +1,17 @@
 import Link from "next/link";
+import { ModeToggle } from "./mode-toggle";
 
 export default function Header() {
   return (
-    <header className="bg-white shadow-md">
+    <header className="bg-[#f5342b]  w-10/14 max-w-7xl mx-auto px-4 shadow-md">
       <div className="container mx-auto px-4 py-2">
         {/* Top Section with Logo */}
         <div className="flex flex-col items-center py-2 border-b border-gray-200">
-          <h1 className="text-3xl font-bold text-red-600">SARKARI RESULT</h1>
-          <p className="text-sm text-gray-600">WWW.SARKARIRESULT.COM</p>
+          <div className="flex items-center gap-4">
+          <h1 className="text-3xl font-bold text-black-600">JOBSPLATFORM</h1>
+     <ModeToggle />
+</div>
+          <p className="text-sm text-gray-600">WWW.JOBSPLATFORM.IN</p>
         </div>
 
         {/* Navigation Menu */}
