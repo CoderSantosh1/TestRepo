@@ -1,4 +1,4 @@
-import Header from "@/components/Header";
+
 import Home from "./pages/Home"; // Import the Home component
 
 export default function About() {
