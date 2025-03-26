@@ -10,7 +10,7 @@ export default function BSEB12thResult() {
         
         <div className="w-full bg-black  rounded-lg shadow-md p-6 mb-8">
           <h2 className="text-2xl font-semibold mb-4 text-red-600">Important Details</h2>
-          
+          <p >The Bihar School Examination Board (BSEB) has announced the Class 12 results for 2025. In the Commerce stream, 94.77% of students have passed, while the Science stream recorded a pass percentage of 89.50%. Priya Jaiswal secured the top position in the Science stream, Raushani Kumari topped in Commerce, and Ankita Kumari and Shakib Sah emerged as toppers in the Arts stream. Students can check their results on the board's official websites, interresult2025.com and interbiharboard.com</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-blue-500 mb-6">
             <div className="border p-4 rounded">
               <h3 className="font-bold mb-2">Board Name</h3>
