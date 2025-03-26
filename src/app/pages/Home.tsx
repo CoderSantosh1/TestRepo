@@ -1,10 +1,9 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Link from "next/link";
 
 const data = {
   result: [
-    "BSEB 12th Exam Result 2025",
+    "AIBE 19th Exam Result 2025",
     "India Post GDS 2025 First Merit List",
     "IBPS PO 14th Score Card (Qualified for Interview)",
     "SSC Stenographer 2024 Marks, Final Answer Key",
@@ -50,8 +49,8 @@ export default function Home() {
         <h1 className="text-3xl font-bold mb-4">Welcome to JobsPlatform</h1>
         <table className="min-w-full table-auto border-collapse border border-orange-500 ">
           <thead>
-            <tr className="bg-red-600 text-white">
-              <th className="p-3 text-center">Result</th>
+            <tr className="bg-red-600 text-[#FCFCD8]">
+              <th className="p-3  text-center">Result</th>
               <th className="p-3 text-center">Admit Card</th>
               <th className="p-3 text-center">Latest Jobs</th>
             </tr>
@@ -59,16 +58,10 @@ export default function Home() {
           <tbody>
             {Array.from({ length: Math.max(data.result.length, data.admitCard.length, data.latestJobs.length) })
               .map((_, index) => (
-                <tr key={index} className="border-t-2 border-red-500 ">
+                <tr key={index} className="border-t-2 border-red-500 bg-red-1- ">
                   <td className="p-3 shadow-sm">
                     {data.result[index] ? (
-                      index === 0 ? (
-                        <Link href="/bseb-12th-result" className="text-blue-500 hover:underline">
-                          {data.result[index]}
-                        </Link>
-                      ) : (
-                        <a href="#" className="text-blue-500 hover:underline">{data.result[index]}</a>
-                      )
+                      <a href="#" className="text-blue-500 hover:underline">{data.result[index]}</a>
                     ) : "-"}
                   </td>
                   <td className="p-3 border-r">
