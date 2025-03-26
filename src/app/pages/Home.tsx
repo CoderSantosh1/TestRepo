@@ -49,7 +49,7 @@ export default function Home() {
         <h1 className="text-3xl font-bold mb-4">Welcome to JobsPlatform</h1>
         <table className="min-w-full table-auto border-collapse border border-orange-500 ">
           <thead>
-            <tr className="bg-red-600 text-[#FCFCD8]">
+            <tr className="bg-red-600 text-[#FCFCD8] font-bold">
               <th className="p-3  text-center">Result</th>
               <th className="p-3 text-center">Admit Card</th>
               <th className="p-3 text-center">Latest Jobs</th>
@@ -61,17 +61,17 @@ export default function Home() {
                 <tr key={index} className="border-t-2 border-red-500 bg-red-1- ">
                   <td className="p-3 shadow-sm">
                     {data.result[index] ? (
-                      <a href="#" className="text-blue-500 hover:underline">{data.result[index]}</a>
+                      <a href="#" className="text-[#014F59] hover:underline hover:text-blue-800">{data.result[index]}</a>
                     ) : "-"}
                   </td>
                   <td className="p-3 border-r">
                     {data.admitCard[index] ? (
-                      <a href="#" className="text-blue-500 hover:underline">{data.admitCard[index]}</a>
+                      <a href="#" className="text-[#014F59] hover:underline hover:text-blue-800">{data.admitCard[index]}</a>
                     ) : "-"}
                   </td>
                   <td className="p-3">
                     {data.latestJobs[index] ? (
-                      <a href="#" className="text-blue-500 hover:underline">{data.latestJobs[index]}</a>
+                      <a href="#" className="text-[#014F59] hover:underline hover:text-blue-800">{data.latestJobs[index]}</a>
                     ) : "-"}
                   </td>
                 </tr>

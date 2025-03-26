@@ -11,7 +11,7 @@ export default function Header() {
           <h1 className="text-3xl font-bold text-black-600">JOBSPLATFORM</h1>
      <ModeToggle />
 </div>
-          <p className="text-sm text-gray-600">WWW.JOBSPLATFORM.IN</p>
+          <p className="text-sm text-blue-600 hover:text-blue-800"><a href="https://www.jobsplatform.in/">WWW.JOBSPLATFORM.IN</a></p>
         </div>
 
         {/* Navigation Menu */}
