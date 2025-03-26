@@ -28,7 +28,7 @@ export default function Footer() {
           </div>
           <div>
             <h3 className="text-lg font-bold text-red-600 mb-3">Contact Information</h3>
-            <p className="text-gray-700 mb-2">Email: Support@JobsPlatform.in</p>
+            <p className="text-gray-700 mb-2">email: <a href="mailto:jobsplatform.in">support@JobsPlatform.in</a></p>
             
             <div className="flex space-x-6">
               <a href="#" className="text-blue-600 hover:text-blue-800">
