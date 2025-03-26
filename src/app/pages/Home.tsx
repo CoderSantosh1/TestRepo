@@ -45,7 +45,7 @@ export default function Home() {
     <>
    <Header /> {/* ✅ Added Header component */}
    
-      <div className="flex flex-col items-center justify-center mt-12 w-10/14 max-w-7xl mx-auto px-4">
+      <div className="flex flex-col items-center justify-center bg-[#FFFBD9] mt-12 w-10/14 max-w-7xl mx-auto px-4">
         <h1 className="text-3xl font-bold mb-4">Welcome to JobsPlatform</h1>
         <table className="min-w-full table-auto border-collapse border border-orange-500 ">
           <thead>
