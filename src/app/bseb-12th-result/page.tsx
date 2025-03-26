@@ -36,7 +36,7 @@ export default function BSEB12thResult() {
             <h2 className="text-xl font-semibold mb-4">How to Check BSEB 12th Result 2025</h2>
             <ol className="list-decimal list-inside space-y-2 ">
               <li>Visit the official website of BSEB</li>
-              <li>Click on the "12th Result 2025" link</li>
+              <li>Click on the &quot;12th Result 2025&quot; link</li>
               <li>Enter your Roll Code and Roll Number</li>
               <li>Click on Submit button</li>
               <li>Your result will be displayed on the screen</li>
