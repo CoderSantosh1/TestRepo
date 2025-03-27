@@ -3,7 +3,7 @@ import Footer from "@/components/Footer";
 
 const data = {
   result: [
-    "AIBE 19th Exam Result 2025",
+    "BSEB 12th Exam Result 2025",
     "India Post GDS 2025 First Merit List",
     "IBPS PO 14th Score Card (Qualified for Interview)",
     "SSC Stenographer 2024 Marks, Final Answer Key",
@@ -61,7 +61,7 @@ export default function Home() {
                 <tr key={index} className="border-t-2 border-red-500 bg-red-1- ">
                   <td className="p-3 shadow-sm">
                     {data.result[index] ? (
-                      <a href="#" className="text-[#014F59] hover:underline hover:text-blue-800">{data.result[index]}</a>
+                      <a href={index === 0 ? "/bseb-12th-result" : ""} className="text-[#014F59] hover:underline hover:text-blue-800">{data.result[index]}</a>
                     ) : "-"}
                   </td>
                   <td className="p-3 border-r">
