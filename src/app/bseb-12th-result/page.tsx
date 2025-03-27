@@ -32,17 +32,16 @@ export default function BSEB12thResult() {
               <p className="text-blue-600 hover:text-blue-800"><a href="http://interresult2025.com/">LINK-III</a></p>
             </div>
           </div>
-
-          </div>
         </div>
+        
 
         <div className="w-full bg-white p-6 rounded-lg shadow-md mb-6">
           <h2 className="text-2xl font-semibold mb-4 text-[#014F59]">How to Check Results</h2>
           <ol className="list-decimal pl-6 space-y-3 text-gray-700">
             <li>Visit the official BSEB website: biharboardonline.bihar.gov.in</li>
-            <li>Click on the "Class XII Result 2025" link</li>
+            <li>Click on the &quot;Class XII Result 2025&quot; link</li>
             <li>Enter your Roll Code and Roll Number</li>
-            <li>Click on "Submit" button</li>
+            <li>Click on &quot;Submit&quot; button</li>
             <li>Your result will be displayed on the screen</li>
             <li>Download and take a printout for future reference</li>
           </ol>
@@ -57,7 +56,7 @@ export default function BSEB12thResult() {
             <li>Date of Birth (for verification)</li>
           </ul>
         </div>
-  
+        </div>
       <Footer />
     </>
   );
