@@ -4,7 +4,8 @@ import Footer from "@/components/Footer";
 const data = {
   result: [
     "BSEB 12th Exam Result 2025",
-    "India Post GDS 2025 First Merit List",
+    "UP Police UPP Workshop Hand 2022 Exam PET Final Result 2025",
+    "Assam Gunotsav Result 2025",
     "IBPS PO 14th Score Card (Qualified for Interview)",
     "SSC Stenographer 2024 Marks, Final Answer Key",
     "IBPS SO 14 Score Card Qualified for Interview",
@@ -43,10 +44,59 @@ const data = {
 export default function Home() {
   return (
     <>
-   <Header /> {/* ✅ Added Header component */}
-   
+      <Header />
       <div className="flex flex-col items-center justify-center bg-[#FFFBD9] mt-12 w-10/14 max-w-7xl mx-auto px-4">
-        <h1 className="text-3xl font-bold mb-4">Welcome to JobsPlatform</h1>
+      <div className="grid grid-cols-4 gap-4 bg-[#FFFBD9] p-4 mt-4 mx-auto w-full max-w-7xl">
+      <a href="/cisf-tradesman" className="bg-blue-800 text-white p-4 rounded-lg text-center hover:bg-blue-900 transition-colors flex items-center justify-center">
+          <div>
+            <div className="text-lg font-semibold">Assam Gunotsav Result</div>
+            <div className="text-sm">Results</div>
+          </div>
+        </a>
+        <a href="/upp-workshop-hand-result" className="bg-[#8B8000] text-white p-4 rounded-lg text-center hover:bg-[#6B6000] transition-colors flex items-center justify-center">
+          <div>
+            <div className="text-lg font-semibold">UP Police UPP Workshop</div>
+            <div className="text-sm">PET Final Result</div>
+          </div>
+        </a>
+        
+        <a href="/bseb-12th-result" className="bg-orange-600 text-white p-4 rounded-lg text-center hover:bg-orange-700 transition-colors flex items-center justify-center">
+          <div>
+            <div className="text-lg font-semibold">BSEB 12th Result</div>
+            <div className="text-sm">Server II</div>
+          </div>
+        </a>
+        <a href="/army-agniveer" className="bg-red-800 text-white p-4 rounded-lg text-center hover:bg-red-900 transition-colors flex items-center justify-center">
+          <div>
+            <div className="text-lg font-semibold">Army Agniveer 2025</div>
+            <div className="text-sm">Apply Online</div>
+          </div>
+        </a>
+        <a href="/rrb-technician" className="bg-red-600 text-white p-4 rounded-lg text-center hover:bg-red-700 transition-colors flex items-center justify-center">
+          <div>
+            <div className="text-lg font-semibold">RRB Technician III</div>
+            <div className="text-sm">Result 2025</div>
+          </div>
+        </a>
+        <a href="/csbc-bihar" className="bg-green-800 text-white p-4 rounded-lg text-center hover:bg-green-900 transition-colors flex items-center justify-center">
+          <div>
+            <div className="text-lg font-semibold">CSBC Bihar Constable</div>
+            <div className="text-sm">Apply Online</div>
+          </div>
+        </a>
+        <a href="/uppsc-pre" className="bg-pink-500 text-white p-4 rounded-lg text-center hover:bg-pink-600 transition-colors flex items-center justify-center">
+          <div>
+            <div className="text-lg font-semibold">UPPSC Pre 2025</div>
+            <div className="text-sm">Apply Online</div>
+          </div>
+        </a>
+        <a href="/bihar-board" className="bg-blue-500 text-white p-4 rounded-lg text-center hover:bg-blue-600 transition-colors flex items-center justify-center">
+          <div>
+            <div className="text-lg font-semibold">Bihar Board 12th</div>
+            <div className="text-sm">Result 2025</div>
+          </div>
+        </a>
+      </div>
         <table className="min-w-full table-auto border-collapse border border-orange-500 ">
           <thead>
             <tr className="bg-red-600 text-[#FCFCD8] font-bold">
@@ -61,7 +111,17 @@ export default function Home() {
                 <tr key={index} className="border-t-2 border-red-500 bg-red-1- ">
                   <td className="p-3 shadow-sm">
                     {data.result[index] ? (
-                      <a href={index === 0 ? "/bseb-12th-result" : ""} className="text-[#014F59] hover:underline hover:text-blue-800">{data.result[index]}</a>
+                      <a href={index === 0 ? "/bseb-12th-result" :
+                        index === 1 ? "/upp-workshop-hand-result" :
+                        index === 2 ? "/Assam-Gunotsav-Result" :
+                        index === 3 ? "/ibps-po-score-card" :
+                        index === 4 ? "/ssc-stenographer" :
+                        index === 5 ? "/ibps-so-score-card" :
+                        index === 6 ? "/rrb-technician" :
+                        index === 7 ? "/dsssb-ae-result" :
+                        index === 8 ? "/gate-results" :
+                        index === 9 ? "/iit-jam-result" :
+                        index === 10 ? "/bihar-nyay-mitra" : "#"} className="text-[#014F59] hover:underline hover:text-blue-800">{data.result[index]}</a>
                     ) : "-"}
                   </td>
                   <td className="p-3 border-r">
@@ -79,7 +139,9 @@ export default function Home() {
           </tbody>
         </table>
       </div>
-      <Footer /> {/* ✅ Added Footer component */}
+      <div className="flex flex-col items-center justify-center bg-[#FFFBD9] mt-12 w-10/14 max-w-7xl mx-auto px-4">
+        <Footer />
+      </div>
     </>
   );
 }
