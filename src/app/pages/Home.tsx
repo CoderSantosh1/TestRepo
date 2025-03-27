@@ -45,7 +45,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <main className="bg-[#FFFBD9] min-h-screen flex items-center justify-center">
+      <main className="flex flex-col items-center justify-center bg-[#FFFBD9] mt-12 w-10/14 max-w-7xl mx-auto px-4">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-12 ">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           <a href="/results/goa-hssc-result" className="bg-yellow-600 text-white p-3 md:p-4 rounded-lg text-center hover:bg-yellow-700 transition-colors flex items-center justify-center min-h-[100px]">
