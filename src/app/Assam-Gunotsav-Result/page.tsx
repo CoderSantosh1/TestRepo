@@ -5,7 +5,7 @@ export default function BSEB12thResult() {
   return (
     <>
       <Header />
-      <div className="flex flex-col items-center justify-center bg-[#FFFBD9] mt-12 w-10/14 max-w-7xl mx-auto px-4 min-h-screen">
+      <div className="flex flex-col items-center justify-center bg-red-500 mt-12 w-10/14 max-w-7xl mx-auto px-4 min-h-screen">
         <h1 className="text-3xl font-bold mb-4">Assam Gunotsav Result 2025 OUT at gunotsav2025.in, </h1>
         
         <div className="w-full bg-white p-6 rounded-lg shadow-md mb-6">
@@ -16,10 +16,11 @@ export default function BSEB12thResult() {
             <li>Result Status: Coming Soon</li>
             <li>Official Website: biharboardonline.bihar.gov.in</li> */}
           </ul>
+          <p className="text-gray-700">Assam Chief Minister Himanta Biswa Sarma Announces Gunotsav 2025 Results; Check Steps To Download Marksheet</p>
         </div>
 
         <div className="w-full bg-white p-6 rounded-lg shadow-md mb-6">
-          <h2 className="text-2xl font-semibold mb-4 text-[#014F59]">Important Dates</h2>
+          {/* <h2 className="text-2xl font-semibold mb-4 text-[#014F59]"></h2> */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="border-b md:border-r p-4">
               <h3 className="font-semibold text-red-600">Check yours results </h3>
