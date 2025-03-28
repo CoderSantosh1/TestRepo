@@ -12,8 +12,7 @@ const data = {
     "Railway RRB Technician Grade III Result 2025",
     "Delhi DSSSB Assistant Engineer Civil Post Code 803/22 Result",
     "GATE 2025 Results",
-    "IIT JAM 2025 Result",
-    "Bihar Nyay Mitra Merit List 2025"
+    "IIT JAM 2025 Result"
   ],
   admitCard: [
     "UPSSSC Junior Assistant 2022 Document Verification DV Admit Card",
