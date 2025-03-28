@@ -3,13 +3,13 @@ import Footer from "@/components/Footer";
 
 const data = {
   result: [
+    "Bihar 10th Result",
     "SBI Clerk Result 2025",
     "RSKMP Result 2025 (OUT)",
     "Goa hssc result 2025",
     "UP Police UPP Workshop Hand 2022 Exam PET Final Result 2025",
     "Assam Gunotsav Result 2025",
     "BSEB 12th Exam Result 2025",
-    "Bihar 10th Result",
     "Railway RRB Technician Grade III Result 2025",
     "Delhi DSSSB Assistant Engineer Civil Post Code 803/22 Result",
     "GATE 2025 Results"
