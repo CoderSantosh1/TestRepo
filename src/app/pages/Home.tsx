@@ -8,7 +8,7 @@ const data = {
     "UP Police UPP Workshop Hand 2022 Exam PET Final Result 2025",
     "Assam Gunotsav Result 2025",
     "BSEB 12th Exam Result 2025",
-    "SSC Stenographer 2024 Marks, Final Answer Key",
+    "Bihar 10th Result",
     "IBPS SO 14 Score Card Qualified for Interview",
     "Railway RRB Technician Grade III Result 2025",
     "Delhi DSSSB Assistant Engineer Civil Post Code 803/22 Result",
@@ -65,18 +65,7 @@ export default function Home() {
                 <div className="text-xs md:text-sm">Results</div>
               </div>
             </a>
-            <a href="/results/upp-workshop-hand-result" className="bg-[#8B8000] text-white p-3 md:p-4 rounded-lg text-center hover:bg-[#6B6000] transition-colors flex items-center justify-center min-h-[100px]">
-              <div>
-                <div className="text-base md:text-lg font-semibold">UP Police UPP Workshop</div>
-                <div className="text-xs md:text-sm">PET Final Result</div>
-              </div>
-            </a>
-            <a href="/results/bseb-12th-result" className="bg-orange-600 text-white p-3 md:p-4 rounded-lg text-center hover:bg-orange-700 transition-colors flex items-center justify-center min-h-[100px]">
-              <div>
-                <div className="text-base md:text-lg font-semibold">BSEB 12th Result</div>
-                <div className="text-xs md:text-sm">Server II</div>
-              </div>
-            </a>
+  
            
            
             <a href="/csbc-bihar" className="bg-green-800 text-white p-3 md:p-4 rounded-lg text-center hover:bg-green-900 transition-colors flex items-center justify-center min-h-[100px]">
@@ -85,16 +74,23 @@ export default function Home() {
                 <div className="text-xs md:text-sm">Apply Online</div>
               </div>
             </a>
-            <a href="/uppsc-pre" className="bg-pink-500 text-white p-3 md:p-4 rounded-lg text-center hover:bg-pink-600 transition-colors flex items-center justify-center min-h-[100px]">
-              <div>
-                <div className="text-base md:text-lg font-semibold">UPPSC Pre 2025</div>
-                <div className="text-xs md:text-sm">Apply Online</div>
-              </div>
-            </a>
+            
             <a href="/bihar-board" className="bg-blue-500 text-white p-3 md:p-4 rounded-lg text-center hover:bg-blue-600 transition-colors flex items-center justify-center min-h-[100px]">
               <div>
                 <div className="text-base md:text-lg font-semibold">Bihar Board 12th</div>
                 <div className="text-xs md:text-sm">Result 2025</div>
+              </div>
+            </a>
+            <a href="/results/bihar-10th-result" className="bg-purple-600 text-white p-3 md:p-4 rounded-lg text-center hover:bg-purple-700 transition-colors flex items-center justify-center min-h-[100px]">
+              <div>
+                <div className="text-base md:text-lg font-semibold">Bihar 10th Result</div>
+                <div className="text-xs md:text-sm">Result 2025</div>
+              </div>
+            </a>
+            <a href="/results/sbi-clerk" className="bg-teal-600 text-white p-3 md:p-4 rounded-lg text-center hover:bg-teal-700 transition-colors flex items-center justify-center min-h-[100px]">
+              <div>
+                <div className="text-base md:text-lg font-semibold">SBI Clerk Result</div>
+                <div className="text-xs md:text-sm">Results</div>
               </div>
             </a>
            
