@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 
 const data = {
   result: [
+    "RSKMP Result 2025 (OUT)",
     "Goa hssc result 2025",
     "UP Police UPP Workshop Hand 2022 Exam PET Final Result 2025",
     "Assam Gunotsav Result 2025",
@@ -11,8 +12,7 @@ const data = {
     "IBPS SO 14 Score Card Qualified for Interview",
     "Railway RRB Technician Grade III Result 2025",
     "Delhi DSSSB Assistant Engineer Civil Post Code 803/22 Result",
-    "GATE 2025 Results",
-    "IIT JAM 2025 Result"
+    "GATE 2025 Results"
   ],
   admitCard: [
     "UPSSSC Junior Assistant 2022 Document Verification DV Admit Card",
@@ -72,9 +72,9 @@ export default function Home() {
               </div>
             </a>
            
-            <a href="/rrb-technician" className="bg-red-600 text-white p-3 md:p-4 rounded-lg text-center hover:bg-red-700 transition-colors flex items-center justify-center min-h-[100px]">
+            <a href="results/rskmp-result" className="bg-red-600 text-white p-3 md:p-4 rounded-lg text-center hover:bg-red-700 transition-colors flex items-center justify-center min-h-[100px]">
               <div>
-                <div className="text-base md:text-lg font-semibold">RRB Technician III</div>
+                <div className="text-base md:text-lg font-semibold">RSKMP Result 2025</div>
                 <div className="text-xs md:text-sm">Result 2025</div>
               </div>
             </a>
@@ -114,17 +114,16 @@ export default function Home() {
                     <tr key={index} className="border-t-2 border-red-500 hover:bg-[#FFF8CC]">
                       <td className="p-2 md:p-3 shadow-sm text-sm md:text-base">
                         {data.result[index] ? (
-                          <a href={index === 0 ? "/results/bseb-12th-result" :
-                            index === 1 ? "/results/upp-workshop-hand-result" :
-                            index === 2 ? "/results/Assam-Gunotsav-Result" :
-                            index === 3 ? "/ibps-po-score-card" :
-                            index === 4 ? "/ssc-stenographer" :
-                            index === 5 ? "/ibps-so-score-card" :
-                            index === 6 ? "/rrb-technician" :
-                            index === 7 ? "/dsssb-ae-result" :
-                            index === 8 ? "/gate-results" :
-                            index === 9 ? "/iit-jam-result" :
-                            index === 10 ? "/bihar-nyay-mitra" : "#"} className="text-[#014F59] hover:underline hover:text-blue-800">{data.result[index]}</a>
+                          <a href={index === 0 ? "/results/rskmp-result" :
+                            index === 1 ? "/results/bseb-12th-result" :
+                            index === 2 ? "/results/upp-workshop-hand-result" :
+                            index === 3 ? "/results/Assam-Gunotsav-Result" :
+                            index === 4 ? "/ibps-po-score-card" :
+                            index === 5 ? "/ssc-stenographer" :
+                            index === 6 ? "/ibps-so-score-card" :
+                            index === 7 ? "/rrb-technician" :
+                            index === 8 ? "/dsssb-ae-result" :
+                            index === 9 ? "/gate-results" : "#"} className="text-[#014F59] hover:underline hover:text-blue-800">{data.result[index]}</a>
                         ) : "-"}
                       </td>
                       <td className="p-2 md:p-3 border-x text-sm md:text-base">
