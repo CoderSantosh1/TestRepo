@@ -111,13 +111,13 @@ export default function Home() {
                     <tr key={index} className="border-t-2 border-red-500 hover:bg-[#FFF8CC]">
                       <td className="p-2 md:p-3 shadow-sm text-sm md:text-base">
                         {data.result[index] ? (
-                          <a href={index === 0 ? "/results/rskmp-result" :
-                            index === 1 ? "/results/bseb-12th-result" :
-                            index === 2 ? "/results/upp-workshop-hand-result" :
-                            index === 3 ? "/results/Assam-Gunotsav-Result" :
-                            index === 4 ? "/ibps-po-score-card" :
-                            index === 6 ? "/results/sbi-clerk" :
-                            index === 7 ? "/rrb-technician" :
+                          <a href={index === 0 ? "/results/bihar-10th-result" :
+                            index === 1 ? "/results/sbi-clerk" :
+                            index === 2 ? "/results/rkmp-result" :
+                            index === 3 ? "/results/goa-hssc-result" :
+                            index === 4 ? "/results/rkmp-result" :
+                            index === 6 ? "/results/assam-gunotsav-result" :
+                            index === 7 ? "/results/bseb-12th-result" :
                             index === 8 ? "/dsssb-ae-result" :
                             index === 9 ? "/gate-results" : "#"} className="text-[#014F59] hover:underline hover:text-blue-800">{data.result[index]}</a>
                         ) : "-"}
