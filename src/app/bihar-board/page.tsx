@@ -46,9 +46,9 @@ export default function BiharBoard() {
               <h3 className="text-xl font-semibold mb-3 text-[#014F59]">Class 10th Results</h3>
               <ol className="list-decimal pl-6 space-y-3 text-gray-700">
                 <li>Visit biharboardonline.bihar.gov.in</li>
-                <li>Click on "Class X Result 2025" link</li>
+                <li>Click on &quot;Class X Result 2025&quot; link</li>
                 <li>Enter your Roll Code and Roll Number</li>
-                <li>Click on "Submit" button</li>
+                <li>Click on &quot;Submit&quot; button</li>
                 <li>View and download your result</li>
               </ol>
             </div>

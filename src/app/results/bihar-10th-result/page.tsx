@@ -37,9 +37,9 @@ export default function Bihar10thResult() {
           <h2 className="text-2xl font-semibold mb-4 text-[#014F59]">रिजल्ट कैसे चेक करें</h2>
           <ol className="list-decimal pl-6 space-y-3 text-gray-700">
             <li>BSEB की ऑफिशियल वेबसाइट पर जाएं</li>
-            <li>"मैट्रिक रिजल्ट 2025" लिंक पर क्लिक करें</li>
+            <li>&quot;मैट्रिक रिजल्ट 2025&quot; लिंक पर क्लिक करें</li>
             <li>अपना रोल कोड और रोल नंबर दर्ज करें</li>
-            <li>"सबमिट" बटन पर क्लिक करें</li>
+            <li>&quot;सबमिट&quot; बटन पर क्लिक करें</li>
             <li>आपका रिजल्ट स्क्रीन पर दिखाई देगा</li>
             <li>भविष्य के लिए रिजल्ट का प्रिंटआउट लें</li>
           </ol>

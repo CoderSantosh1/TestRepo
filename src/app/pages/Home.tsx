@@ -3,13 +3,13 @@ import Footer from "@/components/Footer";
 
 const data = {
   result: [
+    "SBI Clerk Result 2025",
     "RSKMP Result 2025 (OUT)",
     "Goa hssc result 2025",
     "UP Police UPP Workshop Hand 2022 Exam PET Final Result 2025",
     "Assam Gunotsav Result 2025",
     "BSEB 12th Exam Result 2025",
     "Bihar 10th Result",
-    "IBPS SO 14 Score Card Qualified for Interview",
     "Railway RRB Technician Grade III Result 2025",
     "Delhi DSSSB Assistant Engineer Civil Post Code 803/22 Result",
     "GATE 2025 Results"
@@ -47,6 +47,12 @@ export default function Home() {
       <main className="flex flex-col items-center justify-center bg-[#FFFBD9] mt-12 w-10/14 max-w-7xl mx-auto px-4">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-12 ">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <a href="/results/sbi-clerk" className="bg-teal-600 text-white p-3 md:p-4 rounded-lg text-center hover:bg-teal-700 transition-colors flex items-center justify-center min-h-[100px]">
+              <div>
+                <div className="text-base md:text-lg font-semibold">SBI Clerk Result</div>
+                <div className="text-xs md:text-sm">Results</div>
+              </div>
+            </a>
           <a href="results/rskmp-result" className="bg-red-600 text-white p-3 md:p-4 rounded-lg text-center hover:bg-red-700 transition-colors flex items-center justify-center min-h-[100px]">
               <div>
                 <div className="text-base md:text-lg font-semibold">RSKMP Result 2025</div>
@@ -87,12 +93,7 @@ export default function Home() {
                 <div className="text-xs md:text-sm">Result 2025</div>
               </div>
             </a>
-            <a href="/results/sbi-clerk" className="bg-teal-600 text-white p-3 md:p-4 rounded-lg text-center hover:bg-teal-700 transition-colors flex items-center justify-center min-h-[100px]">
-              <div>
-                <div className="text-base md:text-lg font-semibold">SBI Clerk Result</div>
-                <div className="text-xs md:text-sm">Results</div>
-              </div>
-            </a>
+           
            
           </div>
 
@@ -116,8 +117,7 @@ export default function Home() {
                             index === 2 ? "/results/upp-workshop-hand-result" :
                             index === 3 ? "/results/Assam-Gunotsav-Result" :
                             index === 4 ? "/ibps-po-score-card" :
-                            index === 5 ? "/ssc-stenographer" :
-                            index === 6 ? "/ibps-so-score-card" :
+                            index === 6 ? "/results/sbi-clerk" :
                             index === 7 ? "/rrb-technician" :
                             index === 8 ? "/dsssb-ae-result" :
                             index === 9 ? "/gate-results" : "#"} className="text-[#014F59] hover:underline hover:text-blue-800">{data.result[index]}</a>
