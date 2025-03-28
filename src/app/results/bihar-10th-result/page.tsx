@@ -5,11 +5,11 @@ export default function Bihar10thResult() {
   return (
     <>
       <Header />
-      <div className="flex flex-col items-center justify-center bg-[#FFFBD9] mt-12 w-10/14 max-w-7xl mx-auto px-4 min-h-screen">
+      <div className="flex flex-col items-center justify-center bg-red-500 mt-12 w-10/14 max-w-7xl mx-auto px-4 min-h-screen">
         <h1 className="text-3xl font-bold mb-4">बिहार बोर्ड 10वीं रिजल्ट 2025</h1>
         
         <div className="w-full bg-white p-6 rounded-lg shadow-md mb-6">
-          <h2 className="text-2xl font-semibold mb-4 text-[#014F59]">रिजल्ट हाइलाइट्स</h2>
+          <h2 className="text-2xl font-semibold mb-4 text-[#014F59]">BSEB 10th रिजल्ट हाइलाइट्स 12PM </h2>
           <ul className="list-disc pl-6 space-y-2 text-gray-700">
             <li>बोर्ड: बिहार स्कूल एग्जामिनेशन बोर्ड (BSEB)</li>
             <li>परीक्षा: मैट्रिक (10वीं) वार्षिक परीक्षा 2025</li>
@@ -27,14 +27,14 @@ export default function Bihar10thResult() {
             </div>
             <div className="border-b p-4">
               <h3 className="font-semibold text-red-600">ऑफिशियल लिंक्स</h3>
-              <p className="text-blue-600 hover:text-blue-800"><a href="https://biharboardonline.bihar.gov.in/">BSEB ऑफिशियल वेबसाइट</a></p>
-              <p className="text-blue-600 hover:text-blue-800"><a href="https://results.biharboardonline.com/">BSEB रिजल्ट पोर्टल</a></p>
+              <p className="text-blue-600 hover:text-blue-800"><a href="https://biharboardonline.bihar.gov.in/">LINK-I</a></p>
+              <p className="text-blue-600 hover:text-blue-800"><a href="https://results.biharboardonline.com/">LINK-II</a></p>
             </div>
           </div>
         </div>
 
         <div className="w-full bg-white p-6 rounded-lg shadow-md mb-6">
-          <h2 className="text-2xl font-semibold mb-4 text-[#014F59]">रिजल्ट कैसे चेक करें</h2>
+          <h2 className="text-2xl font-semibold mb-4 text-[#014F59]">BSEB 10th रिजल्ट  कैसे चेक करें</h2>
           <ol className="list-decimal pl-6 space-y-3 text-gray-700">
             <li>BSEB की ऑफिशियल वेबसाइट पर जाएं</li>
             <li>&quot;मैट्रिक रिजल्ट 2025&quot; लिंक पर क्लिक करें</li>
