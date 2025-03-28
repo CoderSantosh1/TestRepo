@@ -47,6 +47,12 @@ export default function Home() {
       <main className="flex flex-col items-center justify-center bg-[#FFFBD9] mt-12 w-10/14 max-w-7xl mx-auto px-4">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-12 ">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <a href="results/rskmp-result" className="bg-red-600 text-white p-3 md:p-4 rounded-lg text-center hover:bg-red-700 transition-colors flex items-center justify-center min-h-[100px]">
+              <div>
+                <div className="text-base md:text-lg font-semibold">RSKMP Result 2025</div>
+                <div className="text-xs md:text-sm">Result 2025</div>
+              </div>
+            </a>
           <a href="/results/goa-hssc-result" className="bg-yellow-600 text-white p-3 md:p-4 rounded-lg text-center hover:bg-yellow-700 transition-colors flex items-center justify-center min-h-[100px]">
               <div>
                 <div className="text-base md:text-lg font-semibold">Goa HSSC Result 2025</div>
@@ -72,12 +78,7 @@ export default function Home() {
               </div>
             </a>
            
-            <a href="results/rskmp-result" className="bg-red-600 text-white p-3 md:p-4 rounded-lg text-center hover:bg-red-700 transition-colors flex items-center justify-center min-h-[100px]">
-              <div>
-                <div className="text-base md:text-lg font-semibold">RSKMP Result 2025</div>
-                <div className="text-xs md:text-sm">Result 2025</div>
-              </div>
-            </a>
+           
             <a href="/csbc-bihar" className="bg-green-800 text-white p-3 md:p-4 rounded-lg text-center hover:bg-green-900 transition-colors flex items-center justify-center min-h-[100px]">
               <div>
                 <div className="text-base md:text-lg font-semibold">CSBC Bihar Constable</div>
