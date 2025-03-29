@@ -5,22 +5,76 @@ import Footer from '@/components/Footer';
 export const metadata = {
   title: 'बिहार बोर्ड 10वीं रिजल्ट 2025 | BSEB Matric Result',
   description: 'बिहार बोर्ड 10वीं (मैट्रिक) रिजल्ट 2025 की आधिकारिक जानकारी। BSEB द्वारा जारी 10th का रिजल्ट, टॉपर्स लिस्ट और महत्वपूर्ण अपडेट्स।',
-  keywords: 'Bihar Board 10th Result 2025, BSEB Matric Result, बिहार बोर्ड 10वीं रिजल्ट, Bihar Board Result, BSEB Result'
+  keywords: 'Bihar Board 10th Result 2025, BSEB Matric Result, बिहार बोर्ड 10वीं रिजल्ट, Bihar Board Result, BSEB Result',
+  openGraph: {
+    title: 'बिहार बोर्ड 10वीं रिजल्ट 2025 | BSEB Matric Result',
+    description: 'बिहार बोर्ड 10वीं (मैट्रिक) रिजल्ट 2025 की आधिकारिक जानकारी। BSEB द्वारा जारी 10th का रिजल्ट, टॉपर्स लिस्ट और महत्वपूर्ण अपडेट्स।',
+    type: 'website',
+    locale: 'hi_IN',
+    siteName: 'BSEB Results Portal'
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'बिहार बोर्ड 10वीं रिजल्ट 2025 | BSEB Matric Result',
+    description: 'बिहार बोर्ड 10वीं (मैट्रिक) रिजल्ट 2025 की आधिकारिक जानकारी।'
+  },
+  alternates: {
+    canonical: 'https://example.com/results/bihar-10th-result'
+  }
 };
 
 export default function Bihar10thResult() {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'बिहार बोर्ड 10वीं रिजल्ट 2025',
+    description: 'बिहार बोर्ड 10वीं (मैट्रिक) रिजल्ट 2025 की आधिकारिक जानकारी।',
+    publisher: {
+      '@type': 'Organization',
+      name: 'Bihar School Examination Board',
+      url: 'https://biharboardonline.bihar.gov.in'
+    },
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: 'https://example.com'
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Results',
+          item: 'https://example.com/results'
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: 'Bihar 10th Result 2025',
+          item: 'https://example.com/results/bihar-10th-result'
+        }
+      ]
+    }
+  };
+
   return (
     <>
       <Header />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <main className="flex flex-col items-center justify-center bg-red-500 mt-12 w-10/14 max-w-7xl mx-auto px-4 min-h-screen" itemScope itemType="https://schema.org/WebPage">
         <h1 className="text-3xl font-bold mb-4" itemProp="headline">बिहार बोर्ड 10वीं रिजल्ट 2025</h1>
         
         <section className="w-full bg-white p-6 rounded-lg shadow-md mb-6" itemProp="mainContentOfPage">
-          <h2 className="text-2xl font-semibold mb-4 text-[#014F59]">BSEB 10th रिजल्ट हाइलाइट्स 12PM </h2>
+          <h2 className="text-2xl font-semibold mb-4 text-[#014F59]">BSEB 10th रिजल्ट हाइलाइट्स LIVE </h2>
           <ul className="list-disc pl-6 space-y-2 text-gray-700">
             <li>बोर्ड: बिहार स्कूल एग्जामिनेशन बोर्ड (BSEB)</li>
             <li>परीक्षा: मैट्रिक (10वीं) वार्षिक परीक्षा 2025</li>
-            <li>रिजल्ट स्टेटस: Coming Soon</li>
+            <li>रिजल्ट स्टेटस: Available</li>
             <li>ऑफिशियल वेबसाइट: biharboardonline.bihar.gov.in</li>
           </ul>
         </section>
@@ -34,7 +88,7 @@ export default function Bihar10thResult() {
             </div>
             <div className="border-b p-4">
               <h3 className="font-semibold text-red-600">ऑफिशियल लिंक्स</h3>
-              <p className="text-blue-600 hover:text-blue-800"><a href="https://biharboardonline.bihar.gov.in/" rel="noopener noreferrer">LINK-I</a></p>
+              <p className="text-blue-600 hover:text-blue-800"><a href="https://www.matricresult2025.com/" rel="noopener noreferrer">LINK-I</a></p>
               <p className="text-blue-600 hover:text-blue-800"><a href="https://results.biharboardonline.com/" rel="noopener noreferrer">LINK-II</a></p>
             </div>
           </div>
