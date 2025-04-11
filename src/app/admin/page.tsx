@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import JobList from './components/JobList';
 import ResultList from './components/ResultList';
+import AdmitCard from './components/AdmitCardList';
 
 interface JobFormData {
   title: string;
@@ -16,10 +17,22 @@ interface JobFormData {
   category: string;
 }
 
+interface AdmitCardFormData {
+  title: string;
+  description: string;
+  organization: string;
+  subtitle: string;
+  category: string;
+  applicationDeadline: string;
+  location: string;
+}
+
 type TabType = 'jobs' | 'results' | 'admit-cards';
 
 export default function AdminDashboard() {
-  const [formData, setFormData] = useState<JobFormData>({    title: '',
+  const [activeTab, setActiveTab] = useState<TabType>('jobs');
+  const [jobFormData, setJobFormData] = useState<JobFormData>({
+    title: '',
     description: '',
     organization: '',
     location: '',
@@ -28,8 +41,18 @@ export default function AdminDashboard() {
     applicationDeadline: '',
     category: ''
   });
-  const [activeTab, setActiveTab] = useState<TabType>('jobs');
-  const handleSubmit = async (e: React.FormEvent) => {
+
+  const [admitCardFormData, setAdmitCardFormData] = useState<AdmitCardFormData>({
+    title: '',
+    description: '',
+    organization: '',
+    location: '',
+    subtitle: '',
+    applicationDeadline: '',
+    category: ''
+  });
+
+  const handleJobSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const response = await fetch('/api/jobs', {
@@ -37,12 +60,12 @@ export default function AdminDashboard() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(jobFormData),
       });
 
       if (response.ok) {
         alert('Job posted successfully!');
-        setFormData({
+        setJobFormData({
           title: '',
           description: '',
           organization: '',
@@ -58,6 +81,37 @@ export default function AdminDashboard() {
     } catch (error) {
       console.error('Error posting job:', error);
       alert('Error posting job');
+    }
+  };
+
+  const handleAdmitCardSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('/api/admit-cards', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(admitCardFormData),
+      });
+
+      if (response.ok) {
+        alert('Admit card posted successfully!');
+        setAdmitCardFormData({
+          title: '',
+          description: '',
+          organization: '',
+          location: '',
+          subtitle: '',
+          applicationDeadline: '',
+          category: ''
+        });
+      } else {
+        alert('Failed to post admit card');
+      }
+    } catch (error) {
+      console.error('Error posting admit card:', error);
+      alert('Error posting admit card');
     }
   };
 
@@ -95,88 +149,88 @@ export default function AdminDashboard() {
       {activeTab === 'jobs' && (
         <>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-          <h2 className="text-2xl font-semibold mb-6">Post New Job</h2>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium mb-2">Job Title</label>
-              <input
-                type="text"
-                value={formData.title}
-                onChange={(e) => setFormData({...formData, title: e.target.value})}
-                className="w-full p-2 border rounded-md"
-                required
-              />
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+              <h2 className="text-2xl font-semibold mb-6">Post New Job</h2>
+              <form onSubmit={handleJobSubmit} className="space-y-6">
+                <div>
+                  <label className="block text-sm font-medium mb-2">Job Title</label>
+                  <input
+                    type="text"
+                    value={jobFormData.title}
+                    onChange={(e) => setJobFormData({...jobFormData, title: e.target.value})}
+                    className="w-full p-2 border rounded-md"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-2">Organization</label>
+                  <input
+                    type="text"
+                    value={jobFormData.organization}
+                    onChange={(e) => setJobFormData({...jobFormData, organization: e.target.value})}
+                    className="w-full p-2 border rounded-md"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-2">Description</label>
+                  <textarea
+                    value={jobFormData.description}
+                    onChange={(e) => setJobFormData({...jobFormData, description: e.target.value})}
+                    className="w-full p-2 border rounded-md h-32"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-2">Location</label>
+                  <input
+                    type="text"
+                    value={jobFormData.location}
+                    onChange={(e) => setJobFormData({...jobFormData, location: e.target.value})}
+                    className="w-full p-2 border rounded-md"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-2">Salary (Optional)</label>
+                  <input
+                    type="text"
+                    value={jobFormData.salary}
+                    onChange={(e) => setJobFormData({...jobFormData, salary: e.target.value})}
+                    className="w-full p-2 border rounded-md"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-2">Category</label>
+                  <input
+                    type="text"
+                    value={jobFormData.category}
+                    onChange={(e) => setJobFormData({...jobFormData, category: e.target.value})}
+                    className="w-full p-2 border rounded-md"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-2">Application Deadline</label>
+                  <input
+                    type="date"
+                    value={jobFormData.applicationDeadline}
+                    onChange={(e) => setJobFormData({...jobFormData, applicationDeadline: e.target.value})}
+                    className="w-full p-2 border rounded-md"
+                    required
+                  />
+                </div>
+
+                <Button type="submit" className="w-full">Post Job</Button>
+              </form>
             </div>
-  
-            <div>
-              <label className="block text-sm font-medium mb-2">Organization</label>
-              <input
-                type="text"
-                value={formData.organization}
-                onChange={(e) => setFormData({...formData, organization: e.target.value})}
-                className="w-full p-2 border rounded-md"
-                required
-              />
-            </div>
-  
-            <div>
-              <label className="block text-sm font-medium mb-2">Description</label>
-              <textarea
-                value={formData.description}
-                onChange={(e) => setFormData({...formData, description: e.target.value})}
-                className="w-full p-2 border rounded-md h-32"
-                required
-              />
-            </div>
-  
-            <div>
-              <label className="block text-sm font-medium mb-2">Location</label>
-              <input
-                type="text"
-                value={formData.location}
-                onChange={(e) => setFormData({...formData, location: e.target.value})}
-                className="w-full p-2 border rounded-md"
-                required
-              />
-            </div>
-  
-            <div>
-              <label className="block text-sm font-medium mb-2">Salary (Optional)</label>
-              <input
-                type="text"
-                value={formData.salary}
-                onChange={(e) => setFormData({...formData, salary: e.target.value})}
-                className="w-full p-2 border rounded-md"
-              />
-            </div>
-  
-            <div>
-              <label className="block text-sm font-medium mb-2">Category</label>
-              <input
-                type="text"
-                value={formData.category}
-                onChange={(e) => setFormData({...formData, category: e.target.value})}
-                className="w-full p-2 border rounded-md"
-                required
-              />
-            </div>
-  
-            <div>
-              <label className="block text-sm font-medium mb-2">Application Deadline</label>
-              <input
-                type="date"
-                value={formData.applicationDeadline}
-                onChange={(e) => setFormData({...formData, applicationDeadline: e.target.value})}
-                className="w-full p-2 border rounded-md"
-                required
-              />
-            </div>
-  
-            <Button type="submit" className="w-full">Post Job</Button>
-          </form>
-        </div>
-          <JobList />
+            <JobList />
           </div>
         </>
       )}
@@ -186,11 +240,93 @@ export default function AdminDashboard() {
       )}
 
       {activeTab === 'admit-cards' && (
-        <div className="text-center text-gray-500">
-          Admit Cards section coming soon...
-        </div>
-      )}
+        <>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+              <h2 className="text-2xl font-semibold mb-6">Post Latest News</h2>
+              <form onSubmit={handleAdmitCardSubmit} className="space-y-6">
+                <div>
+                  <label className="block text-sm font-medium mb-2">News Title</label>
+                  <input
+                    type="text"
+                    value={admitCardFormData.title}
+                    onChange={(e) => setAdmitCardFormData({...admitCardFormData, title: e.target.value})}
+                    className="w-full p-2 border rounded-md"
+                    required
+                  />
+                </div>
 
+                <div>
+                  <label className="block text-sm font-medium mb-2">Organization</label>
+                  <input
+                    type="text"
+                    value={admitCardFormData.organization}
+                    onChange={(e) => setAdmitCardFormData({...admitCardFormData, organization: e.target.value})}
+                    className="w-full p-2 border rounded-md"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-2">Description</label>
+                  <textarea
+                    value={admitCardFormData.description}
+                    onChange={(e) => setAdmitCardFormData({...admitCardFormData, description: e.target.value})}
+                    className="w-full p-2 border rounded-md h-32"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-2">Location</label>
+                  <input
+                    type="text"
+                    value={admitCardFormData.location}
+                    onChange={(e) => setAdmitCardFormData({...admitCardFormData, location: e.target.value})}
+                    className="w-full p-2 border rounded-md"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-2">Subtitle (Optional)</label>
+                  <input
+                    type="text"
+                    value={admitCardFormData.subtitle}
+                    onChange={(e) => setAdmitCardFormData({...admitCardFormData, subtitle: e.target.value})}
+                    className="w-full p-2 border rounded-md"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-2">Category</label>
+                  <input
+                    type="text"
+                    value={admitCardFormData.category}
+                    onChange={(e) => setAdmitCardFormData({...admitCardFormData, category: e.target.value})}
+                    className="w-full p-2 border rounded-md"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-2">Application Deadline</label>
+                  <input
+                    type="date"
+                    value={admitCardFormData.applicationDeadline}
+                    onChange={(e) => setAdmitCardFormData({...admitCardFormData, applicationDeadline: e.target.value})}
+                    className="w-full p-2 border rounded-md"
+                    required
+                  />
+                </div>
+
+                <Button type="submit" className="w-full">Post News</Button>
+              </form>
+            </div>
+            <AdmitCard />
+          </div>
+        </>
+      )}
     </div>
   );
 }

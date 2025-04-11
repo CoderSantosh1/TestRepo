@@ -57,6 +57,7 @@ export default function JobList() {
       
       if (response.ok) {
         setJobs(jobs.filter(job => job._id !== jobId));
+        alert('Job deleted successfully');
       } else {
         alert('Failed to delete job');
       }
