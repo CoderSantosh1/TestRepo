@@ -8,9 +8,9 @@ interface ResultFormData {
   organization: string;
   resultDate: string;
   category: string;
-  resultLink?: string;
+  downloadLink: string;
   description?: string;
-  status?: string;
+  status: string;
 }
 
 interface ResultFormProps {
@@ -24,8 +24,8 @@ export default function ResultForm({ initialData, onSubmit, onCancel }: ResultFo
     title: '',
     organization: '',
     resultDate: '',
-    category: '',
-    resultLink: '',
+    category: 'other',
+    downloadLink: '',
     description: '',
     status: 'draft'
   });
@@ -45,7 +45,7 @@ export default function ResultForm({ initialData, onSubmit, onCancel }: ResultFo
         organization: '',
         resultDate: '',
         category: '',
-        resultLink: '',
+        downloadLink: '',
         description: '',
         status: 'draft'
       });
@@ -57,7 +57,7 @@ export default function ResultForm({ initialData, onSubmit, onCancel }: ResultFo
       <h2 className="text-2xl font-semibold mb-6">{initialData ? 'Edit Result' : 'Post New Result'}</h2>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block text-sm font-medium mb-2">Result Title</label>
+          <label className="block text-sm font-medium mb-2">Exam Name</label>
           <input
             type="text"
             value={formData.title}
@@ -80,13 +80,17 @@ export default function ResultForm({ initialData, onSubmit, onCancel }: ResultFo
 
         <div>
           <label className="block text-sm font-medium mb-2">Category</label>
-          <input
-            type="text"
+          <select
             value={formData.category}
             onChange={(e) => setFormData({...formData, category: e.target.value})}
             className="w-full p-2 border rounded-md"
             required
-          />
+          >
+            <option value="government">Government</option>
+            <option value="private">Private</option>
+            <option value="education">Education</option>
+            <option value="other">Other</option>
+          </select>
         </div>
 
         <div>
@@ -101,13 +105,14 @@ export default function ResultForm({ initialData, onSubmit, onCancel }: ResultFo
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-2">Result Link</label>
+          <label className="block text-sm font-medium mb-2">Download Link</label>
           <input
             type="url"
-            value={formData.resultLink}
-            onChange={(e) => setFormData({...formData, resultLink: e.target.value})}
+            value={formData.downloadLink}
+            onChange={(e) => setFormData({...formData, downloadLink: e.target.value})}
             className="w-full p-2 border rounded-md"
             placeholder="https://example.com/result"
+            required
           />
         </div>
 

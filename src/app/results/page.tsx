@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 interface Result {
   _id: string;
-  examName: string;
+  title: string;
   organization: string;
   resultDate: string;
   category: string;
@@ -55,7 +55,7 @@ export default function ResultsPage() {
             key={result._id}
             className="block bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-200"
           >
-            <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">{result.examName}</h2>
+            <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">{result.title}</h2>
             
             <div className="mb-4">
               <p className="text-gray-600 dark:text-gray-300">{result.organization}</p>

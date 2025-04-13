@@ -15,6 +15,7 @@ interface JobFormData {
   requirements: string[];
   applicationDeadline: string;
   category: string;
+  status: string;
 }
 
 interface AdmitCardFormData {
@@ -25,6 +26,15 @@ interface AdmitCardFormData {
   category: string;
   applicationDeadline: string;
   location: string;
+}
+interface ResultFormData {
+  title: string;
+  organization: string;
+  resultDate: string;
+  category: string;
+  downloadLink: string;
+  description?: string;
+  status: string;
 }
 
 type TabType = 'jobs' | 'results' | 'admit-cards';
@@ -39,7 +49,8 @@ export default function AdminDashboard() {
     salary: '',
     requirements: [],
     applicationDeadline: '',
-    category: ''
+    category: '',
+    status: 'published'
   });
 
   const [admitCardFormData, setAdmitCardFormData] = useState<AdmitCardFormData>({
@@ -73,7 +84,8 @@ export default function AdminDashboard() {
           salary: '',
           requirements: [],
           applicationDeadline: '',
-          category: ''
+          category: '',
+          status: 'published'
         });
       } else {
         alert('Failed to post job');
@@ -112,6 +124,48 @@ export default function AdminDashboard() {
     } catch (error) {
       console.error('Error posting admit card:', error);
       alert('Error posting admit card');
+    }
+  };
+
+  //results section 
+  const [resultsFormData, setResultsFormData] = useState<ResultFormData>({
+    title: '',
+    organization: '',
+    resultDate: '',
+    category: '',
+    downloadLink: '',
+    description: '',
+    status: 'published'
+  });
+
+  const handleResultSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('/api/results', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(resultsFormData),
+      });
+
+      if (response.ok) {
+        alert('Results posted successfully!');
+        setResultsFormData({
+          title: '',
+          organization: '',
+          resultDate: '',
+          category: '',
+          downloadLink: '',
+          description: '',
+          status: 'draft'
+        });
+      } else {
+        alert('Failed to post results');
+      }
+    } catch (error) {
+      console.error('Error posting results:', error);
+      alert('Error posting results');
     }
   };
 
@@ -227,6 +281,18 @@ export default function AdminDashboard() {
                   />
                 </div>
 
+                <div>
+                  <label className="block text-sm font-medium mb-2">Publication Status</label>
+                  <select
+                    className="w-full p-2 border rounded-md"
+                    value={jobFormData.status}
+                    onChange={(e) => setJobFormData({...jobFormData, status: e.target.value})}
+                    required
+                  >
+                    <option value="published">Published</option>
+                    <option value="unpublished">Draft</option>
+                  </select>
+                </div>
                 <Button type="submit" className="w-full">Post Job</Button>
               </form>
             </div>
@@ -236,7 +302,80 @@ export default function AdminDashboard() {
       )}
 
       {activeTab === 'results' && (
-        <ResultList />
+       <>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+              <h2 className="text-2xl font-semibold mb-6">Post New Job</h2>
+           <form onSubmit={handleResultSubmit} className="space-y-6">
+             <div>
+               <label className="block text-sm font-medium mb-2">Exam Name</label>
+               <input
+                 type="text"
+                 value={resultsFormData.title}
+                 onChange={(e) => setResultsFormData({...resultsFormData,title: e.target.value})}
+                 className="w-full p-2 border rounded-md"
+                 required
+                 minLength={3}
+               />
+             </div>
+
+             <div>
+               <label className="block text-sm font-medium mb-2">Organization</label>
+               <input
+                 type="text"
+                 value={resultsFormData.organization}
+                 onChange={(e) => setResultsFormData({...resultsFormData, organization: e.target.value})}
+                 className="w-full p-2 border rounded-md"
+                 required
+               />
+             </div>
+
+             <div>
+               <label className="block text-sm font-medium mb-2">Result Date</label>
+               <input
+                 type="date"
+                 value={resultsFormData.resultDate}
+                 onChange={(e) => setResultsFormData({...resultsFormData, resultDate: e.target.value})}
+                 className="w-full p-2 border rounded-md"
+                 required
+                 max={new Date().toISOString().split('T')[0]}
+               />
+             </div>
+
+             <div>
+               <label className="block text-sm font-medium mb-2">Category</label>
+               <select
+                 value={resultsFormData.category}
+                 onChange={(e) => setResultsFormData({...resultsFormData, category: e.target.value})}
+                 className="w-full p-2 border rounded-md"
+                 required
+               >
+                 <option value="">Select a category</option>
+                 <option value="government">Government</option>
+                 <option value="private">Private</option>
+                 <option value="education">Education</option>
+                 <option value="other">Other</option>
+               </select>
+             </div>
+
+             <div>
+               <label className="block text-sm font-medium mb-2">Download Link</label>
+               <input
+                 type="url"
+                 value={resultsFormData.downloadLink}
+                 onChange={(e) => setResultsFormData({...resultsFormData, downloadLink: e.target.value})}
+                 className="w-full p-2 border rounded-md"
+                 required
+                 pattern="https?:\/\/(www\.)?[\w\-\.]+\.[a-zA-Z]{2,}(\/\S*)?$"
+               />
+             </div>
+
+             <Button type="submit" className="w-full">Post Result</Button>
+           </form>
+         </div>
+         <ResultList />
+       </div>
+     </>
       )}
 
       {activeTab === 'admit-cards' && (
@@ -244,7 +383,7 @@ export default function AdminDashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
               <h2 className="text-2xl font-semibold mb-6">Post Latest News</h2>
-              <form onSubmit={handleAdmitCardSubmit} className="space-y-6">
+              <form onSubmit={handleResultSubmit} className="space-y-6">
                 <div>
                   <label className="block text-sm font-medium mb-2">News Title</label>
                   <input
@@ -320,7 +459,7 @@ export default function AdminDashboard() {
                   />
                 </div>
 
-                <Button type="submit" className="w-full">Post News</Button>
+                <Button type="submit" className="w-full">Post Result</Button>
               </form>
             </div>
             <AdmitCard />

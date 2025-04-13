@@ -21,20 +21,49 @@ export async function POST(request: Request) {
     const body = await request.json();
     await connectToDatabase();
 
+    // Validate date format
+    const resultDate = new Date(body.resultDate);
+    if (isNaN(resultDate.getTime())) {
+      return NextResponse.json(
+        { success: false, error: 'Invalid result date format' },
+        { status: 400 }
+      );
+    }
+
+    // Validate category
+    const validCategories = ['government', 'private', 'education', 'other'];
+    if (!validCategories.includes(body.category)) {
+      return NextResponse.json(
+        { 
+          success: false, 
+          error: `Invalid category. Must be one of: ${validCategories.join(', ')}` 
+        },
+        { status: 400 }
+      );
+    }
+
     const result = new Result({
       ...body,
+      resultDate,
       status: 'published',
       createdAt: new Date(),
     });
 
     await result.save();
-
-    return NextResponse.json(
-      { success: true, data: result },
-      { status: 201 }
-    );
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error creating result:', error);
+    
+    // Handle mongoose validation errors
+    if (error.name === 'ValidationError') {
+      const validationErrors = Object.values(error.errors).map(
+        (err: any) => err.message
+      );
+      return NextResponse.json(
+        { success: false, error: validationErrors.join(', ') },
+        { status: 400 }
+      );
+    }
+
     return NextResponse.json(
       { success: false, error: 'Failed to create result' },
       { status: 500 }

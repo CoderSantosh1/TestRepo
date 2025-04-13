@@ -1,28 +1,44 @@
 import mongoose from 'mongoose';
 
-const resultSchema = new mongoose.Schema({
+const ResultSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: [true, 'Please provide a result title'],
+    required: [true, 'Please provide an exam name'],
     trim: true,
-    minlength: [3, 'Title must be at least 3 characters long'],
-    maxlength: [200, 'Title cannot exceed 200 characters']
+    minlength: [3, 'Exam name must be at least 3 characters long'],
+    maxlength: [200, 'Exam name cannot exceed 200 characters'],
+    validate: {
+      validator: function(value: string) {
+        return /^[\w\s\-.,()&]+$/.test(value);
+      },
+      message: 'Exam name contains invalid characters'
+    }
   },
+ 
   organization: {
     type: String,
     required: [true, 'Please provide an organization name'],
     trim: true,
     minlength: [2, 'Organization name must be at least 2 characters long'],
-    maxlength: [100, 'Organization name cannot exceed 100 characters']
+    maxlength: [100, 'Organization name cannot exceed 100 characters'],
+    validate: {
+      validator: function(value: string) {
+        return /^[\w\s\-.,()&]+$/.test(value);
+      },
+      message: 'Organization name contains invalid characters'
+    }
   },
   resultDate: {
     type: Date,
     required: [true, 'Please provide a result date'],
     validate: {
       validator: function(value: Date) {
-        return value <= new Date();
+        const now = new Date();
+        return value instanceof Date && 
+               !isNaN(value.getTime()) && 
+               value <= now;
       },
-      message: 'Result date cannot be in the future'
+      message: 'Result date must be a valid date not in the future'
     }
   },
   category: {
@@ -30,50 +46,34 @@ const resultSchema = new mongoose.Schema({
     required: [true, 'Please provide a result category'],
     enum: {
       values: ['government', 'private', 'education', 'other'],
-      message: '{VALUE} is not a valid category'
+      message: 'Category must be one of: government, private, education, other'
     }
   },
-  resultLink: {
+  downloadLink: {
     type: String,
-    required: false,
+    required: [true, 'Please provide a download link'],
     validate: {
       validator: function(value: string) {
-        return !value || /^https?:\/\/.+/.test(value);
+        return /^(http|https):\/\/[^ "]+$/.test(value);
       },
-      message: 'Result link must be a valid URL'
+      message: 'Please provide a valid URL for the download link'
     }
-  },
-  description: {
-    type: String,
-    required: false,
-    trim: true,
-    maxlength: [1000, 'Description cannot exceed 1000 characters']
   },
   status: {
     type: String,
-    enum: {
-      values: ['draft', 'published', 'archived'],
-      message: '{VALUE} is not a valid status'
-    },
-    default: 'draft'
+    enum: ['draft', 'published', 'closed'],
+    default: 'draft',
   },
   createdAt: {
     type: Date,
     default: Date.now,
-    immutable: true
   },
   updatedAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
-// Update the updatedAt timestamp before saving
-resultSchema.pre('save', function(next) {
-  this.updatedAt = new Date();
-  next();
-});
-
-const Result = mongoose.models.Result || mongoose.model('Result', resultSchema);
+const Result = mongoose.models.Result || mongoose.model('Result', ResultSchema);
 
 export default Result;
