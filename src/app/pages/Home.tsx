@@ -70,7 +70,7 @@ export default function Home() {
       <main className="flex flex-col items-center justify-center bg-[#FFFBD9] mt-12 w-10/14 max-w-7xl mx-auto px-4">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-12">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {[...jobs, ...results, ...admitCards].slice(0, 12).map((item) => (
+            {[...results.slice(0, 4), ...jobs.slice(0, 4), ...admitCards.slice(0, 4)].map((item) => (
               <a 
                 key={item._id}
                 href={`/${item.hasOwnProperty('resultDate') ? 'results' : item.hasOwnProperty('examDate') ? 'admit-cards' : 'jobs'}/${item._id}`}
