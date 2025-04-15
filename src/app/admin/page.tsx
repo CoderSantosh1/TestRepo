@@ -382,10 +382,10 @@ export default function AdminDashboard() {
         <>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-              <h2 className="text-2xl font-semibold mb-6">Post Latest News</h2>
-              <form onSubmit={handleResultSubmit} className="space-y-6">
+              <h2 className="text-2xl font-semibold mb-6">Post AdmitCard</h2>
+              <form onSubmit={handleAdmitCardSubmit} className="space-y-6">
                 <div>
-                  <label className="block text-sm font-medium mb-2">News Title</label>
+                  <label className="block text-sm font-medium mb-2">Admitcard Title </label>
                   <input
                     type="text"
                     value={admitCardFormData.title}
@@ -459,7 +459,7 @@ export default function AdminDashboard() {
                   />
                 </div>
 
-                <Button type="submit" className="w-full">Post Result</Button>
+                <Button type="submit" className="w-full">Post AdmitCard</Button>
               </form>
             </div>
             <AdmitCard />
