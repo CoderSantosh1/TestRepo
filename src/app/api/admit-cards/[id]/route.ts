@@ -2,15 +2,9 @@ import { NextResponse, type NextRequest } from 'next/server';
 import { connectToDatabase as connectDB } from '@/lib/db';
 import AdmitCard from '@/lib/models/AdmitCard';
 
-type RouteParams = {
-  params: {
-    id: string;
-  };
-};
-
 export async function DELETE(
   request: NextRequest,
-  { params }: RouteParams
+  { params }: { params: { id: string } }
 ) {
   try {
     await connectDB();
