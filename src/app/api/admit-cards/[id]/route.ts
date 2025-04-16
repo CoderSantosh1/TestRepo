@@ -1,20 +1,20 @@
-import { NextResponse, type NextRequest } from 'next/server';
-import { connectToDatabase as connectDB } from '@/lib/db';
+import { NextResponse} from 'next/server';
+import connectDB from '@/lib/db';
 import AdmitCard from '@/lib/models/AdmitCard';
 
 export async function DELETE(
-  request: NextRequest,
+  request: Request,
   { params }: { params: { id: string } }
 ) {
   try {
     await connectDB();
-
+    
     const AdmitCardId = params.id;
     const deletedAdmitCard = await AdmitCard.findByIdAndDelete(AdmitCardId);
 
     if (!deletedAdmitCard) {
       return NextResponse.json(
-        { success: false, error: 'AdmitCard not found' },
+        { success: false, error: 'Job not found' },
         { status: 404 }
       );
     }
@@ -23,7 +23,7 @@ export async function DELETE(
   } catch (error) {
     console.error('Error in DELETE /api/admit-cards/[id]:', error);
     return NextResponse.json(
-      { success: false, error: 'Failed to delete AdmitCard' },
+      { success: false, error: 'Failed to delete job' },
       { status: 500 }
     );
   }
