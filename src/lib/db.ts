@@ -1,5 +1,19 @@
 import mongoose from 'mongoose';
 
+interface MongoDBError extends Error {
+  code?: number;
+  message: string;
+}
+
+interface CachedConnection {
+  conn: typeof mongoose | null;
+  promise: Promise<typeof mongoose> | null;
+}
+
+interface GlobalWithMongoose extends Global {
+  mongoose: CachedConnection;
+}
+
 if (!process.env.MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI environment variable inside .env')
 }
@@ -10,10 +24,10 @@ if (!MONGODB_URI.startsWith('mongodb://') && !MONGODB_URI.startsWith('mongodb+sr
   throw new Error('Invalid MongoDB connection string. Must start with "mongodb://" or "mongodb+srv://"')
 }
 
-let cached: { conn: typeof mongoose | null; promise: Promise<typeof mongoose> | null } = (global as any).mongoose;
+let cached: CachedConnection = ((global as unknown) as GlobalWithMongoose).mongoose;
 
 if (!cached) {
-  cached = (global as any).mongoose = { conn: null, promise: null };
+  cached = ((global as unknown) as GlobalWithMongoose).mongoose = { conn: null, promise: null };
 }
 
 export default async function connectDB() {
@@ -39,19 +53,20 @@ export default async function connectDB() {
         const mongooseInstance = await mongoose.connect(MONGODB_URI, opts);
         console.log('MongoDB connected successfully');
         return mongooseInstance;
-      } catch (error: any) {
-        if (error.code === 8000 || error.message.includes('bad auth')) {
+      } catch (error) {
+        const dbError = error as MongoDBError;
+        if (dbError.code === 8000 || dbError.message.includes('bad auth')) {
           console.error('MongoDB Authentication Error: Please check your credentials in .env file');
           console.error('Make sure your MongoDB Atlas connection string is in the format: mongodb+srv://<username>:<password>@<cluster-url>/<database>');
-          throw error;
-        } else if (retries > 0 && !error.message.includes('bad auth')) {
+          throw dbError;
+        } else if (retries > 0 && !dbError.message.includes('bad auth')) {
           console.warn(`Connection failed, retrying... (${retries} attempts remaining)`);
           retries--;
           await new Promise(resolve => setTimeout(resolve, 5000));
           return connect();
         } else {
-          console.error('MongoDB Connection Error:', error.message);
-          throw error;
+          console.error('MongoDB Connection Error:', dbError.message);
+          throw dbError;
         }
       }
     };

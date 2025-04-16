@@ -2,6 +2,15 @@ import { NextResponse } from 'next/server';
 import { connectToDatabase as connectDB } from '@/lib/db';
 import Result from '@/lib/models/Result';
 
+interface ValidationError {
+  name: string;
+  errors: {
+    [key: string]: {
+      message: string;
+    };
+  };
+}
+
 export async function POST(request: Request) {
   try {
     await connectDB();
@@ -97,12 +106,13 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json({ success: true, data: result }, { status: 201 });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error in POST /api/results:', error);
     
     // Handle validation errors
-    if (error.name === 'ValidationError') {
-      const validationErrors = Object.values(error.errors).map((err: any) => err.message);
+    if ((error as ValidationError).name === 'ValidationError') {
+      const validationError = error as ValidationError;
+      const validationErrors = Object.values(validationError.errors).map(err => err.message);
       return NextResponse.json(
         { success: false, error: 'Validation failed', details: validationErrors },
         { status: 400 }

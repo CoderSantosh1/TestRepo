@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 
 interface AdmitCard {
   _id: string;
@@ -29,6 +28,7 @@ export default function AdmitCardsPage() {
         const data = await response.json();
         setAdmitCards(data.data || []);
       } catch (err) {
+        console.error('Failed to fetch admit cards:', err);
         setError('Error loading admit cards');
       } finally {
         setLoading(false);

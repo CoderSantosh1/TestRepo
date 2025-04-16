@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 
 interface Result {
   _id: string;
@@ -28,6 +27,7 @@ export default function ResultsPage() {
         const data = await response.json();
         setResults(data.data || []);
       } catch (err) {
+        console.error('Failed to fetch results:', err);
         setError('Error loading results');
       } finally {
         setLoading(false);

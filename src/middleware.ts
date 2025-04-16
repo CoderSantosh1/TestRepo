@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
-import { NextRequest } from 'next/server';
 
-export async function middleware(request: NextRequest) {
+export async function middleware() {
   // Allow all requests to proceed without authentication
   return NextResponse.next();
 }

@@ -1,11 +1,15 @@
-import { TextEncoder, TextDecoder } from 'util';
+import { TextEncoder } from 'util';
 
 interface JWTPayload {
   adminId: string;
   email: string;
   role: string;
   exp: number;
-  [key: string]: any;
+  iat?: number;
+  nbf?: number;
+  sub?: string;
+  aud?: string | string[];
+  iss?: string;
 }
 
 class JWTVerificationError extends Error {

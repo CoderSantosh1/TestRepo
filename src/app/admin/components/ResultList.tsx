@@ -36,7 +36,8 @@ export default function ResultList() {
         const errorData = await response.json().catch(() => ({}));
         setError(errorData.message || 'Failed to fetch results');
       }
-    } catch (error) {
+    } catch (err) {
+      console.error('Failed to fetch results:', err);
       setError('Error loading results. Please try again.');
     } finally {
       setLoading(false);

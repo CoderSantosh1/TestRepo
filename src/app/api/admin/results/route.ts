@@ -2,6 +2,15 @@ import { NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/db';
 import Result from '@/lib/models/Result';
 
+interface ValidationError {
+  name: string;
+  errors: {
+    [key: string]: {
+      message: string;
+    };
+  };
+}
+
 export async function GET() {
   try {
     await connectToDatabase();
@@ -50,13 +59,14 @@ export async function POST(request: Request) {
     });
 
     await result.save();
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error creating result:', error);
     
     // Handle mongoose validation errors
-    if (error.name === 'ValidationError') {
-      const validationErrors = Object.values(error.errors).map(
-        (err: any) => err.message
+    if (error && (error as ValidationError).name === 'ValidationError') {
+      const validationError = error as ValidationError;
+      const validationErrors = Object.values(validationError.errors).map(
+        (err) => err.message
       );
       return NextResponse.json(
         { success: false, error: validationErrors.join(', ') },

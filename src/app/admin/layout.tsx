@@ -1,10 +1,6 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
-
-function AdminLayout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
       <nav className="bg-white dark:bg-gray-800 shadow-lg">
@@ -49,4 +45,4 @@ function AdminLayout({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default AdminLayout;
+export const dynamic = 'force-dynamic';
