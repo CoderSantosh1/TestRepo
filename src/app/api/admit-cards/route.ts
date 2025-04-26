@@ -41,23 +41,3 @@ export async function POST(request: Request) {
     );
   }
 }
-
-export async function DELETE(request: Request) {
-  try {
-    const url = new URL(request.url);
-    const AdmitCardId = url.pathname.split('/').pop();
-
-    await connectToDatabase();
-    await AdmitCard.findByIdAndDelete(AdmitCardId);
-
-    return NextResponse.json(
-      { success: true, message: 'AdmitCard deleted successfully' }
-    );
-  } catch (error) {
-    console.error('Error deleting AdmitCard:', error);
-    return NextResponse.json(
-      { success: false, error: 'Failed to delete AdmitCard' },
-      { status: 500 }
-    );
-  }
-}

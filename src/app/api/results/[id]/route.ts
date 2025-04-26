@@ -45,25 +45,3 @@ export async function GET() {
   }
 }
 
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
-  try {
-    await connectDB();
-    
-    const result = await Result.findByIdAndDelete(params.id);
-    
-    if (!result) {
-      return NextResponse.json(
-        { success: false, error: 'Result not found' },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json({ success: true, data: result });
-  } catch (error) {
-    console.error('Error in DELETE /api/results:', error);
-    return NextResponse.json(
-      { success: false, error: 'Failed to delete Result' },
-      { status: 500 }
-    );
-  }
-}
