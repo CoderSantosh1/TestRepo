@@ -1,7 +1,15 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind variants;
 
-@custom-variant dark (&:is(.dark *));
+@layer utilities {
+  @variants dark {
+    .dark & {
+      /* Dark mode styles */
+    }
+  }
+}
 
 :root {
   --radius: 0.625rem;
