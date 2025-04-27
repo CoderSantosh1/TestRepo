@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "buildCommand": "ENABLE_EXPERIMENTAL_COREPACK=1 pnpm build",
+  "installCommand": "ENABLE_EXPERIMENTAL_COREPACK=1 pnpm install",
+  "framework": "nextjs",
+  "env": {
+    "ENABLE_EXPERIMENTAL_COREPACK": "1"
+  }
+}
