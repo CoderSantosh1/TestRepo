@@ -1,13 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@tailwind variants;
 
 @layer utilities {
-  @variants dark {
-    .dark & {
-      /* Dark mode styles */
-    }
+  .dark {
+    /* Dark mode styles are now handled by the darkMode config */
   }
 }
 
@@ -119,10 +116,16 @@
 }
 
 @layer base {
+  :root {
+    --border-color: var(--border);
+    --ring-color: var(--ring);
+  }
   * {
-    @apply border-border outline-ring/50;
+    border-color: var(--border-color);
+    outline-color: var(--ring-color);
   }
   body {
-    @apply bg-background text-foreground;
+    background-color: var(--background);
+    color: var(--foreground);
   }
 }
