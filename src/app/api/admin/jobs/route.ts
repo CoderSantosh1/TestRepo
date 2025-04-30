@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/db';
 import Job from '@/lib/models/Job';
+import mongoose from 'mongoose';
 
 export async function GET() {
   try {
@@ -47,7 +48,23 @@ export async function DELETE(request: Request) {
     const url = new URL(request.url);
     const jobId = url.pathname.split('/').pop();
 
+    if (!jobId || !mongoose.Types.ObjectId.isValid(jobId)) {
+      return NextResponse.json(
+        { success: false, error: 'Invalid job ID' },
+        { status: 400 }
+      );
+    }
+
     await connectToDatabase();
+    const job = await Job.findById(jobId);
+
+    if (!job) {
+      return NextResponse.json(
+        { success: false, error: 'Job not found' },
+        { status: 404 }
+      );
+    }
+
     await Job.findByIdAndDelete(jobId);
 
     return NextResponse.json(

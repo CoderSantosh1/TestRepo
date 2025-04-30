@@ -40,11 +40,18 @@ export async function GET() {
     const jobs = await Job.find({ status: 'published' })
       .sort({ createdAt: -1 });
 
+    if (!jobs || jobs.length === 0) {
+      return NextResponse.json(
+        { success: false, error: 'No published jobs found' },
+        { status: 404 }
+      );
+    }
+
     return NextResponse.json({ success: true, data: jobs });
   } catch (error) {
     console.error('Error in GET /api/jobs:', error);
     return NextResponse.json(
-      { success: false, error: 'Failed to fetch jobs' },
+      { success: false, error: error instanceof Error ? error.message : 'Failed to fetch jobs' },
       { status: 500 }
     );
   }
