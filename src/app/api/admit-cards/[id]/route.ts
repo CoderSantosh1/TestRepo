@@ -1,0 +1,43 @@
+import { NextResponse } from 'next/server';
+import { connectToDatabase as connectDB } from '@/lib/db';
+import AdmitCard from '@/lib/models/AdmitCard';
+import mongoose from 'mongoose';
+
+export const dynamic = 'force-dynamic';
+
+export async function DELETE(
+  _request: Request,
+  context: { params: Promise<{ id: string }> }
+) {
+  try {
+    await connectDB();
+
+    const { id: admitCardId } = await context.params;
+    if (!admitCardId || !mongoose.Types.ObjectId.isValid(admitCardId)) {
+      return NextResponse.json(
+        { success: false, error: 'Invalid admit card ID' },
+        { status: 400 }
+      );
+    }
+
+    const admitCard = await AdmitCard.findByIdAndDelete(admitCardId);
+
+    if (!admitCard) {
+      return NextResponse.json(
+        { success: false, error: 'Admit card not found' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      { success: true, message: 'Admit card deleted successfully' },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error('Error in DELETE /api/admit-cards/[id]:', error);
+    return NextResponse.json(
+      { success: false, error: 'Failed to delete admit card' },
+      { status: 500 }
+    );
+  }
+}
