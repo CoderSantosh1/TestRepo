@@ -4,43 +4,40 @@ import { connectToDatabase as connectDB } from '@/lib/db';
 import Result from '@/lib/models/Result';
 import mongoose from 'mongoose';
 
-export async function POST(request: Request) {
+export const dynamic = 'force-dynamic';
+
+export async function GET(
+  _request: Request,
+  context: { params: Promise<{ id: string }> }
+) {
   try {
     await connectDB();
-    
-    const body = await request.json();
-    
-    const result = await Result.create({
-      title: body.title,
-      organization: body.organization,
-      resultDate: new Date(body.resultDate),
-      category: body.category,
-      downloadLink: body.downloadLink,
-      status: 'published'
-    });
 
-    return NextResponse.json({ success: true, data: result }, { status: 201 });
-  } catch (error) {
-    console.error('Error in POST /api/results:', error);
+    const { id: resultId } = await context.params;
+    if (!resultId || !mongoose.Types.ObjectId.isValid(resultId)) {
+      return NextResponse.json(
+        { success: false, error: 'Invalid result ID' },
+        { status: 400 }
+      );
+    }
+
+    const result = await Result.findById(resultId);
+
+    if (!result) {
+      return NextResponse.json(
+        { success: false, error: 'Result not found' },
+        { status: 404 }
+      );
+    }
+
     return NextResponse.json(
-      { success: false, error: 'Failed to create Result posting' },
-      { status: 500 }
+      { success: true, data: result },
+      { status: 200 }
     );
-  }
-}
-
-export async function GET() {
-  try {
-    await connectDB();
-    
-    const results = await Result.find()
-      .sort({ resultDate: -1 });
-
-    return NextResponse.json({ success: true, data: results });
   } catch (error) {
-    console.error('Error in GET /api/results:', error);
+    console.error('Error in GET /api/results/[id]:', error);
     return NextResponse.json(
-      { success: false, error: 'Failed to fetch Results' },
+      { success: false, error: 'Failed to fetch result details' },
       { status: 500 }
     );
   }
