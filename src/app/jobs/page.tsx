@@ -1,0 +1,91 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+
+interface Job {
+  _id: string;
+  title: string;
+  company: string;
+  location: string;
+  salary: string;
+  postedDate: string;
+  deadline: string;
+  status: string;
+}
+
+export default function JobsPage() {
+  const router = useRouter();
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const response = await fetch('/api/jobs');
+        if (!response.ok) {
+          throw new Error('Failed to fetch jobs');
+        }
+        const data = await response.json();
+        setJobs(data.data || []);
+      } catch (err) {
+        console.error('Failed to fetch jobs:', err);
+        setError('Error loading jobs');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchJobs();
+  }, []);
+
+  if (loading) {
+    return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="flex justify-center items-center min-h-screen text-red-500">{error}</div>;
+  }
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-8 text-gray-900">Available Jobs</h1>
+      
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {jobs.map((job) => (
+          <div 
+            key={job._id}
+            onClick={() => router.push(`/jobs/${job._id}`)}
+            className="cursor-pointer bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-200"
+          >
+            <h2 className="text-xl font-semibold mb-2 text-gray-900">{job.title}</h2>
+            
+            <div className="mb-4">
+              <p className="text-gray-600">{job.company}</p>
+              <p className="text-gray-600">{job.location}</p>
+            </div>
+            
+            <div className="flex justify-between items-end">
+              <div className="text-sm text-gray-500">
+                <p>Salary: {job.salary}</p>
+                <p>Deadline: {new Date(job.deadline).toLocaleDateString()}</p>
+              </div>
+              <span 
+                className={`px-3 py-1 rounded-full text-xs ${job.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}
+              >
+                {job.status}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {jobs.length === 0 && (
+        <div className="text-center text-gray-600 mt-8">
+          No jobs available at the moment.
+        </div>
+      )}
+    </div>
+  );
+}

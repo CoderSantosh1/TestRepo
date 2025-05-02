@@ -1,0 +1,6 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Force package-lock.json and pnpm-lock.yaml to use LF
+package-lock.json text eol=lf
+pnpm-lock.yaml text eol=lf
