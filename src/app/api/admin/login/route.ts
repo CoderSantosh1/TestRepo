@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 
-const ADMIN_EMAIL = 'admin@gmail.com';
-const ADMIN_PASSWORD = 'Admin@123';
+const ADMIN_EMAIL = 'santosh@gmail.com';
+const ADMIN_PASSWORD = 'Santosh@Raj2005';
 const JWT_SECRET = 'your_jwt_secret_key';
 
 export async function POST(req: Request) {
