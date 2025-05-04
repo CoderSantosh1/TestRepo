@@ -6,15 +6,15 @@ import { Result } from '../../../../types/result';
 
 export default function AdminResultDetail() {
   const params = useParams();
-  const router = useRouter();
-  const [result, setResult] = useState<Result | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const router = useRouter();
+  const [result, setResult] = useState<Result | null>(null);
 
   useEffect(() => {
     const fetchResult = async () => {
       try {
-        const response = await fetch(`/api/results/${params.id}`);
+        const response = await fetch(`/api/results/${params?.id}`);
         if (!response.ok) {
           throw new Error('Failed to fetch result');
         }
@@ -27,14 +27,14 @@ export default function AdminResultDetail() {
       }
     };
 
-    if (params.id) {
+    if (params?.id) {
       fetchResult();
     }
-  }, [params.id]);
+  }, [params?.id]);
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`/api/results/${params.id}`, {
+      const response = await fetch(`/api/results/${params?.id}`, {
         method: 'DELETE',
       });
 
@@ -89,7 +89,7 @@ export default function AdminResultDetail() {
 
         <div className="mt-8 flex gap-4">
           <button
-            onClick={() => router.push(`/admin/results/edit/${params.id}`)}
+            onClick={() => router.push(`/admin/results/edit/${params?.id}`)}
             className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
           >
             Edit
