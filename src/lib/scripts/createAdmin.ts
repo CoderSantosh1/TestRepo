@@ -37,8 +37,8 @@ async function createAdminUser() {
 
     // Create admin user
     const adminData = {
-      email: 'admin@gmail.com',
-      password: 'admin@99', // This will be hashed automatically by the schema
+      email: 'santosh@gmail.com',
+      password: 'Santosh@Raj2005', // This will be hashed automatically by the schema
       name: 'Admin User',
       role: 'super_admin'
     };
