@@ -17,16 +17,18 @@ interface AdmitCard {
 }
 
 export default function AdmitCardDetails() {
-  const { id } = useParams();
+  const params = useParams() as { id: string };
   const router = useRouter();
   const [admitCard, setAdmitCard] = useState<AdmitCard | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const { id } = params;
+
   useEffect(() => {
     const fetchAdmitCard = async () => {
-      try {
-        const response = await fetch(`/api/admit-cards/${id}`);
+       try {
+        const response = await fetch(`/api/admit-cards/${params.id}`);
         const data = await response.json();
 
         if (!response.ok) {

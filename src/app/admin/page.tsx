@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import JobList from './components/JobList';
 import ResultList from './components/ResultList';
@@ -40,6 +41,30 @@ interface ResultFormData {
 type TabType = 'jobs' | 'results' | 'admit-cards';
 
 export default function AdminDashboard() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem('adminToken');
+    if (!token) {
+      router.push('/admin/login');
+    } else {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/admin/logout', {
+        method: 'POST'
+      });
+      localStorage.removeItem('adminToken');
+      router.push('/admin/login');
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
+
   const [activeTab, setActiveTab] = useState<TabType>('jobs');
   const [jobFormData, setJobFormData] = useState<JobFormData>({
     title: '',
@@ -62,6 +87,20 @@ export default function AdminDashboard() {
     applicationDeadline: '',
     category: ''
   });
+
+  const [resultsFormData, setResultsFormData] = useState<ResultFormData>({
+    title: '',
+    organization: '',
+    resultDate: '',
+    category: '',
+    downloadLink: '',
+    description: '',
+    status: 'published'
+  });
+
+  if (!isLoggedIn) {
+    return null;
+  }
 
   const handleJobSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -127,16 +166,7 @@ export default function AdminDashboard() {
     }
   };
 
-  //results section 
-  const [resultsFormData, setResultsFormData] = useState<ResultFormData>({
-    title: '',
-    organization: '',
-    resultDate: '',
-    category: '',
-    downloadLink: '',
-    description: '',
-    status: 'published'
-  });
+
 
   const handleResultSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -177,7 +207,16 @@ export default function AdminDashboard() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
+      <div className="flex justify-between items-center mb-8">
+  <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+  <Button
+    variant="outline"
+    onClick={handleLogout}
+    className="text-red-600 hover:text-red-700"
+  >
+    Logout
+  </Button>
+</div>
       
       <div className="mb-6">
         <div className="border-b border-gray-200">

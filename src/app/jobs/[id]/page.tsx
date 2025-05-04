@@ -31,6 +31,14 @@ export default function JobDetail() {
         setLoading(true);
         setError('');
         
+        const params = useParams();
+
+        if (!params || !params.id) {
+          setError('Invalid parameters');
+          setLoading(false);
+          return;
+        }
+
         const response = await fetch(`/api/jobs/${params.id}`);
         if (!response.ok) {
           const errorText = await response.text();
@@ -60,10 +68,10 @@ export default function JobDetail() {
       }
     };
 
-    if (params.id) {
+    if (params?.id) {
       fetchJob();
     }
-  }, [params.id, retryCount, maxRetries]);
+  }, [params?.id, retryCount, maxRetries]);
 
   if (loading) {
     return (

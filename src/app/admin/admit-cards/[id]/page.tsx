@@ -11,9 +11,21 @@ export default function AdminAdmitCardDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
+  if (!params || !params.id) {
+    setError('Invalid parameters');
+    setLoading(false);
+    return;
+  }
+
   useEffect(() => {
     const fetchAdmitCard = async () => {
       try {
+        const params = useParams();
+        if (!params || !params.id) {
+          setError('Invalid parameters');
+          setLoading(false);
+          return;
+        }
         const response = await fetch(`/api/admit-cards/${params.id}`);
         if (!response.ok) {
           throw new Error('Failed to fetch admit card');
@@ -27,14 +39,14 @@ export default function AdminAdmitCardDetail() {
       }
     };
 
-    if (params.id) {
+    if (params && params.id) {
       fetchAdmitCard();
     }
-  }, [params.id]);
+  }, [params]);
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`/api/admit-cards/${params.id}`, {
+      const response = await fetch(`/api/admit-cards/${params?.id}`, {
         method: 'DELETE',
       });
 
@@ -93,7 +105,7 @@ export default function AdminAdmitCardDetail() {
 
         <div className="mt-8 flex gap-4">
           <button
-            onClick={() => router.push(`/admin/admit-cards/edit/${params.id}`)}
+            onClick={() => router.push(`/admin/admit-cards/edit/${params?.id}`)}
             className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
           >
             Edit

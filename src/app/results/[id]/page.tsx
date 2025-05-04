@@ -17,7 +17,8 @@ interface Result {
 }
 
 export default function ResultDetails() {
-  const { id } = useParams();
+  const params = useParams() as { id: string };
+  const { id } = params;
   const router = useRouter();
   const [result, setResult] = useState<Result | null>(null);
   const [loading, setLoading] = useState(true);
