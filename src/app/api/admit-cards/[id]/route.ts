@@ -87,7 +87,7 @@ export async function PUT(request: Request, context: { params: Promise<{ id: str
     const { id: admitCardId } = await context.params;
     if (!admitCardId || !mongoose.Types.ObjectId.isValid(admitCardId)) {
       return NextResponse.json(
-        { success: false, error: 'Invalid admit card ID' },
+        { success: false, error: 'Invalid admit card ID as it is' },
         { status: 400 }
       );
     }
