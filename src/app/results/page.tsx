@@ -53,7 +53,7 @@ export default function ResultsPage() {
         {results.map((result) => (
           <div 
             key={result._id}
-            className="block bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-200"
+            className="block bg-white  rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-200"
           >
             <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">{result.title}</h2>
             

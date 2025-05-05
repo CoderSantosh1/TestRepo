@@ -4,6 +4,9 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { CircularProgress, Container, Paper, Typography, Box, Divider, Grid, Chip, IconButton } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Navbar from '../../../components/Header';
+import Footer from '../../../components/Footer';
+
 
 interface Result {
   _id: string;
@@ -105,6 +108,9 @@ export default function ResultDetails() {
   }
 
   return (
+    <>
+    <Navbar />
+    
     <Container maxWidth="md" sx={{ mt: 4 }}>
       <Box sx={{ mb: 2 }}>
         <IconButton
@@ -166,9 +172,19 @@ export default function ResultDetails() {
                 sx={{ '&:hover': { backgroundColor: 'primary.dark' } }}
               />
             </a>
+            <div className='flex justify-between items-center'>
+            <button
+                  onClick={() => router.back()}
+                  className="text-gray-600 hover:text-gray-900"
+                >
+                  ← Back to Home
+                </button>
+            </div>
           </Box>
         )}
       </Paper>
     </Container>
+    <Footer />
+    </>
   );
 }

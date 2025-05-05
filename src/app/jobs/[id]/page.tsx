@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import Navbar from "../../../components/Header"
+import Footer from '@/components/Footer';
 
 interface Job {
   _id: string;
@@ -74,6 +76,7 @@ export default function JobDetail() {
 
   if (loading) {
     return (
+      
       <div className="flex flex-col justify-center items-center min-h-screen">
         <div className="mb-2">Loading...</div>
         {retryCount > 0 && (
@@ -122,58 +125,61 @@ export default function JobDetail() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
-        <div className="p-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">{job.title}</h1>
-          
-          <div className="flex items-center text-gray-600 mb-6">
-            <span className="mr-4">{job.company}</span>
-            <span className="mr-4">•</span>
-            <span>{job.location}</span>
-          </div>
-
-          <div className="mb-8">
-            <h2 className="text-xl font-semibold text-gray-900 mb-3">Job Description</h2>
-            <p className="text-gray-700 whitespace-pre-line">{job.description}</p>
-          </div>
-
-          <div className="mb-8">
-            <h2 className="text-xl font-semibold text-gray-900 mb-3">Requirements</h2>
-            <ul className="list-disc list-inside text-gray-700">
-              {job.requirements.map((requirement, index) => (
-                <li key={index} className="mb-2">{requirement}</li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="grid grid-cols-2 gap-6 mb-8">
-            <div>
-              <h3 className="font-semibold text-gray-900">Salary</h3>
-              <p className="text-gray-700">{job.salary}</p>
+    <>
+        <Navbar/>
+        <div className="container mx-auto px-4 py-8">
+          <div className="max-w-7xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+            <div className="p-8">
+              <h1 className="text-3xl font-bold text-[#00000] mb-4">{job.title}</h1>  
+              <div className="flex items-center text-[#00000] mb-6">
+                <span className="mr-4">{job.company}</span>
+                <span className="mr-4">•</span>
+                <span>{job.location}</span>
+              </div>
+    
+              <div className="mb-8">
+                <h2 className="text-xl font-semibold text-gray-900 mb-3">Job Description</h2>
+                <p className="text-gray-700 whitespace-pre-line">{job.description}</p>
+              </div>
+    
+              <div className="mb-8">
+                <h2 className="text-xl font-semibold text-gray-900 mb-3">Requirements</h2>
+                <ul className="list-disc list-inside text-gray-700">
+                  {job.requirements.map((requirement, index) => (
+                    <li key={index} className="mb-2">{requirement}</li>
+                  ))}
+                </ul>
+              </div>
+    
+              <div className="grid grid-cols-2 gap-6 mb-8">
+                <div>
+                  <h3 className="font-semibold text-gray-900">Salary</h3>
+                  <p className="text-gray-700">{job.salary}</p>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900">Application Deadline</h3>
+                  <p className="text-gray-700">{new Date(job.deadline).toLocaleDateString()}</p>
+                </div>
+              </div>
+    
+              <div className="flex justify-between items-center">
+                <button
+                  onClick={() => router.back()}
+                  className="text-gray-600 hover:text-gray-900"
+                >
+                  ← Back to Home
+                </button>
+                <button
+                  onClick={() => router.push(`/jobs/${job._id}/apply`)}
+                  className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  Apply Now
+                </button>
+              </div>
             </div>
-            <div>
-              <h3 className="font-semibold text-gray-900">Application Deadline</h3>
-              <p className="text-gray-700">{new Date(job.deadline).toLocaleDateString()}</p>
-            </div>
-          </div>
-
-          <div className="flex justify-between items-center">
-            <button
-              onClick={() => router.back()}
-              className="text-gray-600 hover:text-gray-900"
-            >
-              ← Back to Jobs
-            </button>
-            <button
-              onClick={() => router.push(`/jobs/${job._id}/apply`)}
-              className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              Apply Now
-            </button>
           </div>
         </div>
-      </div>
-    </div>
+        <Footer/>
+      </>
   );
 }

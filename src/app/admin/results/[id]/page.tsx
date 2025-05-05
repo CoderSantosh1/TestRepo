@@ -90,7 +90,7 @@ export default function AdminResultDetail() {
         <div className="mt-8 flex gap-4">
           <button
             onClick={() => router.push(`/admin/results/edit/${params?.id}`)}
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
           >
             Edit
           </button>

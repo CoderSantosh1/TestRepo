@@ -63,7 +63,7 @@ export default function AdmitCardList() {
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+    <div className="bg-white  rounded-lg shadow-lg p-6">
       <h2 className="text-2xl font-semibold mb-6">Posted Admit Cards</h2>
       <div className="space-y-4">
         {admitCards.length === 0 ? (

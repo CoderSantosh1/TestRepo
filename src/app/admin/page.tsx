@@ -242,7 +242,7 @@ export default function AdminDashboard() {
       {activeTab === 'jobs' && (
         <>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+            <div className="bg-white  rounded-lg shadow-lg p-6">
               <h2 className="text-2xl font-semibold mb-6">Post New Job</h2>
               <form onSubmit={handleJobSubmit} className="space-y-6">
                 <div>
@@ -343,7 +343,7 @@ export default function AdminDashboard() {
       {activeTab === 'results' && (
        <>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+            <div className="bg-white  rounded-lg shadow-lg p-6">
               <h2 className="text-2xl font-semibold mb-6">Post New Job</h2>
            <form onSubmit={handleResultSubmit} className="space-y-6">
              <div>
@@ -420,7 +420,7 @@ export default function AdminDashboard() {
       {activeTab === 'admit-cards' && (
         <>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+            <div className="bg-white  rounded-lg shadow-lg p-6">
               <h2 className="text-2xl font-semibold mb-6">Post AdmitCard</h2>
               <form onSubmit={handleAdmitCardSubmit} className="space-y-6">
                 <div>

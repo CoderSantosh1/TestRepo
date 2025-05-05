@@ -70,14 +70,14 @@ export default function ResultList() {
 
   if (error) {
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+      <div className="bg-white  rounded-lg shadow-lg p-6">
         <h2 className="font-bold">Not Posted the results</h2>
       </div>
     );
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+    <div className="bg-white  rounded-lg shadow-lg p-6">
       <h2 className="text-2xl font-semibold mb-6">Posted Results</h2>
       <div className="space-y-4">
         {results.length === 0 ? (
@@ -106,6 +106,7 @@ export default function ResultList() {
                 <Button
                   variant="outline"
                   size="sm"
+                  className="text-red-600 hover:text-red-700"
                   onClick={() => {
                     // Implement edit functionality
                   }}

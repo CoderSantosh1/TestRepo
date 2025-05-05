@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { CircularProgress, Container, Paper, Typography, Box, Divider, Grid, Chip, IconButton } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
+import Navbar from "../../../components/Header";
+import Footer from "../../../components/Footer";
 interface AdmitCard {
   _id: string;
   title: string;
@@ -106,6 +107,8 @@ export default function AdmitCardDetails() {
   }
 
   return (
+    <>
+    <Navbar />
     <Container maxWidth="md" sx={{ mt: 4 }}>
       <Box sx={{ mb: 2 }}>
         <IconButton
@@ -171,5 +174,7 @@ export default function AdmitCardDetails() {
         )}
       </Paper>
     </Container>
+    <Footer />
+    </>
   );
 }

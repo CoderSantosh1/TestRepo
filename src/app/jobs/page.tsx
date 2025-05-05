@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
+
 interface Job {
   _id: string;
   title: string;
@@ -49,6 +50,8 @@ export default function JobsPage() {
   }
 
   return (
+    <>
+  
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8 text-gray-900">Available Jobs</h1>
       
@@ -87,5 +90,6 @@ export default function JobsPage() {
         </div>
       )}
     </div>
+    </>
   );
 }

@@ -53,7 +53,7 @@ export default function ResultForm({ initialData, onSubmit, onCancel }: ResultFo
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+    <div className="bg-white rounded-lg shadow-lg p-6">
       <h2 className="text-2xl font-semibold mb-6">{initialData ? 'Edit Result' : 'Post New Result'}</h2>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
