@@ -49,6 +49,44 @@ export async function GET(
   }
 }
 
+export async function PUT(
+  request: Request,
+  context: { params: Promise<{ id: string }> }
+) {
+  try {
+    await connectDB();
+
+    const { id: jobId } = await context.params;
+    if (!jobId) {
+      return NextResponse.json(
+        { success: false, error: 'Job ID is required' },
+        { status: 400 }
+      );
+    }
+
+    const data = await request.json();
+    const job = await Job.findByIdAndUpdate(jobId, data, { new: true });
+
+    if (!job) {
+      return NextResponse.json(
+        { success: false, error: 'Job not found' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      { success: true, data: job },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error('Error in PUT /api/jobs/[id]:', error);
+    return NextResponse.json(
+      { success: false, error: 'Failed to update job' },
+      { status: 500 }
+    );
+  }
+}
+
 export async function DELETE(
   _request: Request,
   context: { params: Promise<{ id: string }> }

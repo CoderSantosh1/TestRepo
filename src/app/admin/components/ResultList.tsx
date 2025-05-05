@@ -4,6 +4,7 @@
 
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
+import ResultForm from './ResultForm';
 
 interface Result {
   _id: string;
@@ -20,9 +21,11 @@ export default function ResultList() {
   const [results, setResults] = useState<Result[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [editingResult, setEditingResult] = useState<Result | null>(null);
 
   useEffect(() => {
     fetchResults();
+    
   }, []);
 
   const fetchResults = async () => {
@@ -41,6 +44,39 @@ export default function ResultList() {
       setError('Error loading results. Please try again.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleEdit = async (result: Result) => {
+    setEditingResult(result);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleUpdate = async (data: Omit<Result, '_id' | 'createdAt'>) => {
+    if (!editingResult) return;
+
+    try {
+      const response = await fetch(`/api/results/${editingResult._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        const updatedResult = await response.json();
+        setResults(results.map(result => 
+          result._id === editingResult._id ? { ...result, ...updatedResult.data } : result
+        ));
+        setEditingResult(null);
+        alert('Result updated successfully');
+      } else {
+        alert('Failed to update result');
+      }
+    } catch (error) {
+      console.error('Error updating result:', error);
+      alert('Error updating result');
     }
   };
 
@@ -107,9 +143,7 @@ export default function ResultList() {
                   variant="outline"
                   size="sm"
                   className="text-red-600 hover:text-red-700"
-                  onClick={() => {
-                    // Implement edit functionality
-                  }}
+                  onClick={() => handleEdit(result)}
                 >
                   Edit
                 </Button>
@@ -126,6 +160,18 @@ export default function ResultList() {
           ))
         )}
       </div>
+
+      {editingResult && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-lg w-full max-w-2xl">
+            <ResultForm
+              initialData={editingResult}
+              onSubmit={handleUpdate}
+              onCancel={() => setEditingResult(null)}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

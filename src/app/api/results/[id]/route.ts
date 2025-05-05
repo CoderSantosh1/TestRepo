@@ -80,3 +80,38 @@ export async function DELETE(
   }
 }
 
+export async function PUT(request: Request, context: { params: Promise<{ id: string }> }) {
+  try {
+    const body = await request.json();
+    await connectDB();
+
+    const { id: resultId } = await context.params;
+    if (!resultId || !mongoose.Types.ObjectId.isValid(resultId)) {
+      return NextResponse.json(
+        { success: false, error: 'Invalid result ID' },
+        { status: 400 }
+      );
+    }
+
+    const updatedResult = await Result.findByIdAndUpdate(resultId, body, { new: true });
+
+    if (!updatedResult) {
+      return NextResponse.json(
+        { success: false, error: 'Result not found' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      { success: true, data: updatedResult },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error('Error in PUT /api/results/[id]:', error);
+    return NextResponse.json(
+      { success: false, error: 'Failed to update result' },
+      { status: 500 }
+    );
+  }
+}
+

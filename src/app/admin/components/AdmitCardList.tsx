@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
+import AdmitCardForm from './AdmitCardForm';
 import AdmitCard from '@/lib/models/AdmitCard';
 
 interface AdmitCard  {
@@ -17,6 +18,7 @@ interface AdmitCard  {
 export default function AdmitCardList() {
   const [admitCards, setAdmitCards] = useState<AdmitCard[]>([]);
   const [loading, setLoading] = useState(true);
+  const [editingCard, setEditingCard] = useState<AdmitCard | null>(null);
 
   useEffect(() => {
     fetchAdmitCards();
@@ -35,6 +37,38 @@ export default function AdmitCardList() {
       console.error('Error fetching admit cards:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleEdit = async (card: AdmitCard) => {
+    setEditingCard(card);
+  };
+
+  const handleUpdate = async (data: Omit<AdmitCard, '_id' | 'createdAt'>) => {
+    if (!editingCard) return;
+
+    try {
+      const response = await fetch(`/api/admit-cards/${editingCard._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        const updatedCard = await response.json();
+        setAdmitCards(admitCards.map(card => 
+          card._id === editingCard._id ? { ...card, ...updatedCard.data } : card
+        ));
+        setEditingCard(null);
+        alert('Admit card updated successfully');
+      } else {
+        alert('Failed to update admit card');
+      }
+    } catch (error) {
+      console.error('Error updating admit card:', error);
+      alert('Error updating admit card');
     }
   };
 
@@ -92,9 +126,7 @@ export default function AdmitCardList() {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => {
-                    // Implement edit functionality
-                  }}
+                  onClick={() => handleEdit(admitCard)}
                 >
                   Edit
                 </Button>
@@ -111,6 +143,18 @@ export default function AdmitCardList() {
           ))
         )}
       </div>
+
+      {editingCard && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-lg w-full max-w-2xl">
+            <AdmitCardForm
+              initialData={editingCard}
+              onSubmit={handleUpdate}
+              onCancel={() => setEditingCard(null)}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

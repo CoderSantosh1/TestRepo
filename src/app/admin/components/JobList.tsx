@@ -4,14 +4,9 @@
 
 'use client';
 
-
-
-
-
-
-
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
+import JobForm from './JobForm';
 
 interface Job {
   _id: string;
@@ -26,6 +21,7 @@ interface Job {
 export default function JobList() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
+  const [editingJob, setEditingJob] = useState<Job | null>(null);
 
   useEffect(() => {
     fetchJobs();
@@ -44,6 +40,38 @@ export default function JobList() {
       console.error('Error fetching jobs:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleEdit = async (job: Job) => {
+    setEditingJob(job);
+  };
+
+  const handleUpdate = async (data: Omit<Job, '_id' | 'createdAt'>) => {
+    if (!editingJob) return;
+
+    try {
+      const response = await fetch(`/api/jobs/${editingJob._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        const updatedJob = await response.json();
+        setJobs(jobs.map(job => 
+          job._id === editingJob._id ? { ...job, ...updatedJob.data } : job
+        ));
+        setEditingJob(null);
+        alert('Job updated successfully');
+      } else {
+        alert('Failed to update job');
+      }
+    } catch (error) {
+      console.error('Error updating job:', error);
+      alert('Error updating job');
     }
   };
 
@@ -72,7 +100,7 @@ export default function JobList() {
   }
 
   return (
-    <div className="bg-white  rounded-lg shadow-lg p-6">
+    <div className="bg-white rounded-lg shadow-lg p-6">
       <h2 className="text-2xl font-semibold mb-6">Posted Jobs</h2>
       <div className="space-y-4">
         {jobs.length === 0 ? (
@@ -101,9 +129,7 @@ export default function JobList() {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => {
-                    // Implement edit functionality
-                  }}
+                  onClick={() => handleEdit(job)}
                 >
                   Edit
                 </Button>
@@ -120,6 +146,18 @@ export default function JobList() {
           ))
         )}
       </div>
+
+      {editingJob && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-lg w-full max-w-2xl">
+            <JobForm
+              initialData={editingJob}
+              onSubmit={handleUpdate}
+              onCancel={() => setEditingJob(null)}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
