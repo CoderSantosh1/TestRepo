@@ -31,8 +31,7 @@ export default function JobDetail() {
         setLoading(true);
         setError('');
         
-        const params = useParams();
-
+        // Remove the duplicate declaration of `params` inside the `fetchJob` function
         if (!params || !params.id) {
           setError('Invalid parameters');
           setLoading(false);
