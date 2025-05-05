@@ -11,6 +11,8 @@ interface AdmitCardFormData {
   location: string;
   status: string;
   applicationDeadline: string;
+  description: string;
+  ApplicationDate: string;
 }
 
 interface AdmitCardFormProps {
@@ -26,6 +28,8 @@ export default function AdmitCardForm({ initialData, onSubmit, onCancel }: Admit
     location: initialData?.location || '',
     status: initialData?.status || 'draft',
     applicationDeadline: initialData?.applicationDeadline || '',
+    description: initialData?.description || '',
+    ApplicationDate: initialData?.ApplicationDate || '',
   });
 
   const [errors, setErrors] = useState<Partial<AdmitCardFormData>>({});
@@ -47,7 +51,7 @@ export default function AdmitCardForm({ initialData, onSubmit, onCancel }: Admit
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
     if (errors[name as keyof AdmitCardFormData]) {
@@ -85,7 +89,29 @@ export default function AdmitCardForm({ initialData, onSubmit, onCancel }: Admit
           />
           {errors.organization && <p className="text-red-500 text-sm mt-1">{errors.organization}</p>}
         </div>
-
+        <div>
+          <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description</label>
+          <textarea
+            id="description"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            rows={4}
+            className="w-full p-2 border rounded-md"
+          ></textarea>
+        </div>
+        <div>
+          <label htmlFor="ApplicationDate" className="block text-sm font-medium text-gray-700">Application Date</label>
+          <Input
+            id="ApplicationDate"
+            name="ApplicationDate"
+            type="date"
+            value={formData.ApplicationDate}
+            onChange={handleChange}
+            className={errors.ApplicationDate? 'border-red-500' : ''}
+          />
+          {errors.ApplicationDate && <p className="text-red-500 text-sm mt-1">{errors.ApplicationDate}</p>}
+        </div>
         <div>
           <label htmlFor="location" className="block text-sm font-medium text-gray-700">Location</label>
           <Input

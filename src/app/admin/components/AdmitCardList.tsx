@@ -13,6 +13,8 @@ interface AdmitCard  {
   status: string;
   applicationDeadline: string;
   createdAt: string;
+  description: string;
+  ApplicationDate: string;
 }
 
 export default function AdmitCardList() {
@@ -115,6 +117,13 @@ export default function AdmitCardList() {
               <div className="mt-2 flex items-center justify-between">
                 <span className="text-sm text-gray-500 dark:text-gray-400">
                   Posted: {new Date(admitCard.createdAt).toLocaleDateString()}
+                </span>
+                <span className="text-sm text-gray-500 dark:text-gray-400">
+                  Deadline: {new Date(admitCard.applicationDeadline).toLocaleDateString()}
+                </span>
+                <span className="text-sm text-gray-500 dark:text-gray-400">
+                  Application Date: {new Date(admitCard.ApplicationDate).toLocaleDateString()}
+                
                 </span>
                 <span
                   className={`px-2 py-1 rounded-full text-xs ${admitCard.status === 'published' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}
