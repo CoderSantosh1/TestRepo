@@ -15,6 +15,8 @@ interface AdmitCard {
   category: string;
   status: string;
   downloadLink?: string;
+  location: string;
+  requirements: string[];
 }
 
 export default function AdmitCardDetails() {
@@ -109,16 +111,57 @@ export default function AdmitCardDetails() {
   return (
     <>
     <Navbar />
-    <Container maxWidth="md" sx={{ mt: 4 }}>
-      <Box sx={{ mb: 2 }}>
-        <IconButton
+    <div className="container mx-auto px-4 py-8">
+          <div className="max-w-7xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+            <div className="p-8">
+              <h1 className="text-3xl font-bold text-[#00000] mb-4">{admitCard.title}</h1>  
+              <div className="flex items-center text-[#00000] mb-6">
+               
+                <span>{admitCard.location}</span>
+              </div>
+    
+              <div className="mb-8">
+                <h2 className="text-xl font-semibold text-gray-900 mb-3">Job Description</h2>
+                <p className="text-gray-700 whitespace-pre-line">{admitCard.description}</p>
+              </div>
+    
+              <div className="mb-8">
+                <h2 className="text-xl font-semibold text-gray-900 mb-3">Requirements</h2>
+                <ul className="list-disc list-inside text-gray-700">
+                  {admitCard.requirements.map((requirement, index) => (
+                    <li key={index} className="mb-2">{requirement}</li>
+                  ))}
+                </ul>
+              </div>
+    
+            
+    
+              <div className="flex justify-between items-center">
+                <button
+                  onClick={() => router.back()}
+                  className="text-gray-600 hover:text-gray-900"
+                >
+                  ← Back to Home
+                </button>
+                <button
+                  onClick={() => router.push(`/jobs/${admitCard._id}/apply`)}
+                  className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  Apply Now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+    {/* <Container maxWidth="md" sx={{ mt: 4 }}>
+      <Box sx={{ mb: 2 }}>   <IconButton
           onClick={() => router.back()}
           sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main' } }}
         >
           <ArrowBackIcon />
         </IconButton>
-      </Box>
-      <Paper sx={{ p: 4 }}>
+      
+     </Box> <Paper sx={{ p: 4 }}>
         <Typography variant="h4" gutterBottom sx={{ color: 'primary.main' }}>
           {admitCard.title}
         </Typography>
@@ -173,7 +216,7 @@ export default function AdmitCardDetails() {
           </Box>
         )}
       </Paper>
-    </Container>
+    </Container> */}
     <Footer />
     </>
   );

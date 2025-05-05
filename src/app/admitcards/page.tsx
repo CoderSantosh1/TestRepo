@@ -48,7 +48,7 @@ export default function AdmitCardsPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Admit Cards</h1>
+      <h1 className="text-7xl font-bold mb-8 text-gray-900 dark:text-white">Admit Cards</h1>
       
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {admitCards.map((admitCard) => (

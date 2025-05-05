@@ -110,8 +110,8 @@ export default function ResultDetails() {
   return (
     <>
     <Navbar />
-    
-    <Container maxWidth="md" sx={{ mt: 4 }}>
+    <div className="max-w-7xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+   
       <Box sx={{ mb: 2 }}>
         <IconButton
           onClick={() => router.back()}
@@ -126,7 +126,7 @@ export default function ResultDetails() {
         </Typography>
         <Divider sx={{ my: 2 }} />
         
-        <Grid container spacing={3} sx={{ mb: 3 }}>
+        <Grid container >
           <Grid item xs={12} sm={6}>
             <Typography variant="subtitle2" color="text.secondary">Organization</Typography>
             <Typography variant="body1">{result.organization}</Typography>
@@ -172,18 +172,11 @@ export default function ResultDetails() {
                 sx={{ '&:hover': { backgroundColor: 'primary.dark' } }}
               />
             </a>
-            <div className='flex justify-between items-center'>
-            <button
-                  onClick={() => router.back()}
-                  className="text-gray-600 hover:text-gray-900"
-                >
-                  ← Back to Home
-                </button>
-            </div>
           </Box>
         )}
       </Paper>
-    </Container>
+
+    </div>
     <Footer />
     </>
   );
