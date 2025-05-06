@@ -344,7 +344,7 @@ export default function AdminDashboard() {
        <>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div className="bg-white  rounded-lg shadow-lg p-6">
-              <h2 className="text-2xl font-semibold mb-6">Post New Job</h2>
+              <h2 className="text-2xl font-semibold mb-6">Post New Results</h2>
            <form onSubmit={handleResultSubmit} className="space-y-6">
              <div>
                <label className="block text-sm font-medium mb-2">Exam Name</label>
@@ -357,6 +357,7 @@ export default function AdminDashboard() {
                  minLength={3}
                />
              </div>
+              
 
              <div>
                <label className="block text-sm font-medium mb-2">Organization</label>
@@ -368,6 +369,15 @@ export default function AdminDashboard() {
                  required
                />
              </div>
+             <div>
+                  <label className="block text-sm font-medium mb-2">Description</label>
+                  <textarea
+                    value={resultsFormData.description}
+                    onChange={(e) => setResultsFormData({...resultsFormData,description: e.target.value})}
+                    className="w-full p-2 border rounded-md h-32"
+                    required
+                  />
+                </div>
 
              <div>
                <label className="block text-sm font-medium mb-2">Result Date</label>
@@ -508,3 +518,4 @@ export default function AdminDashboard() {
     </div>
   );
 }
+

@@ -74,14 +74,11 @@ export default function Home() {
               <a 
                 key={item._id}
                 href={`/${item.hasOwnProperty('resultDate') ? 'results' : item.hasOwnProperty('examDate') ? 'admit-cards' : 'jobs'}/${item._id}`}
-                className={`${item.hasOwnProperty('resultDate') ? 'bg-purple-600 hover:bg-purple-700' : 
-                          item.hasOwnProperty('examDate') ? 'bg-teal-600 hover:bg-teal-700' : 
-                          'bg-blue-600 hover:bg-blue-700'} 
-                          text-white p-3 md:p-4 rounded-lg text-center transition-colors flex items-center justify-center min-h-[100px]`}
+                className={`${item.hasOwnProperty('resultDate') ? 'bg-[#014F59] hover:bg-[#014F59]' : item.hasOwnProperty('examDate') ? 'bg-pink-500 hover:bg-pink-500' : 'bg-[#D62628] hover:bg-[#D62628]'}
+                ite text-white p-3 md:p-4 rounded-lg w-[300px] h-[80px] text-center transition-colors flex items-center justify-center min-h-[100px]`}
               >
                 <div>
                   <div className="text-base md:text-lg font-semibold">{item.title}</div>
-                  <div className="text-xs md:text-sm">{item.organization}</div>
                 </div>
               </a>
             ))}
@@ -133,3 +130,4 @@ export default function Home() {
     </>
   );
 }
+

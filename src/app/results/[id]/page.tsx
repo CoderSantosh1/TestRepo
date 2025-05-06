@@ -153,8 +153,8 @@ export default function ResultDetails() {
         <Typography variant="h6" gutterBottom sx={{ mt: 3 }}>
           Description
         </Typography>
-        <Typography variant="body1" paragraph sx={{ mb: 3 }}>
-          {result.description}
+        <Typography variant="body1" paragraph sx={{ mb: 3, whiteSpace: 'pre-line' }}>
+          {result.description || 'No description available'}
         </Typography>
 
         {result.downloadLink && (
