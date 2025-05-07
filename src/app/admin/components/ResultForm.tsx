@@ -9,7 +9,7 @@ interface ResultFormData {
   resultDate: string;
   category: string;
   downloadLink: string;
-  description?: string;
+  discription: string;
   status: string;
 }
 
@@ -26,7 +26,7 @@ export default function ResultForm({ initialData, onSubmit, onCancel }: ResultFo
     resultDate: '',
     category: 'other',
     downloadLink: '',
-    description: '',
+    discription: initialData?.discription || '',
     status: 'draft',
   });
 
@@ -47,7 +47,7 @@ export default function ResultForm({ initialData, onSubmit, onCancel }: ResultFo
         resultDate: '',
         category: '',
         downloadLink: '',
-        description: '',
+        discription: '',
         status: 'draft',
       });
     }
@@ -79,7 +79,7 @@ export default function ResultForm({ initialData, onSubmit, onCancel }: ResultFo
               required
             />
           </div>
-
+          
           <div>
             <label className="block text-sm font-medium mb-2">Category</label>
             <select
@@ -121,8 +121,8 @@ export default function ResultForm({ initialData, onSubmit, onCancel }: ResultFo
           <div>
             <label className="block text-sm font-medium mb-2">Description (Optional)</label>
             <textarea
-              value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              value={formData.discription}
+              onChange={(e) => setFormData({ ...formData, discription: e.target.value })}
               className="w-full p-2 border rounded-md h-32"
             />
           </div>

@@ -3,10 +3,10 @@ import { ModeToggle } from "./mode-toggle";
 
 export default function Header() {
   return (
-    <header className="bg-[#d0343c]  w-10/14 max-w-7xl mx-auto px-4 shadow-md">
-      <div className="container mx-auto px-4 py-2">
+    <header className="bg-[#d0343c] w-10/14 max-w-7xl mx-auto shadow-md">
+      <div className="container mx-auto ">
         {/* Top Section with Logo */}
-        <div className="flex flex-col items-center py-2 border-b border-gray-200">
+        <div className="flex flex-col items-center border-b border-gray-200">
           <div className="flex items-center gap-4">
           <h1 className="text-3xl font-bold text-[#000000]">JOBSPLATFORM</h1>
      <ModeToggle />

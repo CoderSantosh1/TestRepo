@@ -98,6 +98,7 @@ export async function POST(request: Request) {
 
     const result = await Result.create({
       title: body.title,
+      description: body.description,
       organization: body.organization,
       resultDate: resultDate,
       category: body.category,

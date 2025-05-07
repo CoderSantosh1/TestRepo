@@ -10,6 +10,9 @@ interface Result {
   category: string;
   downloadLink: string;
   status: string;
+  createdAt: string;
+  updatedAt: string;
+  description?: string;
 }
 
 export default function ResultsPage() {
@@ -60,6 +63,7 @@ export default function ResultsPage() {
             <div className="mb-4">
               <p className="text-gray-600 dark:text-gray-300">{result.organization}</p>
               <p className="text-gray-600 dark:text-gray-300">Result Date: {new Date(result.resultDate).toLocaleDateString()}</p>
+              <p className="text-gray-600 dark:text-gray-300">{result.description}</p>
             </div>
             
             <div className="flex justify-between items-end">

@@ -15,6 +15,7 @@ interface Result {
   downloadLink: string;
   status: string;
   createdAt: string;
+  discription: string;
 }
 
 export default function ResultList() {
