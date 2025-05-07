@@ -67,15 +67,15 @@ export default function Home() {
   return (
     <>
       <Header />
-      <main className="flex flex-col items-center justify-center bg-[#FFFBD9] mt-12 w-10/14 max-w-7xl mx-auto px-4">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-12">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <main className="flex flex-col items-center justify-center bg-[#FFFBD9] mt-2 w-10/14 max-w-7xl mx-auto px-4">
+        <div className="max-w-7xl mx-auto  sm:px-6 py-2 space-y-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
             {[...results.slice(0, 4), ...jobs.slice(0, 4), ...admitCards.slice(0, 4)].map((item) => (
               <a 
                 key={item._id}
                 href={`/${item.hasOwnProperty('resultDate') ? 'results' : item.hasOwnProperty('examDate') ? 'admit-cards' : 'jobs'}/${item._id}`}
                 className={`${item.hasOwnProperty('resultDate') ? 'bg-[#014F59] hover:bg-[#014F59]' : item.hasOwnProperty('examDate') ? 'bg-pink-500 hover:bg-pink-500' : 'bg-[#D62628] hover:bg-[#D62628]'}
-                ite text-white p-3 md:p-4 rounded-lg w-[300px] h-[80px] text-center transition-colors flex items-center justify-center min-h-[100px]`}
+                ite text-white rounded-lg w-[280px] h-[70px] text-center transition-colors flex items-center justify-center min-h-[75px]`}
               >
                 <div>
                   <div className="text-base md:text-lg font-semibold">{item.title}</div>
