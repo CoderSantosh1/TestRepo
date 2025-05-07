@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { connectToDatabase as connectDB } from '@/lib/db';
 import Result from '@/lib/models/Result';
+import mongoose from 'mongoose';
+
 
 interface ValidationError {
   name: string;
@@ -18,7 +20,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     
     // Validate required fields
-    const requiredFields = ['title', 'organization', 'resultDate', 'category', 'downloadLink'];
+    const requiredFields = ['title', 'organization', 'resultDate', 'category', 'downloadLink', 'description'];
     const missingFields = requiredFields.filter(field => !body[field]);
     
     if (missingFields.length > 0) {
@@ -96,6 +98,21 @@ export async function POST(request: Request) {
       );
     }
 
+    // Validate description
+    const description = body.description.trim();
+    if (description.length < 10 || description.length > 10000) {
+      return NextResponse.json(
+        { success: false, error: 'Description must be between 10 and 1000 characters' },
+        { status: 400 }
+      );
+    }
+    if (!/^[\w\s\-.,()&?!"']+$/.test(description)) {
+      return NextResponse.json(
+        { success: false, error: 'Description contains invalid characters' },
+        { status: 400 }
+      );
+    }
+    
     const result = await Result.create({
       title: body.title,
       description: body.description,
@@ -103,10 +120,24 @@ export async function POST(request: Request) {
       resultDate: resultDate,
       category: body.category,
       downloadLink: body.downloadLink,
-      status: body.status || 'draft'
+      status: body.status || 'draft',
+      createdAt: new Date()
     });
-
-    return NextResponse.json({ success: true, data: result }, { status: 201 });
+   
+    // Ensure all fields, including description, are present in the response
+    return NextResponse.json({ success: true, data: {
+      _id: result._id,
+      title: result.title,
+      description: result.description,
+      organization: result.organization,
+      resultDate: result.resultDate,
+      category: result.category,
+      downloadLink: result.downloadLink,
+      status: result.status,
+      createdAt: result.createdAt,
+      updatedAt: result.updatedAt,
+      __v: result.__v
+    } }, { status: 201 });
   } catch (error) {
     console.error('Error in POST /api/results:', error);
     
@@ -134,11 +165,58 @@ export async function GET() {
     const results = await Result.find({ status: 'published' })
       .sort({ resultDate: -1 });
 
-    return NextResponse.json({ success: true, data: results });
+    // Map results to ensure all required fields are present in each object
+    const formattedResults = results.map(result => ({
+      _id: result._id,
+      title: result.title,
+      description: result.description,
+      organization: result.organization,
+      resultDate: result.resultDate,
+      category: result.category,
+      downloadLink: result.downloadLink,
+      status: result.status,
+      createdAt: result.createdAt,
+      updatedAt: result.updatedAt,
+      __v: result.__v
+    }));
+
+    return NextResponse.json({ success: true, data: formattedResults });
   } catch (error) {
     console.error('Error in GET /api/results:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to fetch results' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PUT(request: Request, context: { params: Promise<{ id: string }> }) {
+  try {
+    const body = await request.json();
+    await connectDB();
+
+    const { id: resultId } = await context.params;
+    if (!resultId || !mongoose.Types.ObjectId.isValid(resultId)) {
+      return NextResponse.json(
+        { success: false, error: 'Invalid result ID' },
+        { status: 400 }
+      );
+    }
+
+    const updatedResult = await Result.findByIdAndUpdate( resultId, { ...body, updatedAt: new Date() }, { new: true } );
+
+    if (!updatedResult) {
+      return NextResponse.json(
+        { success: false, error: 'Result not found' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ success: true, data: updatedResult });
+  } catch (error) {
+    console.error('Error updating result:', error);
+    return NextResponse.json(
+      { success: false, error: 'Failed to update result' },
       { status: 500 }
     );
   }

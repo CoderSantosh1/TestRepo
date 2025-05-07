@@ -15,7 +15,7 @@ interface Result {
   downloadLink: string;
   status: string;
   createdAt: string;
-  discription: string;
+  description: string;
 }
 
 export default function ResultList() {
@@ -35,7 +35,9 @@ export default function ResultList() {
       const response = await fetch('/api/results');
       if (response.ok) {
         const data = await response.json();
-        setResults(data.data);
+        // Sort results in descending order based on createdAt
+        const sortedResults = data.data.sort((a: Result, b: Result) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        setResults(sortedResults);
       } else {
         const errorData = await response.json().catch(() => ({}));
         setError(errorData.message || 'Failed to fetch results');
@@ -128,6 +130,9 @@ export default function ResultList() {
               <h3 className="text-lg font-semibold">{result.title}</h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">
                 {result.organization} • {result.category}
+              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                {result.description}
               </p>
               <div className="mt-2 flex items-center justify-between">
                 <span className="text-sm text-gray-500 dark:text-gray-400">

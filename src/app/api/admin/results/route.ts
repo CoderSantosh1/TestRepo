@@ -90,7 +90,7 @@ export async function PUT(request: Request) {
     await connectToDatabase();
     const updatedResult = await Result.findByIdAndUpdate(
       resultId,
-      { ...body, updatedAt: new Date() },
+      { ...body, description: body.description, updatedAt: new Date() },
       { new: true }
     );
 

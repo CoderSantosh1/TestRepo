@@ -66,6 +66,11 @@ export default function AdminResultDetail() {
             <p>{result.category}</p>
           </div>
           <div>
+            <h2 className="text-gray-500">Description</h2>
+            <p>{result.description}</p>
+            
+          </div>
+          <div>
             <h2 className="text-gray-500">Result Date</h2>
             <p>{new Date(result.resultDate).toLocaleDateString()}</p>
           </div>

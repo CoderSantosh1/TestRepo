@@ -14,7 +14,13 @@ const ResultSchema = new mongoose.Schema({
       message: 'Exam name contains invalid characters'
     }
   },
- 
+  description: {
+    type: String,
+    required: [true, 'Please provide a description'],
+    trim: true,
+    
+  },
+
   organization: {
     type: String,
     required: [true, 'Please provide an organization name'],

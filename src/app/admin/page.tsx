@@ -34,7 +34,7 @@ interface ResultFormData {
   resultDate: string;
   category: string;
   downloadLink: string;
-  description?: string;
+  description: string;
   status: string;
 }
 
