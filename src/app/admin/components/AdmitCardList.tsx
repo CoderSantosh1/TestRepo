@@ -15,6 +15,7 @@ interface AdmitCard  {
   createdAt: string;
   description: string;
   ApplicationDate: string;
+  downloadAdmitcardLink: string;
 }
 
 export default function AdmitCardList() {
