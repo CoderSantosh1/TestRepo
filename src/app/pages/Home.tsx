@@ -74,7 +74,7 @@ export default function Home() {
               <a 
                 key={item._id}
                 href={`/${item.hasOwnProperty('resultDate') ? 'results' : item.hasOwnProperty('examDate') ? 'admit-cards' : 'jobs'}/${item._id}`}
-                className={`${item.hasOwnProperty('resultDate') ? 'bg-[#014F59] hover:bg-[#014F59]' : item.hasOwnProperty('examDate') ? 'bg-pink-500 hover:bg-pink-500' : 'bg-[#D62628] hover:bg-[#D62628]'}
+                className={`${item.hasOwnProperty('resultDate') ? 'bg-[#D62628] hover:bg-[#D62628]' : item.hasOwnProperty('applicationDeadline') ? 'bg-[#2563eb] hover:bg-[#2563eb]' : 'bg-[#059669] hover:bg-[#059669]'}
                 ite text-white rounded-lg w-[280px] h-[70px] text-center transition-colors flex items-center justify-center min-h-[75px]`}
               >
                 <div>
