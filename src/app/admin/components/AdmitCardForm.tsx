@@ -13,6 +13,7 @@ interface AdmitCardFormData {
   applicationDeadline: string;
   description: string;
   ApplicationDate: string;
+  downloadAdmitcardLink: string;
 }
 
 interface AdmitCardFormProps {
@@ -25,6 +26,7 @@ export default function AdmitCardForm({ initialData, onSubmit, onCancel }: Admit
   const [formData, setFormData] = useState<AdmitCardFormData>({
     title: initialData?.title || '',
     organization: initialData?.organization || '',
+    downloadAdmitcardLink: initialData?.downloadAdmitcardLink || '',
     location: initialData?.location || '',
     status: initialData?.status || 'draft',
     applicationDeadline: initialData?.applicationDeadline || '',
@@ -38,6 +40,7 @@ export default function AdmitCardForm({ initialData, onSubmit, onCancel }: Admit
     const newErrors: Partial<AdmitCardFormData> = {};
     if (!formData.title.trim()) newErrors.title = 'Title is required';
     if (!formData.organization.trim()) newErrors.organization = 'Organization is required';
+    if (!formData.downloadAdmitcardLink.trim()) newErrors.downloadAdmitcardLink = 'Download Admit Card Link is required';
     if (!formData.location.trim()) newErrors.location = 'Location is required';
     if (!formData.applicationDeadline) newErrors.applicationDeadline = 'Application deadline is required';
     setErrors(newErrors);
@@ -88,6 +91,17 @@ export default function AdmitCardForm({ initialData, onSubmit, onCancel }: Admit
             className={errors.organization ? 'border-red-500' : ''}
           />
           {errors.organization && <p className="text-red-500 text-sm mt-1">{errors.organization}</p>}
+        </div>
+        <div>
+          <label htmlFor="downloadAdmitcardLink" className=" block text-sm font-medium text-gray-700">Download Admit Card </label>
+          <Input
+            id="downloadAdmitcardLink"
+            name="downloadAdmitcardLink"
+            value={formData.downloadAdmitcardLink}
+            onChange={handleChange}
+            className={errors.downloadAdmitcardLink ? 'border-red-500' : ''}
+          />
+          {errors.downloadAdmitcardLink && <p className="text-red-500 text-sm mt-1">{errors.downloadAdmitcardLink}</p>}
         </div>
         <div>
           <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description</label>

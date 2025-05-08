@@ -11,6 +11,6 @@ export interface AdmitCard {
   category: string;
   location: string;
   status: string;
-  downloadLink: string;
+  downloadAdmitcardLink: string;
   createdAt: string;
 }

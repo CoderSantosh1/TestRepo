@@ -16,6 +16,7 @@ interface Job {
   status: string;
   applicationDeadline: string;
   createdAt: string;
+  applyJob: string;
 }
 
 export default function JobList() {
@@ -34,7 +35,8 @@ export default function JobList() {
         const data = await response.json();
         setJobs(data.data);
       } else {
-        console.error('Failed to fetch jobs');
+        const errorData = await response.json().catch(() => ({}));
+        console.error('Failed to fetch jobs:', errorData.message || 'Unknown error');
       }
     } catch (error) {
       console.error('Error fetching jobs:', error);

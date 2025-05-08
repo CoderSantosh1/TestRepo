@@ -94,7 +94,7 @@ export default function AdminAdmitCardDetail() {
         <div className="mt-6">
           <h2 className="text-gray-500">Download Link</h2>
           <a 
-            href={admitCard.downloadLink} 
+            href={admitCard.downloadAdmitcardLink} 
             target="_blank" 
             rel="noopener noreferrer"
             className="text-blue-600 hover:underline"

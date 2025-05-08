@@ -17,6 +17,7 @@ interface JobFormData {
   applicationDeadline: string;
   category: string;
   status: string;
+  applyJob: string;
 }
 
 interface AdmitCardFormData {
@@ -27,6 +28,7 @@ interface AdmitCardFormData {
   category: string;
   applicationDeadline: string;
   location: string;
+  downloadAdmitcardLink: string;
 }
 interface ResultFormData {
   title: string;
@@ -75,6 +77,7 @@ export default function AdminDashboard() {
     requirements: [],
     applicationDeadline: '',
     category: '',
+    applyJob: '',
     status: 'published'
   });
 
@@ -85,7 +88,8 @@ export default function AdminDashboard() {
     location: '',
     subtitle: '',
     applicationDeadline: '',
-    category: ''
+    category: '',
+    downloadAdmitcardLink: '',
   });
 
   const [resultsFormData, setResultsFormData] = useState<ResultFormData>({
@@ -124,6 +128,7 @@ export default function AdminDashboard() {
           requirements: [],
           applicationDeadline: '',
           category: '',
+          applyJob: '',
           status: 'published'
         });
       } else {
@@ -155,7 +160,8 @@ export default function AdminDashboard() {
           location: '',
           subtitle: '',
           applicationDeadline: '',
-          category: ''
+          category: '',
+          downloadAdmitcardLink: '',
         });
       } else {
         alert('Failed to post admit card');
@@ -283,6 +289,16 @@ export default function AdminDashboard() {
                     type="text"
                     value={jobFormData.location}
                     onChange={(e) => setJobFormData({...jobFormData, location: e.target.value})}
+                    className="w-full p-2 border rounded-md"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">Applay online link</label>
+                  <input
+                    type="text"
+                    value={jobFormData.applyJob}
+                    onChange={(e) => setJobFormData({...jobFormData, applyJob: e.target.value})}
                     className="w-full p-2 border rounded-md"
                     required
                   />
@@ -461,6 +477,15 @@ export default function AdminDashboard() {
                     value={admitCardFormData.description}
                     onChange={(e) => setAdmitCardFormData({...admitCardFormData, description: e.target.value})}
                     className="w-full p-2 border rounded-md h-32"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">Download Admit Card Link</label>
+                  <textarea
+                    value={admitCardFormData. downloadAdmitcardLink}
+                    onChange={(e) => setAdmitCardFormData({...admitCardFormData,  downloadAdmitcardLink: e.target.value})}
+                    className="w-full p-2 border rounded-md"
                     required
                   />
                 </div>

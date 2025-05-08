@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { connectToDatabase as connectDB } from '@/lib/db';
 import AdmitCard from '@/lib/models/AdmitCard';
 import mongoose from 'mongoose';
+import { log } from 'console';
 
 export const dynamic = 'force-dynamic';
 
@@ -19,9 +20,9 @@ export async function GET(
         { status: 400 }
       );
     }
-
+    
     const admitCard = await AdmitCard.findById(admitCardId);
-
+   
     if (!admitCard) {
       return NextResponse.json(
         { success: false, error: 'Admit card not found' },
@@ -58,7 +59,7 @@ export async function DELETE(
     }
 
     const admitCard = await AdmitCard.findByIdAndDelete(admitCardId);
-
+    
     if (!admitCard) {
       return NextResponse.json(
         { success: false, error: 'Admit card not found' },

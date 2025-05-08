@@ -26,7 +26,7 @@ export async function POST(request: Request) {
       status: 'published',
       createdAt: new Date(),
     });
-
+    console.log(body.downloadAdmitcardLink)
     await newAdmitCard.save();
 
     return NextResponse.json(

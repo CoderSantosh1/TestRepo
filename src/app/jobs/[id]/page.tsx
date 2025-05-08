@@ -16,6 +16,7 @@ interface Job {
   postedDate: string;
   deadline: string;
   status: string;
+  applyJob: string;
 }
 
 export default function JobDetail() {
@@ -170,7 +171,7 @@ export default function JobDetail() {
                   ← Back to Home
                 </button>
                 <button
-                  onClick={() => router.push(`/jobs/${job._id}/apply`)}
+                  onClick={() => router.push(job.applyJob)}
                   className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
                 >
                   Apply Now

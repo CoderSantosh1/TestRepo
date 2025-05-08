@@ -14,8 +14,8 @@ interface AdmitCard {
   organization: string;
   category: string;
   status: string;
-  downloadLink?: string;
   location: string;
+  downloadAdmitcardLink: string;
   requirements: string[];
 }
 
@@ -143,12 +143,15 @@ export default function AdmitCardDetails() {
                 >
                   ← Back to Home
                 </button>
-                <button
-                  onClick={() => router.push(`/jobs/${admitCard._id}/apply`)}
-                  className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-                >
-                  Apply Now
-                </button>
+                {admitCard.downloadAdmitcardLink && (
+                  <button
+                    onClick={() => window.open(admitCard.downloadAdmitcardLink, '_blank')}
+                    className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                  >
+                    Download Admit Card
+                  </button>
+                )}
+                
               </div>
             </div>
           </div>

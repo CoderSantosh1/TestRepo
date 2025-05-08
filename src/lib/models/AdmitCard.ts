@@ -34,6 +34,10 @@ const AdmitCardSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please provide a AdmitCard category'],
   },
+  downloadAdmitcardLink: {
+    type: String,
+    required: false,
+  },
   status: {
     type: String,
     enum: ['draft', 'published', 'closed'],

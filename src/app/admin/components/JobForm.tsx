@@ -11,6 +11,8 @@ interface JobFormData {
   location: string;
   status: string;
   applicationDeadline: string;
+  applyJob: string;
+  description?: string;
 }
 
 interface JobFormProps {
@@ -23,7 +25,9 @@ export default function JobForm({ initialData, onSubmit, onCancel }: JobFormProp
   const [formData, setFormData] = useState<JobFormData>({
     title: initialData?.title || '',
     organization: initialData?.organization || '',
+    applyJob: initialData?.applyJob || '',
     location: initialData?.location || '',
+    description: initialData?.description || '',
     status: initialData?.status || 'draft',
     applicationDeadline: initialData?.applicationDeadline || '',
   });
@@ -35,7 +39,9 @@ export default function JobForm({ initialData, onSubmit, onCancel }: JobFormProp
     if (!formData.title.trim()) newErrors.title = 'Title is required';
     if (!formData.organization.trim()) newErrors.organization = 'Organization is required';
     if (!formData.location.trim()) newErrors.location = 'Location is required';
+    if(!formData.applyJob.trim()) newErrors.applyJob = 'Apply Job is required';
     if (!formData.applicationDeadline) newErrors.applicationDeadline = 'Application deadline is required';
+    if(formData.description && !formData.description.trim()) newErrors.description = 'Description is required';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -47,7 +53,7 @@ export default function JobForm({ initialData, onSubmit, onCancel }: JobFormProp
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
     if (errors[name as keyof JobFormData]) {
@@ -83,7 +89,29 @@ export default function JobForm({ initialData, onSubmit, onCancel }: JobFormProp
           />
           {errors.organization && <p className="text-red-500 text-sm mt-1">{errors.organization}</p>}
         </div>
+        <div>
+          <label htmlFor="applyJob" className="block text-sm font-medium text-gray-700">Apply jobs link</label>
+          <Input
+            id="applyJob"
+            name="applyJob"
+            value={formData.applyJob}
+            onChange={handleChange}
+            className={errors.applyJob ? 'border-red-500' : ''}
+          />
+          {errors.applyJob && <p className="text-red-500 text-sm mt-1">{errors.applyJob}</p>}
+        </div>
 
+        <div>
+          <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description</label>
+          <textarea
+            id="description"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            
+            className="mt-1 p-2 border rounded-md w-full"
+          />
+        </div>
         <div>
           <label htmlFor="location" className="block text-sm font-medium text-gray-700">Location</label>
           <Input
