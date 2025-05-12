@@ -65,7 +65,6 @@ export default function ResultForm({ initialData, onSubmit, onCancel }: ResultFo
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
               className="w-full p-2 border rounded-md"
-              required
             />
           </div>
 
@@ -76,7 +75,6 @@ export default function ResultForm({ initialData, onSubmit, onCancel }: ResultFo
               value={formData.organization}
               onChange={(e) => setFormData({ ...formData, organization: e.target.value })}
               className="w-full p-2 border rounded-md"
-              required
             />
           </div>
                
@@ -86,7 +84,6 @@ export default function ResultForm({ initialData, onSubmit, onCancel }: ResultFo
               value={formData.category}
               onChange={(e) => setFormData({ ...formData, category: e.target.value })}
               className="w-full p-2 border rounded-md"
-              required
             >
               <option value="government">Government</option>
               <option value="private">Private</option>
@@ -102,7 +99,6 @@ export default function ResultForm({ initialData, onSubmit, onCancel }: ResultFo
               value={formData.resultDate}
               onChange={(e) => setFormData({ ...formData, resultDate: e.target.value })}
               className="w-full p-2 border rounded-md"
-              required
             />
           </div>
 
@@ -114,7 +110,6 @@ export default function ResultForm({ initialData, onSubmit, onCancel }: ResultFo
               onChange={(e) => setFormData({ ...formData, downloadLink: e.target.value })}
               className="w-full p-2 border rounded-md"
               placeholder="https://example.com/result"
-              required
             />
           </div>
 
@@ -133,7 +128,6 @@ export default function ResultForm({ initialData, onSubmit, onCancel }: ResultFo
               value={formData.status}
               onChange={(e) => setFormData({ ...formData, status: e.target.value })}
               className="w-full p-2 border rounded-md"
-              required
             >
               <option value="draft">Draft</option>
               <option value="published">Published</option>

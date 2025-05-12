@@ -36,33 +36,23 @@ export async function POST(request: Request) {
 
     // Validate title
     const title = body.title.trim();
-    if (title.length < 3 || title.length > 200) {
+    if (title.length < 3 || title.length > 2000) {
       return NextResponse.json(
         { success: false, error: 'Title must be between 3 and 200 characters' },
         { status: 400 }
       );
     }
-    if (!/^[\w\s\-.,()&]+$/.test(title)) {
-      return NextResponse.json(
-        { success: false, error: 'Title contains invalid characters' },
-        { status: 400 }
-      );
-    }
+   
 
     // Validate organization
     const organization = body.organization.trim();
-    if (organization.length < 2 || organization.length > 100) {
+    if (organization.length < 2 || organization.length > 1000) {
       return NextResponse.json(
         { success: false, error: 'Organization name must be between 2 and 100 characters' },
         { status: 400 }
       );
     }
-    if (!/^[\w\s\-.,()&]+$/.test(organization)) {
-      return NextResponse.json(
-        { success: false, error: 'Organization name contains invalid characters' },
-        { status: 400 }
-      );
-    }
+   
 
     // Validate category
     const validCategories = ['government', 'private', 'education', 'other'];
@@ -106,12 +96,7 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
-    if (!/^[\w\s\-.,()&?!"']+$/.test(description)) {
-      return NextResponse.json(
-        { success: false, error: 'Description contains invalid characters' },
-        { status: 400 }
-      );
-    }
+   
     
     const result = await Result.create({
       title: body.title,

@@ -3,16 +3,9 @@ import mongoose from 'mongoose';
 const ResultSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: [true, 'Please provide an exam name'],
+    required: [true, 'Please provide an title'],
     trim: true,
-    minlength: [3, 'Exam name must be at least 3 characters long'],
-    maxlength: [200, 'Exam name cannot exceed 200 characters'],
-    validate: {
-      validator: function(value: string) {
-        return /^[\w\s\-.,()&]+$/.test(value);
-      },
-      message: 'Exam name contains invalid characters'
-    }
+    
   },
   description: {
     type: String,
@@ -25,14 +18,7 @@ const ResultSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please provide an organization name'],
     trim: true,
-    minlength: [2, 'Organization name must be at least 2 characters long'],
-    maxlength: [100, 'Organization name cannot exceed 100 characters'],
-    validate: {
-      validator: function(value: string) {
-        return /^[\w\s\-.,()&]+$/.test(value);
-      },
-      message: 'Organization name contains invalid characters'
-    }
+   
   },
   resultDate: {
     type: Date,
