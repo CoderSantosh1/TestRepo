@@ -37,7 +37,7 @@ export default function AdminLoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+      <div className="bg-[#5723AB] p-8 rounded-lg shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center">Admin Login</h2>
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
@@ -65,9 +65,11 @@ export default function AdminLoginPage() {
               required
             />
           </div>
+          <div className='bg-[#A92E2E]'>
           <Button type="submit" className="w-full">
             Login
           </Button>
+          </div>
         </form>
       </div>
     </div>
