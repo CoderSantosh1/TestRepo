@@ -76,7 +76,7 @@ export default function Home() {
             {[...results.slice(0, 3), ...jobs.slice(0, 3), ...admitCards.slice(0, 2)].map((item) => (
               <a 
                 key={item._id}
-                href={`/${item.hasOwnProperty('resultDate') ? 'results' : item.hasOwnProperty('examDate') ? 'admit-cards' : 'jobs'}/${item._id}`}
+                href={`/${item.hasOwnProperty('resultDate') ? 'results' : item.hasOwnProperty('applicationDeadline') ? 'admit-cards' : 'jobs'}/${item._id}`}
                 className={`${item.hasOwnProperty('resultDate') ? 'bg-[#D62628] hover:bg-[#D62628]' : item.hasOwnProperty('applicationDeadline') ? 'bg-[#2563eb] hover:bg-[#2563eb]' : 'bg-[#059669] hover:bg-[#059669]'}
                 ite text-white rounded-lg w-[280px] h-[70px] text-center transition-colors flex items-center justify-center min-h-[75px]`}
               >

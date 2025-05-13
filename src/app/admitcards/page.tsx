@@ -21,7 +21,7 @@ export default function AdmitCardsPage() {
   useEffect(() => {
     const fetchAdmitCards = async () => {
       try {
-        const response = await fetch('/api/admitcards');
+        const response = await fetch('/api/admit-cards');
         if (!response.ok) {
           throw new Error('Failed to fetch admit cards');
         }
