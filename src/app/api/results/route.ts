@@ -143,11 +143,20 @@ export async function POST(request: Request) {
   }
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     await connectDB();
     
-    const results = await Result.find({ status: 'published' })
+    const url = new URL(request.url);
+    const statusFilter = url.searchParams.get('status');
+
+    let query: any = {}; // Use 'any' for query object flexibility or define a proper type
+    if (statusFilter && statusFilter.toLowerCase() !== 'all') {
+      query = { status: statusFilter };
+    }
+    // If statusFilter is 'all' or not provided, query remains empty {}, fetching all documents.
+
+    const results = await Result.find(query)
       .sort({ resultDate: -1 });
 
     // Map results to ensure all required fields are present in each object

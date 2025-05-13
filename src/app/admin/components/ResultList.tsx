@@ -32,7 +32,7 @@ export default function ResultList() {
   const fetchResults = async () => {
     try {
       setError(null);
-      const response = await fetch('/api/results');
+      const response = await fetch('/api/results?status=all');
       if (response.ok) {
         const data = await response.json();
         // Sort results in descending order based on createdAt
