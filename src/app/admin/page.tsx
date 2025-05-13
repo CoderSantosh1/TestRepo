@@ -413,7 +413,7 @@ export default function AdminDashboard() {
                  value={resultsFormData.category}
                  onChange={(e) => setResultsFormData({...resultsFormData, category: e.target.value})}
                  className="w-full p-2 border rounded-md"
-                 required
+                
                >
                  <option value="">Select a category</option>
                  <option value="government">Government</option>
