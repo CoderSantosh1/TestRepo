@@ -8,18 +8,21 @@ interface Job {
   _id: string;
   title: string;
   organization: string;
+  postedDate: string;
 }
 
 interface Result {
   _id: string;
   title: string;
   organization: string;
+  resultDate: string;
 }
 
 interface AdmitCard {
   _id: string;
   title: string;
   organization: string;
+  applicationDeadline: string;
 }
 
 export default function Home() {
@@ -43,9 +46,9 @@ export default function Home() {
           admitCardsRes.json()
         ]);
 
-        setJobs(jobsData.data || []);
-        setResults(resultsData.data || []);
-        setAdmitCards(admitCardsData.data || []);
+        setJobs(jobsData.data.sort((a: Job, b: Job) => new Date(b.postedDate).getTime() - new Date(a.postedDate).getTime()) || []);
+        setResults(resultsData.data.sort((a: Result, b: Result) => new Date(b.resultDate).getTime() - new Date(a.resultDate).getTime()) || []);
+        setAdmitCards(admitCardsData.data.sort((a: AdmitCard, b: AdmitCard) => new Date(b.applicationDeadline).getTime() - new Date(a.applicationDeadline).getTime()) || []);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
