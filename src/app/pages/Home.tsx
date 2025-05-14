@@ -3,6 +3,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useEffect, useState } from 'react';
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 interface Job {
   _id: string;
@@ -149,6 +150,7 @@ export default function Home() {
         </div>
       </main>
       <Footer />
+      <SpeedInsights />
     </>
   );
 }
