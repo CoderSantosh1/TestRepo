@@ -72,22 +72,41 @@ export default function Home() {
       <Header />
       <main className="flex flex-col items-center justify-center bg-[#FFFBD9] mt-2 w-10/14 max-w-7xl mx-auto px-4">
         <div className="max-w-7xl mx-auto  sm:px-6 py-2 space-y-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-            {[...results.slice(0, 3), ...jobs.slice(0, 3), ...admitCards.slice(0, 2)].map((item) => (
+          <div className="grid grid-cols-2 gap-2">
+            {results.slice(0, 2).map((item) => (
               <a 
                 key={item._id}
-                href={`/${item.hasOwnProperty('resultDate') ? 'results' : item.hasOwnProperty('applicationDeadline') ? 'admit-cards' : 'jobs'}/${item._id}`}
-                className={`${item.hasOwnProperty('resultDate') ? 'bg-[#D62628] hover:bg-[#D62628]' : item.hasOwnProperty('applicationDeadline') ? 'bg-[#2563eb] hover:bg-[#2563eb]' : 'bg-[#059669] hover:bg-[#059669]'}
-                ite text-white rounded-lg w-[280px] h-[70px] text-center transition-colors flex items-center justify-center min-h-[75px]`}
+                href={`/results/${item._id}`}
+                className="bg-[#D62628] hover:bg-[#D62628] ite text-white rounded-lg text-center transition-colors flex items-center justify-center"
               >
                 <div>
                   <div className="text-base md:text-lg font-semibold">{item.organization}</div>
                 </div>
               </a>
             ))}
-            
+            {jobs.slice(0, 2).map((item) => (
+              <a 
+                key={item._id}
+                href={`/jobs/${item._id}`}
+                className="bg-[#059669] hover:bg-[#059669] ite text-white rounded-lg text-center transition-colors flex items-center justify-center"
+              >
+                <div>
+                  <div className="text-base md:text-lg font-semibold">{item.organization}</div>
+                </div>
+              </a>
+            ))}
+            {admitCards.slice(0, 2).map((item) => (
+              <a 
+                key={item._id}
+                href={`/admit-cards/${item._id}`}
+                className="bg-[#2563eb] hover:bg-[#2563eb] ite text-white rounded-lg text-center transition-colors flex items-center justify-center"
+              >
+                <div>
+                  <div className="text-base md:text-lg font-semibold">{item.organization}</div>
+                </div>
+              </a>
+            ))}
           </div>
-
           <div className="overflow-x-auto">
             <table className="min-w-full table-auto border-collapse border border-orange-500">
               <thead>
