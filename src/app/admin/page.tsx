@@ -6,6 +6,20 @@ import { Button } from '@/components/ui/button';
 import JobList from './components/JobList';
 import ResultList from './components/ResultList';
 import AdmitCard from './components/AdmitCardList';
+import NewsList from './components/NewsList';
+import AnswerKeyForm from './components/AnswerKeyForm';
+import AnswerKeyList from './components/AnswerKeyList'; // Import the new list component
+import AdmissionForm, { AdmissionFormData as AdmissionFormDataType } from './components/AdmissionForm';
+import AdmissionList from './components/AdmissionList'; // Import AdmissionList
+
+interface NewsFormData {
+  title: string;
+  content: string;
+  organization: string;
+  category: string;
+  status: string;
+  publishDate: string;
+}
 
 interface JobFormData {
   title: string;
@@ -40,7 +54,7 @@ interface ResultFormData {
   status: string;
 }
 
-type TabType = 'jobs' | 'results' | 'admit-cards';
+type TabType = 'jobs' | 'results' | 'admit-cards' | 'news' | 'answer-keys' | 'admissions';
 
 export default function AdminDashboard() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -92,6 +106,15 @@ export default function AdminDashboard() {
     downloadAdmitcardLink: '',
   });
 
+  const [newsFormData, setNewsFormData] = useState<NewsFormData>({
+    title: '',
+    content: '',
+    organization: '',
+    category: '',
+    status: 'published',
+    publishDate: new Date().toISOString().split('T')[0]
+  });
+
   const [resultsFormData, setResultsFormData] = useState<ResultFormData>({
     title: '',
     organization: '',
@@ -99,6 +122,31 @@ export default function AdminDashboard() {
     category: '',
     downloadLink: '',
     description: '',
+    status: 'published'
+  });
+
+  const [answerKeyFormData, setAnswerKeyFormData] = useState({
+    title: '',
+    organization: '',
+    examDate: '',
+    category: '',
+    downloadLink: '',
+    description: '',
+    content: '', // Added content field
+    status: 'published'
+  });
+
+  const [answerKeyListRefreshKey, setAnswerKeyListRefreshKey] = useState(0);
+  const [admissionListRefreshKey, setAdmissionListRefreshKey] = useState(0); // Added for admissions list
+
+  const [admissionFormData, setAdmissionFormData] = useState<AdmissionFormDataType>({
+    title: '',
+    organization: '',
+    applicationDeadline: '', // Changed from admissionDate and ensured it's present
+    category: '',
+    description: '',
+    content: '', // Added missing content field
+    applicationLink: '',
     status: 'published'
   });
 
@@ -174,6 +222,36 @@ export default function AdminDashboard() {
 
 
 
+  const handleNewsSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('/api/news', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newsFormData),
+      });
+
+      if (response.ok) {
+        alert('News posted successfully!');
+        setNewsFormData({
+          title: '',
+          content: '',
+          organization: '',
+          category: '',
+          status: 'published',
+          publishDate: new Date().toISOString().split('T')[0]
+        });
+      } else {
+        alert('Failed to post news');
+      }
+    } catch (error) {
+      console.error('Error posting news:', error);
+      alert('Error posting news');
+    }
+  };
+
   const handleResultSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -205,24 +283,84 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleAnswerKeyFormSuccess = () => {
+    setAnswerKeyListRefreshKey(prev => prev + 1); // Trigger list refresh
+    // The form itself now handles resetting its state on successful creation via its own internal logic triggered by onSubmit completing without initialData
+  };
+
+  // This function will be passed as the onSubmit prop to AnswerKeyForm for creating new entries
+  const handleCreateAnswerKey = async (data: any) => { // 'data' comes from AnswerKeyForm
+    try {
+      const response = await fetch('/api/answer-keys', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data), // Use data from the form
+      });
+
+      if (response.ok) {
+        alert('Answer key posted successfully!');
+        // No need to reset answerKeyFormData here, AnswerKeyForm handles its own state reset on success for create mode
+        // onSuccess (handleAnswerKeyFormSuccess) will be called by AnswerKeyForm to refresh the list
+      } else {
+        const errorData = await response.json().catch(() => ({}));
+        alert(`Failed to post answer key: ${errorData.message || response.statusText}`);
+      }
+    } catch (error) {
+      console.error('Error posting answer key:', error);
+      alert('Error posting answer key');
+    }
+  };
+
+  const handleAdmissionSubmit = async (data: AdmissionFormDataType) => {
+    try {
+      const response = await fetch('/api/admissions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        alert('Admission posted successfully!');
+        setAdmissionFormData({
+          title: '',
+          organization: '',
+          applicationDeadline: '', // Corrected from admissionDate
+          category: '',
+          description: '',
+          content: '', // Added content field
+          applicationLink: '',
+          status: 'published'
+        });
+      } else {
+        alert('Failed to post admission');
+      }
+    } catch (error) {
+      console.error('Error posting admission:', error);
+      alert('Error posting admission');
+    }
+  };
+
   const tabs = [
     { id: 'jobs' as TabType, label: 'Jobs' },
     { id: 'results' as TabType, label: 'Results' },
     { id: 'admit-cards' as TabType, label: 'Admit Cards' },
+    { id: 'news' as TabType, label: 'News' },
+    { id: 'answer-keys' as TabType, label: 'Answer Keys' },
+    { id: 'admissions' as TabType, label: 'Admissions' },
   ];
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-8">
-  <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-  <Button
-    variant="outline"
-    onClick={handleLogout}
-    className="text-red-600 hover:text-red-700"
-  >
-    Logout
-  </Button>
-</div>
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+          <Button onClick={handleLogout} variant="outline">
+            Logout
+          </Button>
+        </div>
       
       <div className="mb-6">
         <div className="border-b border-gray-200">
@@ -443,14 +581,100 @@ export default function AdminDashboard() {
      </>
       )}
 
+      {activeTab === 'news' && (
+        <>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <h2 className="text-2xl font-semibold mb-6">Post News</h2>
+              <form onSubmit={handleNewsSubmit} className="space-y-6">
+                <div>
+                  <label className="block text-sm font-medium mb-2">Title</label>
+                  <input
+                    type="text"
+                    value={newsFormData.title}
+                    onChange={(e) => setNewsFormData({...newsFormData, title: e.target.value})}
+                    className="w-full p-2 border rounded-md"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-2">Organization</label>
+                  <input
+                    type="text"
+                    value={newsFormData.organization}
+                    onChange={(e) => setNewsFormData({...newsFormData, organization: e.target.value})}
+                    className="w-full p-2 border rounded-md"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-2">Content</label>
+                  <textarea
+                    value={newsFormData.content}
+                    onChange={(e) => setNewsFormData({...newsFormData, content: e.target.value})}
+                    className="w-full p-2 border rounded-md h-32"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-2">Category</label>
+                  <select
+                    value={newsFormData.category}
+                    onChange={(e) => setNewsFormData({...newsFormData, category: e.target.value})}
+                    className="w-full p-2 border rounded-md"
+                    required
+                  >
+                    <option value="">Select a category</option>
+                    <option value="government">Government</option>
+                    <option value="private">Private</option>
+                    <option value="education">Education</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-2">Publish Date</label>
+                  <input
+                    type="date"
+                    value={newsFormData.publishDate}
+                    onChange={(e) => setNewsFormData({...newsFormData, publishDate: e.target.value})}
+                    className="w-full p-2 border rounded-md"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-2">Status</label>
+                  <select
+                    className="w-full p-2 border rounded-md"
+                    value={newsFormData.status}
+                    onChange={(e) => setNewsFormData({...newsFormData, status: e.target.value})}
+                    required
+                  >
+                    <option value="published">Published</option>
+                    <option value="draft">Draft</option>
+                  </select>
+                </div>
+
+                <Button type="submit" className="w-full">Post News</Button>
+              </form>
+            </div>
+            <NewsList />
+          </div>
+        </>
+      )}
+
       {activeTab === 'admit-cards' && (
         <>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className="bg-white  rounded-lg shadow-lg p-6">
-              <h2 className="text-2xl font-semibold mb-6">Post AdmitCard</h2>
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <h2 className="text-2xl font-semibold mb-6">Post New Admit Card</h2>
               <form onSubmit={handleAdmitCardSubmit} className="space-y-6">
                 <div>
-                  <label className="block text-sm font-medium mb-2">Admitcard Title </label>
+                  <label className="block text-sm font-medium mb-2">Title</label>
                   <input
                     type="text"
                     value={admitCardFormData.title}
@@ -480,11 +704,13 @@ export default function AdminDashboard() {
                     required
                   />
                 </div>
+
                 <div>
-                  <label className="block text-sm font-medium mb-2">Download Admit Card Link</label>
-                  <textarea
-                    value={admitCardFormData. downloadAdmitcardLink}
-                    onChange={(e) => setAdmitCardFormData({...admitCardFormData,  downloadAdmitcardLink: e.target.value})}
+                  <label className="block text-sm font-medium mb-2">Download Link</label>
+                  <input
+                    type="text"
+                    value={admitCardFormData.downloadAdmitcardLink}
+                    onChange={(e) => setAdmitCardFormData({...admitCardFormData, downloadAdmitcardLink: e.target.value})}
                     className="w-full p-2 border rounded-md"
                     required
                   />
@@ -502,24 +728,30 @@ export default function AdminDashboard() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">Subtitle (Optional)</label>
+                  <label className="block text-sm font-medium mb-2">Subtitle</label>
                   <input
                     type="text"
                     value={admitCardFormData.subtitle}
                     onChange={(e) => setAdmitCardFormData({...admitCardFormData, subtitle: e.target.value})}
                     className="w-full p-2 border rounded-md"
+                    required
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium mb-2">Category</label>
-                  <input
-                    type="text"
+                  <select
                     value={admitCardFormData.category}
                     onChange={(e) => setAdmitCardFormData({...admitCardFormData, category: e.target.value})}
                     className="w-full p-2 border rounded-md"
                     required
-                  />
+                  >
+                    <option value="">Select a category</option>
+                    <option value="government">Government</option>
+                    <option value="private">Private</option>
+                    <option value="education">Education</option>
+                    <option value="other">Other</option>
+                  </select>
                 </div>
 
                 <div>
@@ -533,10 +765,57 @@ export default function AdminDashboard() {
                   />
                 </div>
 
-                <Button type="submit" className="w-full">Post AdmitCard</Button>
+                <Button type="submit" className="w-full">Post Admit Card</Button>
               </form>
             </div>
             <AdmitCard />
+          </div>
+        </>
+      )}
+      {activeTab === 'answer-keys' && (
+        <>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              {/* AnswerKeyForm is now used for creating new answer keys */}
+              {/* It handles its own state and submission logic */}
+              {/* We pass handleCreateAnswerKey as onSubmit and handleAnswerKeyFormSuccess as onSuccess */}
+              <AnswerKeyForm 
+                onSubmit={handleCreateAnswerKey} 
+                onSuccess={handleAnswerKeyFormSuccess} 
+              />
+            </div>
+            <AnswerKeyList key={answerKeyListRefreshKey} /> {/* Refresh key ensures list updates */}
+          </div>
+        </>
+      )}
+      {activeTab === 'admissions' && (
+        <>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <h2 className="text-2xl font-semibold mb-6">Post New Admission</h2>
+              {/* AdmissionForm for creating new admissions */}
+              {/* We pass handleAdmissionSubmit for creation, and a key to reset the form if needed */}
+              {/* The form itself should handle its state, including resetting after successful submission */}
+              <AdmissionForm 
+                onSubmit={handleAdmissionSubmit} 
+                initialData={admissionFormData} // This is for the create form's initial state
+                onCancel={() => { 
+                  // Reset form data if cancellation means clearing the form
+                  setAdmissionFormData({
+                    title: '',
+                    organization: '',
+                    applicationDeadline: '',
+                    category: '',
+                    description: '',
+                    content: '',
+                    applicationLink: '',
+                    status: 'published'
+                  });
+                }}
+              />
+            </div>
+            {/* AdmissionList to display existing admissions */}
+            <AdmissionList key={admissionListRefreshKey} />
           </div>
         </>
       )}
