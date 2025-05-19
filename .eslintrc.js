@@ -7,9 +7,3 @@ module.exports = {
     // Add your custom rules here
   },
 };
-
-// Remove deprecated options
-module.exports = {
-  useEslintrc: false,
-  extensions: false,
-};
