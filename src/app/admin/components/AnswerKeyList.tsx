@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import AnswerKeyForm from './AnswerKeyForm'; // Import the refactored form
+import AnswerKeyForm from './AnswerKeyForm';
 
 interface AnswerKey {
   _id: string;
@@ -31,17 +31,14 @@ export default function AnswerKeyList() {
     setLoading(true);
     try {
       const response = await fetch('/api/answer-keys');
-      if (response.ok) {
-        const data = await response.json();
-        setAnswerKeys(data.data || []); // Ensure data.data is not undefined
-      } else {
-        const errorData = await response.json().catch(() => ({}));
-        console.error('Failed to fetch answer keys:', errorData.message || 'Unknown error');
-        setAnswerKeys([]); // Set to empty array on error
+      const data = await response.json();
+      setAnswerKeys(response.ok ? data.data || [] : []);
+      if (!response.ok) {
+        console.error('Failed to fetch answer keys:', data.message || 'Unknown error');
       }
     } catch (error) {
       console.error('Error fetching answer keys:', error);
-      setAnswerKeys([]); // Set to empty array on error
+      setAnswerKeys([]);
     } finally {
       setLoading(false);
     }
@@ -51,16 +48,13 @@ export default function AnswerKeyList() {
     setEditingAnswerKey(answerKey);
   };
 
-  const handleUpdate = async (data: Omit<AnswerKey, '_id' | 'createdAt' | 'examDate'> & { examDate: string }) => { // Ensure examDate is string for API
+  const handleUpdate = async (data: Omit<AnswerKey, '_id' | 'createdAt' | 'examDate'> & { examDate: string }) => {
     if (!editingAnswerKey) return;
 
-    // Ensure content is part of the data being sent for update
     const updateData = {
-        ...data,
-        content: data.content || editingAnswerKey.content, // Use new content or fallback to existing if not provided in form (though it should be)
+      ...data,
+      content: data.content || editingAnswerKey.content,
     };
-
-    if (!editingAnswerKey) return;
 
     try {
       const response = await fetch(`/api/answer-keys/${editingAnswerKey._id}`, {
@@ -68,21 +62,20 @@ export default function AnswerKeyList() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(updateData),
       });
 
       if (response.ok) {
         const updatedAnswerKey = await response.json();
-        setAnswerKeys(answerKeys.map(ak => 
+        setAnswerKeys(answerKeys.map(ak =>
           ak._id === editingAnswerKey._id ? { ...ak, ...updatedAnswerKey.data } : ak
         ));
         setEditingAnswerKey(null);
         alert('Answer key updated successfully');
-        fetchAnswerKeys(); // Re-fetch to ensure list is up-to-date
+        fetchAnswerKeys(); // Optionally refetch if the list is affected by external changes
       } else {
         const errorData = await response.json().catch(() => ({}));
         alert(`Failed to update answer key: ${errorData.message || response.statusText}`);
-        alert('Failed to update answer key');
       }
     } catch (error) {
       console.error('Error updating answer key:', error);
@@ -92,12 +85,12 @@ export default function AnswerKeyList() {
 
   const handleDelete = async (answerKeyId: string) => {
     if (!confirm('Are you sure you want to delete this answer key?')) return;
-    
+
     try {
       const response = await fetch(`/api/answer-keys/${answerKeyId}`, {
         method: 'DELETE',
       });
-      
+
       if (response.ok) {
         setAnswerKeys(answerKeys.filter(ak => ak._id !== answerKeyId));
         alert('Answer key deleted successfully');
@@ -134,11 +127,11 @@ export default function AnswerKeyList() {
                 Exam Date: {new Date(answerKey.examDate).toLocaleDateString()}
               </p>
               <p className="text-sm text-gray-700 mt-1 truncate">Description: {answerKey.description}</p>
-              {answerKey.downloadLink && 
+              {answerKey.downloadLink && (
                 <p className="text-sm text-blue-600 hover:underline mt-1">
                   <span>Download Link</span>
                 </p>
-              }
+              )}
               <div className="mt-2 flex items-center justify-between">
                 <span className="text-xs text-gray-500 dark:text-gray-400">
                   Posted: {new Date(answerKey.createdAt).toLocaleDateString()}
@@ -150,18 +143,14 @@ export default function AnswerKeyList() {
                 </span>
               </div>
               <div className="mt-3 flex gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handleEdit(answerKey)}
-                >
+                <Button variant="outline" size="sm" onClick={(e) => { e.preventDefault(); handleEdit(answerKey); }}>
                   Edit
                 </Button>
                 <Button
                   variant="outline"
                   size="sm"
                   className="text-red-600 hover:text-red-700"
-                  onClick={() => handleDelete(answerKey._id)}
+                  onClick={(e) => { e.preventDefault(); handleDelete(answerKey._id); }}
                 >
                   Delete
                 </Button>
@@ -177,12 +166,9 @@ export default function AnswerKeyList() {
             <AnswerKeyForm
               initialData={editingAnswerKey}
               onSubmit={async (data) => {
-                // Explicitly cast data to the expected type for handleUpdate
-                // Ensure all fields required by handleUpdate are present
                 const formattedData = {
                   ...data,
-                  examDate: data.examDate, // Already a string from the form
-                  // Ensure other fields like 'content' are correctly passed if they are part of 'data'
+                  examDate: data.examDate,
                 } as Omit<AnswerKey, '_id' | 'createdAt' | 'examDate'> & { examDate: string };
                 await handleUpdate(formattedData);
               }}
