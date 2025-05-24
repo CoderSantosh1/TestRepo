@@ -29,6 +29,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 >
                   Results
                 </a>
+                <a
+                  href="/admin"
+                  className="text-gray-900 dark:text-white hover:text-blue-500 px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  News
+                </a>
               </div>
             </div>
           </div>
