@@ -233,7 +233,7 @@ export default function Home() {
                       </td>
                       <td className="p-2 md:p-3 border-x text-sm md:text-base">
                         {admissions[index] ? (
-                          <a href={`/admissions/${admissions[index]._id}`} className="text-[#014F59] hover:underline hover:text-blue-800">
+                          <a href={`/admissions/${admissions[index]._id}`} target="_blank" rel="noopener noreferrer" className="text-[#014F59] hover:underline hover:text-blue-800">
                             {admissions[index].title}
                           </a>
                         ) : "-"}

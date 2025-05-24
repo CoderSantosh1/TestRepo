@@ -33,7 +33,7 @@ export default function AdmissionDetails() {
       }
 
       try {
-        const response = await fetch(`/api/admission/${params.id}`);
+        const response = await fetch(`/api/admissions/${params.id}`);
         if (!response.ok) {
           throw new Error('Admission not found');
         }
