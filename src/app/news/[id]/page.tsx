@@ -142,7 +142,7 @@ export default function NewsDetail() {
                 onClick={() => router.back()}
                 className="text-gray-600 hover:text-gray-900"
               >
-                ← Back to Home
+                ← 
               </button>
               <div className="text-sm text-gray-500">
                 Category: {news.category}

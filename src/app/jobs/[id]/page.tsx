@@ -168,7 +168,7 @@ export default function JobDetail() {
                   onClick={() => router.back()}
                   className="text-gray-600 hover:text-gray-900"
                 >
-                  ← Back to Home
+                  ← 
                 </button>
                 <button
                   onClick={() => router.push(job.applyJob)}
