@@ -69,7 +69,7 @@ export default function AdmissionDetails() {
   if (!admission) {
     return (
       <div className="p-8">
-        <div className="text-gray-500 mb-4">Admission not found</div>
+        <div className="text-black-500 mb-4">Admission not found</div>
         <Link href="/admissions">
           <Button variant="outline">Back to Admissions</Button>
         </Link>
@@ -86,37 +86,37 @@ export default function AdmissionDetails() {
 
         <div className="grid gap-4 mb-6">
           <div>
-            <h2 className="text-lg font-semibold text-gray-700">Organization</h2>
+            <h2 className="text-lg font-semibold text-black-700">Organization</h2>
             <p className="text-gray-600">{admission.organization}</p>
           </div>
 
           <div>
-            <h2 className="text-lg font-semibold text-gray-700">Category</h2>
+            <h2 className="text-lg font-semibold text-black-700">Category</h2>
             <p className="text-gray-600">{admission.category}</p>
           </div>
 
           <div>
-            <h2 className="text-lg font-semibold text-gray-700">Exam Date</h2>
+            <h2 className="text-lg font-semibold text-black-700">Exam Date</h2>
             <p className="text-gray-600">
               {new Date(admission.examDate).toLocaleDateString()}
             </p>
           </div>
 
           <div>
-            <h2 className="text-lg font-semibold text-gray-700">Description</h2>
+            <h2 className="text-lg font-semibold text-black-700">Description</h2>
             <p className="text-gray-600">{admission.description}</p>
           </div>
 
           <div>
-            <h2 className="text-lg font-semibold text-gray-700">Content</h2>
+            <h2 className="text-lg font-semibold text-black-700">Content</h2>
             <div className="bg-gray-50 p-4 rounded-md">
-              <pre className="whitespace-pre-wrap text-gray-600">{admission.content}</pre>
+              <pre className="whitespace-pre-wrap text-black-600">{admission.content}</pre>
             </div>
           </div>
 
           {admission.downloadLink && (
             <div>
-              <h2 className="text-lg font-semibold text-gray-700">Download</h2>
+              <h2 className="text-lg font-semibold text-black-700">Download</h2>
               <a
                 href={admission.downloadLink}
                 target="_blank"
