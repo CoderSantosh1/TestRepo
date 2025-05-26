@@ -129,7 +129,7 @@ export default function AdmissionDetails() {
           )}
 
           <div className="flex items-center justify-between">
-        <Link href="/admissions">
+        <Link href="/">
           <Button variant="outline" size="sm">
             ← Back to Admissions
           </Button>
