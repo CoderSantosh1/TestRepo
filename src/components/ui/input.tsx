@@ -24,7 +24,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           dark:text-white
           placeholder-gray-500
           bg-white
-          dark:bg-gray-800
+          
           focus:outline-none
           focus:ring-2
           focus:ring-blue-500
