@@ -95,7 +95,7 @@ export default function JobForm({ initialData, onSubmit, onCancel }: JobFormProp
         <h2 className="text-xl font-semibold mb-4">{initialData ? 'Edit Job' : 'Post New Job'}</h2>
 
         <div>
-          <label htmlFor="title" className="block text-sm font-medium text-gray-700">Title</label>
+          <label htmlFor="title" className="block text-sm bg-white font-medium text-gray-700">Title</label>
           <Input
             id="title"
             name="title"
