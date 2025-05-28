@@ -13,11 +13,23 @@ interface JobFormData {
   applicationDeadline: string;
   applyJob: string;
   description?: string;
+  category?: string;
+  salary?: string;
+  requirements?: string[] | string; // Allow both array and comma-separated string
+  applicationBeginDate?: string;
+  lastDateApplyOnline?: string;
+  formCompleteLastDate?: string;
+  correctionDate?: string;
+  examDate?: string;
+  admitCardDate?: string;
+  applicationFeeGeneral?: string;
+  applicationFeeSCST?: string;
+  paymentMethod?: string;
 }
 
 interface JobFormProps {
-  initialData?: JobFormData;
-  onSubmit: (data: JobFormData) => void;
+  initialData?: JobFormData; // This will now correctly accept requirements as string[] from JobList
+  onSubmit: (data: Omit<JobFormData, 'requirements'> & { requirements?: string[] }) => void; // Ensure onSubmit gets requirements as string[]
   onCancel: () => void;
 }
 
@@ -30,6 +42,18 @@ export default function JobForm({ initialData, onSubmit, onCancel }: JobFormProp
     description: initialData?.description || '',
     status: initialData?.status || 'draft',
     applicationDeadline: initialData?.applicationDeadline || '',
+    category: initialData?.category || '',
+    salary: initialData?.salary || '',
+    requirements: initialData?.requirements ? (Array.isArray(initialData.requirements) ? initialData.requirements.join(', ') : initialData.requirements as string) : '',
+    applicationBeginDate: initialData?.applicationBeginDate || '',
+    lastDateApplyOnline: initialData?.lastDateApplyOnline || '',
+    formCompleteLastDate: initialData?.formCompleteLastDate || '',
+    correctionDate: initialData?.correctionDate || '',
+    examDate: initialData?.examDate || '',
+    admitCardDate: initialData?.admitCardDate || '',
+    applicationFeeGeneral: initialData?.applicationFeeGeneral || '',
+    applicationFeeSCST: initialData?.applicationFeeSCST || '',
+    paymentMethod: initialData?.paymentMethod || '',
   });
 
   const [errors, setErrors] = useState<Partial<JobFormData>>({});
@@ -49,7 +73,11 @@ export default function JobForm({ initialData, onSubmit, onCancel }: JobFormProp
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
-      onSubmit(formData);
+      const dataToSubmit = {
+        ...formData,
+        requirements: typeof formData.requirements === 'string' ? formData.requirements.split(',').map(req => req.trim()) : (Array.isArray(formData.requirements) ? formData.requirements : []),
+      };
+      onSubmit(dataToSubmit);
     }
   };
 
@@ -154,6 +182,74 @@ export default function JobForm({ initialData, onSubmit, onCancel }: JobFormProp
             <p className="text-red-500 text-sm mt-1">{errors.applicationDeadline}</p>
           )}
         </div>
+
+        {/* Fields formerly conditional, now always shown */}
+        <>
+
+        <div>
+          <label htmlFor="category" className="block text-sm font-medium text-gray-700">Category</label>
+          <Input id="category" name="category" value={formData.category} onChange={handleChange} />
+        </div>
+
+        <div>
+          <label htmlFor="salary" className="block text-sm font-medium text-gray-700">Salary</label>
+          <Input id="salary" name="salary" value={formData.salary} onChange={handleChange} />
+        </div>
+
+        <div>
+          <label htmlFor="requirements" className="block text-sm font-medium text-gray-700">Requirements (comma-separated)</label>
+          <Input id="requirements" name="requirements" value={formData.requirements} onChange={handleChange} />
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="applicationBeginDate" className="block text-sm font-medium text-gray-700">Application Begin Date</label>
+            <Input id="applicationBeginDate" name="applicationBeginDate" type="date" value={formData.applicationBeginDate} onChange={handleChange} />
+          </div>
+          <div>
+            <label htmlFor="lastDateApplyOnline" className="block text-sm font-medium text-gray-700">Last Date to Apply Online</label>
+            <Input id="lastDateApplyOnline" name="lastDateApplyOnline" type="date" value={formData.lastDateApplyOnline} onChange={handleChange} />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="formCompleteLastDate" className="block text-sm font-medium text-gray-700">Form Complete Last Date</label>
+            <Input id="formCompleteLastDate" name="formCompleteLastDate" type="date" value={formData.formCompleteLastDate} onChange={handleChange} />
+          </div>
+          <div>
+            <label htmlFor="correctionDate" className="block text-sm font-medium text-gray-700">Correction Date</label>
+            <Input id="correctionDate" name="correctionDate" value={formData.correctionDate} onChange={handleChange} placeholder="e.g., May 2025" />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="examDate" className="block text-sm font-medium text-gray-700">Exam Date</label>
+            <Input id="examDate" name="examDate" value={formData.examDate} onChange={handleChange} placeholder="e.g., June / July"/>
+          </div>
+          <div>
+            <label htmlFor="admitCardDate" className="block text-sm font-medium text-gray-700">Admit Card Available</label>
+            <Input id="admitCardDate" name="admitCardDate" value={formData.admitCardDate} onChange={handleChange} placeholder="e.g., Before Exam" />
+          </div>
+        </div>
+
+        <div>
+          <label htmlFor="applicationFeeGeneral" className="block text-sm font-medium text-gray-700">Application Fee (General/OBC/EWS)</label>
+          <Input id="applicationFeeGeneral" name="applicationFeeGeneral" value={formData.applicationFeeGeneral} onChange={handleChange} placeholder="e.g., 600/-" />
+        </div>
+
+        <div>
+          <label htmlFor="applicationFeeSCST" className="block text-sm font-medium text-gray-700">Application Fee (SC/ST)</label>
+          <Input id="applicationFeeSCST" name="applicationFeeSCST" value={formData.applicationFeeSCST} onChange={handleChange} placeholder="e.g., 400/-" />
+        </div>
+
+        <div>
+          <label htmlFor="paymentMethod" className="block text-sm font-medium text-gray-700">Payment Method</label>
+          <Input id="paymentMethod" name="paymentMethod" value={formData.paymentMethod} onChange={handleChange} />
+        </div>
+        </>
+        {/* Fields formerly conditional, now always shown */}
 
         <div className="flex justify-end space-x-2 pt-4">
           <Button type="button" variant="outline" onClick={onCancel}>

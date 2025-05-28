@@ -51,6 +51,42 @@ const jobSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  applicationBeginDate: {
+    type: String,
+    required: false,
+  },
+  lastDateApplyOnline: {
+    type: String,
+    required: false,
+  },
+  formCompleteLastDate: {
+    type: String,
+    required: false,
+  },
+  correctionDate: {
+    type: String,
+    required: false,
+  },
+  examDate: {
+    type: String,
+    required: false,
+  },
+  admitCardDate: {
+    type: String,
+    required: false,
+  },
+  applicationFeeGeneral: {
+    type: String,
+    required: false,
+  },
+  applicationFeeSCST: {
+    type: String,
+    required: false,
+  },
+  paymentMethod: {
+    type: String,
+    required: false,
+  },
 });
 
 const Job = mongoose.models.Job || mongoose.model('Job', jobSchema);

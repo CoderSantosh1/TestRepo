@@ -8,9 +8,10 @@ import ResultList from './components/ResultList';
 import AdmitCard from './components/AdmitCardList';
 import NewsList from './components/NewsList';
 import AnswerKeyForm from './components/AnswerKeyForm';
-import AnswerKeyList from './components/AnswerKeyList'; // Import the new list component
+import AnswerKeyList from './components/AnswerKeyList';
 import AdmissionForm, { AdmissionFormData as AdmissionFormDataType } from './components/AdmissionForm';
-import AdmissionList from './components/AdmissionList'; // Import AdmissionList
+import AdmissionList from './components/AdmissionList'; 
+import JobForm from './components/JobForm'; 
 
 interface NewsFormData {
   title: string;
@@ -23,15 +24,24 @@ interface NewsFormData {
 
 interface JobFormData {
   title: string;
-  description: string;
   organization: string;
   location: string;
-  salary: string;
-  requirements: string[];
-  applicationDeadline: string;
-  category: string;
   status: string;
+  applicationDeadline: string;
   applyJob: string;
+  description?: string;
+  category?: string;
+  salary?: string;
+  requirements?: string[] | string; // Allow both array and comma-separated string
+  applicationBeginDate?: string;
+  lastDateApplyOnline?: string;
+  formCompleteLastDate?: string;
+  correctionDate?: string;
+  examDate?: string;
+  admitCardDate?: string;
+  applicationFeeGeneral?: string;
+  applicationFeeSCST?: string;
+  paymentMethod?: string;
 }
 
 interface AdmitCardFormData {
@@ -84,15 +94,24 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<TabType>('jobs');
   const [jobFormData, setJobFormData] = useState<JobFormData>({
     title: '',
-    description: '',
     organization: '',
     location: '',
-    salary: '',
-    requirements: [],
+    status: 'published',
     applicationDeadline: '',
-    category: '',
     applyJob: '',
-    status: 'published'
+    description: '',
+    category: '',
+    salary: '',
+    requirements: '', // Initialize as empty string, JobForm will handle conversion
+    applicationBeginDate: '',
+    lastDateApplyOnline: '',
+    formCompleteLastDate: '',
+    correctionDate: '',
+    examDate: '',
+    admitCardDate: '',
+    applicationFeeGeneral: '',
+    applicationFeeSCST: '',
+    paymentMethod: '',
   });
 
   const [admitCardFormData, setAdmitCardFormData] = useState<AdmitCardFormData>({
@@ -136,6 +155,7 @@ export default function AdminDashboard() {
     status: 'published'
   });
 
+  const [jobListRefreshKey, setJobListRefreshKey] = useState(0);
   const [answerKeyListRefreshKey, setAnswerKeyListRefreshKey] = useState(0);
   const [admissionListRefreshKey, setAdmissionListRefreshKey] = useState(0); // Added for admissions list
 
@@ -154,33 +174,36 @@ export default function AdminDashboard() {
     return null;
   }
 
-  const handleJobSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleCreateJobSubmit = async (formData: JobFormData) => {
+    // Basic client-side validation (already handled by JobForm, but can be kept for extra safety or specific logic here)
+    if (!formData.title.trim()) {
+      alert('Title is required.');
+      return;
+    }
+    
+    const dataToSubmit = {
+      ...formData,
+      requirements: typeof formData.requirements === 'string'
+        ? formData.requirements.split(',').map(req => req.trim()).filter(req => req)
+        : formData.requirements,
+    };
+
     try {
       const response = await fetch('/api/jobs', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(jobFormData),
+        body: JSON.stringify(dataToSubmit),
       });
 
       if (response.ok) {
         alert('Job posted successfully!');
-        setJobFormData({
-          title: '',
-          description: '',
-          organization: '',
-          location: '',
-          salary: '',
-          requirements: [],
-          applicationDeadline: '',
-          category: '',
-          applyJob: '',
-          status: 'published'
-        });
+        setJobListRefreshKey(prev => prev + 1); // Refresh the job list
+      
       } else {
-        alert('Failed to post job');
+        const errorData = await response.json().catch(() => ({}));
+        alert(`Failed to post job: ${errorData.message || response.statusText}`);
       }
     } catch (error) {
       console.error('Error posting job:', error);
@@ -385,111 +408,20 @@ export default function AdminDashboard() {
 
       {activeTab === 'jobs' && (
         <>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className="bg-white  rounded-lg shadow-lg p-6">
+          {/* The duplicated form content from approximately line 411 to 574 is replaced by the following: */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-4">
+            <div>
               <h2 className="text-2xl font-semibold mb-6">Post New Job</h2>
-              <form onSubmit={handleJobSubmit} className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium mb-2">Job Title</label>
-                  <input
-                    type="text"
-                    value={jobFormData.title}
-                    onChange={(e) => setJobFormData({...jobFormData, title: e.target.value})}
-                    className="w-full p-2 border rounded-md"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">Organization</label>
-                  <input
-                    type="text"
-                    value={jobFormData.organization}
-                    onChange={(e) => setJobFormData({...jobFormData, organization: e.target.value})}
-                    className="w-full p-2 border rounded-md"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">Description</label>
-                  <textarea
-                    value={jobFormData.description}
-                    onChange={(e) => setJobFormData({...jobFormData, description: e.target.value})}
-                    className="w-full p-2 border rounded-md h-32"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">Location</label>
-                  <input
-                    type="text"
-                    value={jobFormData.location}
-                    onChange={(e) => setJobFormData({...jobFormData, location: e.target.value})}
-                    className="w-full p-2 border rounded-md"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2">Applay online link</label>
-                  <input
-                    type="text"
-                    value={jobFormData.applyJob}
-                    onChange={(e) => setJobFormData({...jobFormData, applyJob: e.target.value})}
-                    className="w-full p-2 border rounded-md"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">Salary (Optional)</label>
-                  <input
-                    type="text"
-                    value={jobFormData.salary}
-                    onChange={(e) => setJobFormData({...jobFormData, salary: e.target.value})}
-                    className="w-full p-2 border rounded-md"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">Category</label>
-                  <input
-                    type="text"
-                    value={jobFormData.category}
-                    onChange={(e) => setJobFormData({...jobFormData, category: e.target.value})}
-                    className="w-full p-2 border rounded-md"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">Application Deadline</label>
-                  <input
-                    type="date"
-                    value={jobFormData.applicationDeadline}
-                    onChange={(e) => setJobFormData({...jobFormData, applicationDeadline: e.target.value})}
-                    className="w-full p-2 border rounded-md"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">Publication Status</label>
-                  <select
-                    className="w-full p-2 border rounded-md"
-                    value={jobFormData.status}
-                    onChange={(e) => setJobFormData({...jobFormData, status: e.target.value})}
-                    required
-                  >
-                    <option value="published">Published</option>
-                    <option value="unpublished">Draft</option>
-                  </select>
-                </div>
-                <Button type="submit" className="w-full">Post Job</Button>
-              </form>
+              <JobForm
+                onSubmit={handleCreateJobSubmit} // Assumes handleCreateJobSubmit is defined in AdminPage
+                onCancel={() => {
+                  console.log("New job form cancelled.");
+                  // Optionally, add logic to clear form or navigate
+                }}
+                // initialData is omitted for new job creation mode
+              />
             </div>
-            <JobList />
+            <JobList key={jobListRefreshKey} /> {/* Assumes jobListRefreshKey and JobList are defined/imported */}
           </div>
         </>
       )}
