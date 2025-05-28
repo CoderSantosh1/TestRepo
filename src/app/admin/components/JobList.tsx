@@ -17,6 +17,19 @@ interface Job {
   applicationDeadline: string;
   createdAt: string;
   applyJob: string;
+  description?: string;
+  category?: string;
+  salary?: string;
+  requirements?: string[] | string; // Allow both for initial data and form data
+  applicationBeginDate?: string;
+  lastDateApplyOnline?: string;
+  formCompleteLastDate?: string;
+  correctionDate?: string;
+  examDate?: string;
+  admitCardDate?: string;
+  applicationFeeGeneral?: string;
+  applicationFeeSCST?: string;
+  paymentMethod?: string;
 }
 
 export default function JobList() {
@@ -49,7 +62,7 @@ export default function JobList() {
     setEditingJob(job);
   };
 
-  const handleUpdate = async (data: Omit<Job, '_id' | 'createdAt'>) => {
+  const handleUpdate = async (data: Omit<Job, '_id' | 'createdAt' | 'requirements'> & { requirements?: string[] }) => {
     if (!editingJob) return;
 
     try {

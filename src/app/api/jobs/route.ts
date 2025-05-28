@@ -21,7 +21,16 @@ export async function POST(request: Request) {
       applicationDeadline: new Date(body.applicationDeadline),
       category: body.category,
       applyJob: body.applyJob,
-      status: 'published'
+      status: 'published',
+      applicationBeginDate: body.applicationBeginDate,
+      lastDateApplyOnline: body.lastDateApplyOnline,
+      formCompleteLastDate: body.formCompleteLastDate,
+      correctionDate: body.correctionDate,
+      examDate: body.examDate,
+      admitCardDate: body.admitCardDate,
+      applicationFeeGeneral: body.applicationFeeGeneral,
+      applicationFeeSCST: body.applicationFeeSCST,
+      paymentMethod: body.paymentMethod
     });
    
     return NextResponse.json({ success: true, data: job }, { status: 201 });

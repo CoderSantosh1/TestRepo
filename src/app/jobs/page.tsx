@@ -7,12 +7,26 @@ import { useRouter } from 'next/navigation';
 interface Job {
   _id: string;
   title: string;
-  company: string;
+  organization: string; // Changed from company to organization
   location: string;
-  salary: string;
-  postedDate: string;
-  deadline: string;
+  salary?: string; // Made optional as per schema
+  // postedDate: string; // This seems to be covered by createdAt
+  applicationDeadline: string; // Changed from deadline
   status: string;
+  category?: string;
+  applyJob?: string;
+  description?: string;
+  requirements?: string[];
+  applicationBeginDate?: string;
+  lastDateApplyOnline?: string;
+  formCompleteLastDate?: string;
+  correctionDate?: string;
+  examDate?: string;
+  admitCardDate?: string;
+  applicationFeeGeneral?: string;
+  applicationFeeSCST?: string;
+  paymentMethod?: string;
+  createdAt: string; // Added createdAt for posted date
 }
 
 export default function JobsPage() {
@@ -65,14 +79,21 @@ export default function JobsPage() {
             <h2 className="text-xl font-semibold mb-2 text-gray-900">{job.title}</h2>
             
             <div className="mb-4">
-              <p className="text-gray-600">{job.company}</p>
+              <p className="text-gray-700 font-medium">{job.organization}</p>
               <p className="text-gray-600">{job.location}</p>
+              {job.category && <p className="text-sm text-blue-600 mt-1">Category: {job.category}</p>}
             </div>
             
-            <div className="flex justify-between items-end">
+            <div className="space-y-2 text-sm text-gray-600">
+              {job.applicationBeginDate && <p><strong>Application Starts:</strong> {new Date(job.applicationBeginDate).toLocaleDateString()}</p>}
+              {job.lastDateApplyOnline && <p><strong>Apply By:</strong> {new Date(job.lastDateApplyOnline).toLocaleDateString()}</p>}
+              {job.examDate && <p><strong>Exam Date:</strong> {job.examDate}</p>}
+            </div>
+
+            <div className="flex justify-between items-center mt-4">
               <div className="text-sm text-gray-500">
-                <p>Salary: {job.salary}</p>
-                <p>Deadline: {new Date(job.deadline).toLocaleDateString()}</p>
+                {job.salary && <p>Salary: {job.salary}</p>}
+                <p>Posted: {new Date(job.createdAt).toLocaleDateString()}</p>
               </div>
               <span 
                 className={`px-3 py-1 rounded-full text-xs ${job.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}
