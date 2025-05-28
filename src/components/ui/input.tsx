@@ -18,10 +18,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           py-2
           border
           border-gray-300
-          dark:border-gray-700
           rounded-md
           text-gray-900
-          dark:text-white
           placeholder-gray-500
           bg-white
           
