@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ModeToggle } from "./mode-toggle";
+
 
 export default function Header() {
   return (
@@ -9,7 +9,7 @@ export default function Header() {
         <div className="flex flex-col items-center border-b border-gray-200">
           <div className="flex items-center gap-4">
           <h1 className="text-3xl font-bold text-[#000000]">JOBSPLATFORM</h1>
-     <ModeToggle />
+     
 </div>
           <p className="text-sm text-[#000000] hover:text-blue-800"><a href="https://www.jobsplatform.in/">WWW.JOBSPLATFORM.IN</a></p>
         </div>

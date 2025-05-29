@@ -6,7 +6,7 @@ import mongoose from 'mongoose';
 export async function GET() {
   try {
     await connectToDatabase();
-    const jobs = await Job.find().sort({ createdAt: -1 });
+    const jobs = await Job.find().select('+totalVacancy').sort({ createdAt: -1 });
     return NextResponse.json({ success: true, data: jobs });
   } catch (error) {
     console.error('Error fetching jobs:', error);
@@ -23,9 +23,31 @@ export async function POST(request: Request) {
     await connectToDatabase();
 
     const job = new Job({
-      ...body,
-      status: 'published',
-      createdAt: new Date(),
+      ...body, // Spread existing body to retain any other fields
+      title: body.title,
+      description: body.description,
+      organization: body.organization,
+      location: body.location,
+      salary: body.salary,
+      totalVacancy: body.totalVacancy,
+      age: body.age,
+      gender: body.gender,
+      qualification: body.qualification,
+      requirements: body.requirements,
+      applicationDeadline: new Date(body.applicationDeadline),
+      category: body.category,
+      applyJob: body.applyJob,
+      applicationBeginDate: body.applicationBeginDate,
+      lastDateApplyOnline: body.lastDateApplyOnline,
+      formCompleteLastDate: body.formCompleteLastDate,
+      correctionDate: body.correctionDate,
+      examDate: body.examDate,
+      admitCardDate: body.admitCardDate,
+      applicationFeeGeneral: body.applicationFeeGeneral,
+      applicationFeeSCST: body.applicationFeeSCST,
+      paymentMethod: body.paymentMethod,
+      status: 'published', // Explicitly set status
+      createdAt: new Date(), // Explicitly set createdAt
     });
 
     await job.save();

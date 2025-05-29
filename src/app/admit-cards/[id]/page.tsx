@@ -141,7 +141,7 @@ export default function AdmitCardDetails() {
                   onClick={() => router.back()}
                   className="text-gray-600 hover:text-gray-900"
                 >
-                  ← Back to Home
+                  ← 
                 </button>
                 {admitCard.downloadAdmitcardLink && (
                   <button

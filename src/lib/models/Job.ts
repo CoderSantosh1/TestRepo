@@ -51,6 +51,66 @@ const jobSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  applicationBeginDate: {
+    type: String,
+    required: false,
+  },
+  lastDateApplyOnline: {
+    type: String,
+    required: false,
+  },
+  formCompleteLastDate: {
+    type: String,
+    required: false,
+  },
+  correctionDate: {
+    type: String,
+    required: false,
+  },
+  examDate: {
+    type: String,
+    required: false,
+  },
+  admitCardDate: {
+    type: String,
+    required: false,
+  },
+  age: {
+    type: String,
+    required: false,
+  },
+  gender: {
+    type: String,
+    required: false,
+  },
+  qualification: {
+    type: String,
+    required: false,
+  },
+  
+  totalVacancy: {
+    type: String,
+    required: false,
+    validate: {
+      validator: function(value: string) {
+        return !isNaN(Number(value)) && Number(value) > 0;
+      },
+      message: 'Total vacancy must be a positive number'
+    },
+    select: true
+  },
+  applicationFeeGeneral: {
+    type: String,
+    required: false,
+  },
+  applicationFeeSCST: {
+    type: String,
+    required: false,
+  },
+  paymentMethod: {
+    type: String,
+    required: false,
+  },
 });
 
 const Job = mongoose.models.Job || mongoose.model('Job', jobSchema);

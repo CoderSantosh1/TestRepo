@@ -10,6 +10,16 @@ export interface Job {
     createdAt: string;
     updatedAt: string;
     salary: string;
+    totalVacancy: string;
     requirements: string;
     applicationDeadline: string;
+  applicationBeginDate?: string;
+  lastDateApplyOnline?: string;
+  formCompleteLastDate?: string;
+  correctionDate?: string;
+  examDate?: string;
+  admitCardDate?: string;
+  applicationFeeGeneral?: string;
+  applicationFeeSCST?: string;
+  paymentMethod?: string;
   }
