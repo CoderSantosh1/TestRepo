@@ -16,11 +16,15 @@ interface Job {
   status: string;
   applicationDeadline: string;
   createdAt: string;
+  totalVacancy: string;
+  age?: string;
+  gender?: string;
+  qualification?: string;
   applyJob: string;
   description?: string;
   category?: string;
   salary?: string;
-  requirements?: string[] | string; // Allow both for initial data and form data
+  requirements?: string[] | string; 
   applicationBeginDate?: string;
   lastDateApplyOnline?: string;
   formCompleteLastDate?: string;

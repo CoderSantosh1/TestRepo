@@ -7,11 +7,14 @@ import { useRouter } from 'next/navigation';
 interface Job {
   _id: string;
   title: string;
-  organization: string; // Changed from company to organization
+  organization: string; 
   location: string;
-  salary?: string; // Made optional as per schema
-  // postedDate: string; // This seems to be covered by createdAt
-  applicationDeadline: string; // Changed from deadline
+  salary?: string; 
+  totalVacancy: string; 
+  age?: string; 
+  gender?: string; 
+  qualification?: string; 
+  applicationDeadline: string;
   status: string;
   category?: string;
   applyJob?: string;
@@ -36,6 +39,14 @@ export default function JobsPage() {
   const [error, setError] = useState('');
 
   useEffect(() => {
+    const validateJobForm = (job: Job) => {
+      const errors: string[] = [];
+      if (!job.totalVacancy || isNaN(Number(job.totalVacancy))) {
+        errors.push('Total Vacancy must be a valid number');
+      }
+      return errors;
+    };
+
     const fetchJobs = async () => {
       try {
         const response = await fetch('/api/jobs');
@@ -43,7 +54,15 @@ export default function JobsPage() {
           throw new Error('Failed to fetch jobs');
         }
         const data = await response.json();
-        setJobs(data.data || []);
+        const validatedJobs = data.data.map((job: Job) => {
+          const errors = validateJobForm(job);
+          if (errors.length > 0) {
+            console.error('Validation errors:', errors);
+            return null;
+          }
+          return job;
+        }).filter(Boolean);
+        setJobs(validatedJobs);
       } catch (err) {
         console.error('Failed to fetch jobs:', err);
         setError('Error loading jobs');
@@ -82,6 +101,9 @@ export default function JobsPage() {
               <p className="text-gray-700 font-medium">{job.organization}</p>
               <p className="text-gray-600">{job.location}</p>
               {job.category && <p className="text-sm text-blue-600 mt-1">Category: {job.category}</p>}
+            </div>
+            <div className="mb-4">
+              <p className="text-gray-600">Total Seats: {job.totalVacancy}</p>
             </div>
             
             <div className="space-y-2 text-sm text-gray-600">

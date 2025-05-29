@@ -11,10 +11,14 @@ interface JobFormData {
   location: string;
   status: string;
   applicationDeadline: string;
+  totalVacancy: string;
   applyJob: string;
   description?: string;
   category?: string;
   salary?: string;
+  age?: string;
+  gender?: string;
+  qualification?: string;
   requirements?: string[] | string; // Allow both array and comma-separated string
   applicationBeginDate?: string;
   lastDateApplyOnline?: string;
@@ -44,6 +48,10 @@ export default function JobForm({ initialData, onSubmit, onCancel }: JobFormProp
     applicationDeadline: initialData?.applicationDeadline || '',
     category: initialData?.category || '',
     salary: initialData?.salary || '',
+    totalVacancy: initialData?.totalVacancy || '',
+    age: initialData?.age || '',
+    gender: initialData?.gender || '',
+    qualification: initialData?.qualification || '',
     requirements: initialData?.requirements ? (Array.isArray(initialData.requirements) ? initialData.requirements.join(', ') : initialData.requirements as string) : '',
     applicationBeginDate: initialData?.applicationBeginDate || '',
     lastDateApplyOnline: initialData?.lastDateApplyOnline || '',
@@ -66,6 +74,7 @@ export default function JobForm({ initialData, onSubmit, onCancel }: JobFormProp
     if(!formData.applyJob.trim()) newErrors.applyJob = 'Apply Job is required';
     if (!formData.applicationDeadline) newErrors.applicationDeadline = 'Application deadline is required';
     if(formData.description && !formData.description.trim()) newErrors.description = 'Description is required';
+    
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -75,15 +84,23 @@ export default function JobForm({ initialData, onSubmit, onCancel }: JobFormProp
     if (validateForm()) {
       const dataToSubmit = {
         ...formData,
+        totalVacancy: formData.totalVacancy.trim(),
         requirements: typeof formData.requirements === 'string' ? formData.requirements.split(',').map(req => req.trim()) : (Array.isArray(formData.requirements) ? formData.requirements : []),
       };
+      console.log('Submitting data:', dataToSubmit);
       onSubmit(dataToSubmit);
     }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    // Special handling for totalVacancy to ensure it's a valid number
+    if (name === 'totalVacancy') {
+      const numValue = value.replace(/[^0-9]/g, '');
+      setFormData(prev => ({ ...prev, [name]: numValue }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
     if (errors[name as keyof JobFormData]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
@@ -195,6 +212,22 @@ export default function JobForm({ initialData, onSubmit, onCancel }: JobFormProp
           <label htmlFor="salary" className="block text-sm font-medium text-gray-700">Salary</label>
           <Input id="salary" name="salary" value={formData.salary} onChange={handleChange} />
         </div>
+        <div>
+          <label htmlFor="totalVacancy" className="block text-sm font-medium text-gray-700">Total seats</label>
+          <Input 
+            id="totalVacancy" 
+            name="totalVacancy" 
+            value={formData.totalVacancy} 
+            onChange={handleChange}
+            className={errors.totalVacancy ? 'border-red-500' : ''}
+            type="number"
+            min="1"
+            required
+            placeholder="Enter number of seats"
+          />
+          {errors.totalVacancy && <p className="text-red-500 text-sm mt-1">{errors.totalVacancy}</p>}
+        </div>
+        
 
         <div>
           <label htmlFor="requirements" className="block text-sm font-medium text-gray-700">Requirements (comma-separated)</label>
@@ -209,6 +242,21 @@ export default function JobForm({ initialData, onSubmit, onCancel }: JobFormProp
           <div>
             <label htmlFor="lastDateApplyOnline" className="block text-sm font-medium text-gray-700">Last Date to Apply Online</label>
             <Input id="lastDateApplyOnline" name="lastDateApplyOnline" type="date" value={formData.lastDateApplyOnline} onChange={handleChange} />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="age" className="block text-sm font-medium text-gray-700">Age</label>
+            <Input id="age" name="age" type="text" value={formData.age} onChange={handleChange} />
+          </div>
+          <div>
+            <label htmlFor="qualification" className="block text-sm font-medium text-gray-700">Qualification</label>
+            <Input id="qualification" name="qualification" type="text" value={formData.qualification} onChange={handleChange} />
+          </div>
+          <div>
+            <label htmlFor="gender" className="block text-sm font-medium text-gray-700">Gender</label>
+            <Input id="gender" name="gender" type="text" value={formData.gender} onChange={handleChange} />
           </div>
         </div>
 

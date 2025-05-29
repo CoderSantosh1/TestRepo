@@ -2,7 +2,7 @@ import * as React from "react";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
-  /** Additional classes to apply to the input */
+ 
   className?: string;
 }
 
