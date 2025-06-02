@@ -230,11 +230,11 @@ export default function JobDetail() {
                     </div>
 
                         {/* Application Fee Section */}
-                        <h2 className="text-xl font-semibold text-red-900 mb-3">Application Fee</h2>
+                       
                                 {(job.applicationFeeGeneral || job.applicationFeeSCST || job.paymentMethod) && (
                                   <div className="border border-blue-700 overflow-hidden w-full">
                                     <div className="bg-white p-4">
-                                    
+                                      <h2 className="text-xl font-semibold text-red-900 mb-3">Application Fee</h2>
                                       <ul className="list-disc pl-5 text-sm text-black-700 space-y-1">
                                         {job.applicationFeeGeneral && (
                                           <li>
