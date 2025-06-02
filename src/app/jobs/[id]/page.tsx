@@ -6,6 +6,7 @@ import Navbar from "../../../components/Header"
 import Footer from '@/components/Footer';
 import BackImages from "@/assists/back.png"
 import Image from 'next/image';
+import GoogleAdsense from '@/components/GoogleAdsense';
 
 interface Job {
   _id: string;
@@ -145,11 +146,19 @@ export default function JobDetail() {
     <React.Fragment>
         <Navbar/>
         <div className="container mx-auto px-4 py-8">
-          <div className="max-w-7xl mx-auto bg-white  shadow-lg overflow-hidden">
+          <div className="max-w-7xl mx-auto bg-white shadow-lg overflow-hidden">
             <div className="p-2">
               <h1 className="text-3xl font-bold text-red-800 mb-2">{job.title}</h1>
-             
-    
+              
+              {/* Ad placement at the top of the content */}
+              <div className="my-4">
+                <GoogleAdsense
+                  adSlot="YOUR_AD_SLOT_ID_HERE"
+                  style={{ display: 'block' }}
+                  className="w-full"
+                />
+              </div>
+
               <div className="col-mb-6">
                 <h2 className="text-xl font-semibold text-red-900 mb-3">Job Description</h2>
                 <p className="text-black-700 whitespace-pre-line">{job.description}</p>
@@ -261,34 +270,37 @@ export default function JobDetail() {
 
 
                                 {/* Salary Section (optional display below) */}
-                                {job.salary && (
+                             
                                   <div className="mt-4 border border-black-500 bg-white p-4 w-full">
-                                    <p className="text-blue-900 font-bold text-sm break-words whitespace-pre-wrap">
-                                      Salary: {job.salary}
-                                    </p>
-                                    {job.totalVacancy && (
-                                    <p className='text-blue-900 font-bold text-sm break-words whitespace-pre-wrap'>
-                                     Total Seats: {job.totalVacancy}
-                                    </p>
-                                    )}
+                                   
                                     {job.age && (
-                                    <p className='text-blue-700 text-sm break-words whitespace-pre-wrap '>
+                                    <li className='text-blue-700 text-sm break-words whitespace-pre-wrap '>
                                     Age: {job.age}
-                                    </p>
+                                    </li>
                                     )}
+                                    
                                     {job.gender && (
-                                    <p className='text-blue-700 text-sm break-words whitespace-pre-wrap '>
+                                    <li className='text-blue-700 text-sm break-words whitespace-pre-wrap '>
                                     Gender: {job.gender}
-                                    </p>
+                                    </li>
                                     )}
-                                    {job.qualification && (
-                                    <p className='text-blue-700 text-sm break-words whitespace-pre-wrap '>
+                                    {/* {job.qualification && (
+                                    <li className='text-blue-700 text-sm break-words whitespace-pre-wrap '>
                                     Qualification: {job.qualification}
-                                    </p>
-                                    )}
+                                    </li>
+                                    )} */}
+                                    {/* {job.salary && (
+                                    <li className='text-blue-700 text-sm break-words whitespace-pre-wrap '>
+                                    Salary: {job.salary}
+                                    </li>
+                                    )} */}
+                                    {/* {job.totalVacancy && (
+                                    <li className='text-blue-700 text-sm break-words whitespace-pre-wrap '>
+                                    Total Seats: {job.totalVacancy}
+                                    </li>
+                                    )} */}
                                   </div>
-                                )}
-
+                              
                               {job.applyJob && (
                                   <div className="mt-4 p-4 border border-blue-700  bg-white">
                                     <span className="text-sm font-medium text-gray-800 mr-2">Apply Job:</span>
