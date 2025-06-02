@@ -186,6 +186,7 @@ export default function JobDetail() {
                     {/* Important Dates Section */}
                     <div className="border border-blue-700 overflow-hidden w-full">
                       <div className="bg-white p-2">
+                        <h2 className="text-xl font-semibold text-red-900 mb-3">Important Dates</h2>
                         <ul className="list-disc  text-sm text-black-700 space-y-1">
                           {job.applicationBeginDate && (
                             <li>
@@ -229,6 +230,7 @@ export default function JobDetail() {
                     </div>
 
                         {/* Application Fee Section */}
+                        <h2 className="text-xl font-semibold text-red-900 mb-3">Application Fee</h2>
                                 {(job.applicationFeeGeneral || job.applicationFeeSCST || job.paymentMethod) && (
                                   <div className="border border-blue-700 overflow-hidden w-full">
                                     <div className="bg-white p-4">
