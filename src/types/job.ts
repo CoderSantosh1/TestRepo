@@ -10,6 +10,7 @@ export interface Job {
     createdAt: string;
     updatedAt: string;
     salary: string;
+    totalVacancy: string;
     requirements: string;
     applicationDeadline: string;
   applicationBeginDate?: string;

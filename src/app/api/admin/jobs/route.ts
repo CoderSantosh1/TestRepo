@@ -6,7 +6,7 @@ import mongoose from 'mongoose';
 export async function GET() {
   try {
     await connectToDatabase();
-    const jobs = await Job.find().sort({ createdAt: -1 });
+    const jobs = await Job.find().select('+totalVacancy').sort({ createdAt: -1 });
     return NextResponse.json({ success: true, data: jobs });
   } catch (error) {
     console.error('Error fetching jobs:', error);
@@ -29,6 +29,10 @@ export async function POST(request: Request) {
       organization: body.organization,
       location: body.location,
       salary: body.salary,
+      totalVacancy: body.totalVacancy,
+      age: body.age,
+      gender: body.gender,
+      qualification: body.qualification,
       requirements: body.requirements,
       applicationDeadline: new Date(body.applicationDeadline),
       category: body.category,

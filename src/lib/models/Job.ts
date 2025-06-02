@@ -75,6 +75,30 @@ const jobSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  age: {
+    type: String,
+    required: false,
+  },
+  gender: {
+    type: String,
+    required: false,
+  },
+  qualification: {
+    type: String,
+    required: false,
+  },
+  
+  totalVacancy: {
+    type: String,
+    required: false,
+    validate: {
+      validator: function(value: string) {
+        return !isNaN(Number(value)) && Number(value) > 0;
+      },
+      message: 'Total vacancy must be a positive number'
+    },
+    select: true
+  },
   applicationFeeGeneral: {
     type: String,
     required: false,

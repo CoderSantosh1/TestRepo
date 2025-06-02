@@ -32,6 +32,10 @@ interface JobFormData {
   description?: string;
   category?: string;
   salary?: string;
+  age?: string;
+  gender?: string;
+  qualification?: string;
+  totalVacancy: string;
   requirements?: string[] | string; // Allow both array and comma-separated string
   applicationBeginDate?: string;
   lastDateApplyOnline?: string;
@@ -102,6 +106,10 @@ export default function AdminDashboard() {
     description: '',
     category: '',
     salary: '',
+    age: '',
+    gender: '',
+    qualification: '',
+    totalVacancy: '',
     requirements: '', // Initialize as empty string, JobForm will handle conversion
     applicationBeginDate: '',
     lastDateApplyOnline: '',
@@ -708,9 +716,7 @@ export default function AdminDashboard() {
         <>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div className="bg-white rounded-lg shadow-lg p-6">
-              {/* AnswerKeyForm is now used for creating new answer keys */}
-              {/* It handles its own state and submission logic */}
-              {/* We pass handleCreateAnswerKey as onSubmit and handleAnswerKeyFormSuccess as onSuccess */}
+              
               <AnswerKeyForm 
                 onSubmit={handleCreateAnswerKey} 
                 onSuccess={handleAnswerKeyFormSuccess} 
@@ -725,9 +731,7 @@ export default function AdminDashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div className="bg-white rounded-lg shadow-lg p-6">
               <h2 className="text-2xl font-semibold mb-6">Post New Admission</h2>
-              {/* AdmissionForm for creating new admissions */}
-              {/* We pass handleAdmissionSubmit for creation, and a key to reset the form if needed */}
-              {/* The form itself should handle its state, including resetting after successful submission */}
+             
               <AdmissionForm 
                 onSubmit={handleAdmissionSubmit} 
                 initialData={admissionFormData} // This is for the create form's initial state

@@ -10,14 +10,17 @@ import Image from 'next/image';
 interface Job {
   _id: string;
   title: string;
-  organization: string; // Changed from company
+  organization: string; 
   location: string;
   description: string;
   requirements: string[];
-  salary?: string; // Optional
-  
-  applicationDeadline: string; // Changed from deadline
+  salary?: string; 
+  totalVacancy: string; 
+  applicationDeadline: string; 
   status: string;
+  age?: string;
+  gender?: string;
+  qualification?: string;
   applyJob: string;
   category?: string;
   applicationBeginDate?: string;
@@ -169,7 +172,9 @@ export default function JobDetail() {
                                 {job.location && job.category && (
                                   <p className="font-bold text-lg text-blue-700">{job.location} {job.category && `• ${job.category}`}</p>
                                 )}
-                                  
+                                {job.totalVacancy && (
+                                  <p className="font-bold text-lg text-green-700">Total Vacancy: {job.totalVacancy}</p>
+                                )}
                               </td>
                             </tr>
                           )}
@@ -217,7 +222,7 @@ export default function JobDetail() {
                       </div>
                     </div>
 
-                                {/* Application Fee Section */}
+                        {/* Application Fee Section */}
                                 {(job.applicationFeeGeneral || job.applicationFeeSCST || job.paymentMethod) && (
                                   <div className="border border-blue-700 overflow-hidden w-full">
                                     <div className="bg-white p-4">
@@ -258,6 +263,13 @@ export default function JobDetail() {
                                     <p className="text-blue-900 font-bold text-sm break-words whitespace-pre-wrap">
                                       Salary: {job.salary}
                                     </p>
+                                    <p className='text-blue-900 font-bold text-sm break-words whitespace-pre-wrap'>
+                                     Total Seats: {job.totalVacancy}
+                                    </p>
+                                    <p className='text-blue-700 text-sm break-words whitespace-pre-wrap '></p>
+                                    Age: {job.age}
+                                    Gender: {job.gender}
+                                    Qualification: {job.qualification}
                                   </div>
                                 )}
 
