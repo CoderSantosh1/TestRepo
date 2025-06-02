@@ -217,6 +217,12 @@ export default function JobDetail() {
                               <span className="text-blue-500 font-bold text-[10px]">{job.examDate}</span>
                             </li>
                           )}
+                          {job.admitCardDate && (
+                             <li>
+                               <span className='font-bold text-[10px]'>Admit Card Available:</span>{' '}
+                               <span className="text-blue-500 font-bold text-[10px]">{job.admitCardDate}</span>
+                            </li>
+                           )}
                           
                         </ul>
                       </div>
@@ -244,12 +250,7 @@ export default function JobDetail() {
                                             <span className="text-blue-500 font-bold text-[10px]">{job.paymentMethod}</span>
                                           </li>
                                         )}
-                                        {job.admitCardDate && (
-                                        <li>
-                                          <span className='font-bold text-[10px]'>Admit Card Available:</span>{' '}
-                                          <span className="text-blue-500 font-bold text-[10px]">{job.admitCardDate}</span>
-                                        </li>
-                                      )}
+                                        
                                       </ul>
                                     </div>
                                   </div>
