@@ -186,7 +186,7 @@ export default function JobDetail() {
                     {/* Important Dates Section */}
                     <div className="border border-blue-700 overflow-hidden w-full">
                       <div className="bg-white p-2">
-                        <h2 className="text-xl font-semibold text-red-900 mb-3">Important Dates</h2>
+                        <h2 className="text-sm font-semibold text-red-900 mb-3">Important Dates</h2>
                         <ul className="list-disc  text-sm text-black-700 space-y-1">
                           {job.applicationBeginDate && (
                             <li>
@@ -234,7 +234,7 @@ export default function JobDetail() {
                                 {(job.applicationFeeGeneral || job.applicationFeeSCST || job.paymentMethod) && (
                                   <div className="border border-blue-700 overflow-hidden w-full">
                                     <div className="bg-white p-4">
-                                      <h2 className="text-xl font-semibold text-red-900 mb-3">Application Fee</h2>
+                                      <h2 className="text-sm font-semibold text-red-900 mb-3">Application Fee</h2>
                                       <ul className="list-disc pl-5 text-sm text-black-700 space-y-1">
                                         {job.applicationFeeGeneral && (
                                           <li>
@@ -266,13 +266,26 @@ export default function JobDetail() {
                                     <p className="text-blue-900 font-bold text-sm break-words whitespace-pre-wrap">
                                       Salary: {job.salary}
                                     </p>
+                                    {job.totalVacancy && (
                                     <p className='text-blue-900 font-bold text-sm break-words whitespace-pre-wrap'>
                                      Total Seats: {job.totalVacancy}
                                     </p>
-                                    <p className='text-blue-700 text-sm break-words whitespace-pre-wrap '></p>
+                                    )}
+                                    {job.age && (
+                                    <p className='text-blue-700 text-sm break-words whitespace-pre-wrap '>
                                     Age: {job.age}
+                                    </p>
+                                    )}
+                                    {job.gender && (
+                                    <p className='text-blue-700 text-sm break-words whitespace-pre-wrap '>
                                     Gender: {job.gender}
+                                    </p>
+                                    )}
+                                    {job.qualification && (
+                                    <p className='text-blue-700 text-sm break-words whitespace-pre-wrap '>
                                     Qualification: {job.qualification}
+                                    </p>
+                                    )}
                                   </div>
                                 )}
 
