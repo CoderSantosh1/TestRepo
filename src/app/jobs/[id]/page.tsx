@@ -240,7 +240,7 @@ export default function JobDetail() {
                                         )}
                                         {job.paymentMethod && (
                                           <li>
-                                            <span className='font-bold text-[10px]'>Pay the Exam Fee Through Debit Card / Credit Card / Net Banking Mode Only. </span>
+                                            <span className='font-bold text-[10px]'>Pay the Exam Fee: Through Debit Card / Credit Card / Net Banking Mode Only. </span>
                                             <span className="text-blue-500 font-bold text-[10px]">{job.paymentMethod}</span>
                                           </li>
                                         )}
