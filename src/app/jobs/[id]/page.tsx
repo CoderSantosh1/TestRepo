@@ -148,7 +148,7 @@ export default function JobDetail() {
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-7xl mx-auto bg-white shadow-lg overflow-hidden">
             <div className="p-2">
-              <h1 className="text-3xl font-bold text-red-800 mb-2">{job.title}</h1>
+              <h1 className="text-3xl font-bold text-red-800 ">{job.title}</h1>
               
               {/* Ad placement at the top of the content */}
               <div className="my-4">
@@ -159,8 +159,8 @@ export default function JobDetail() {
                 />
               </div>
 
-              <div className="col-mb-6">
-                <h2 className="text-xl font-semibold text-red-900 mb-3">Job Description</h2>
+              <div className="col-mb-12">
+                
                 <p className="text-black-700 whitespace-pre-line">{job.description}</p>
               </div>
               <div className="row">

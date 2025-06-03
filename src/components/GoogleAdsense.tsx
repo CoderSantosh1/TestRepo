@@ -23,11 +23,13 @@ const GoogleAdsense: React.FC<GoogleAdsenseProps> = ({
 }) => {
   useEffect(() => {
     try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
+      if (window.adsbygoogle && !window.adsbygoogle.some(ad => ad.slot === adSlot)) {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      }
     } catch (err) {
       console.error('AdSense error:', err);
     }
-  }, []);
+  }, [adSlot]);
 
   return (
     <ins
