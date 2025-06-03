@@ -21,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <meta name="google-adsense-account" content="ca-pub-7649078598124252" />
         <Script
@@ -31,10 +31,7 @@ export default function RootLayout({
           strategy="afterInteractive"
         />
       </head>
-      <body
-        className={`${inter.className} antialiased`}
-        suppressHydrationWarning
-      >
+      <body className={`${inter.className} antialiased`} suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
