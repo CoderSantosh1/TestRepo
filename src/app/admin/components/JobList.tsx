@@ -17,7 +17,8 @@ interface Job {
   applicationDeadline: string;
   createdAt: string;
   totalVacancy: string;
-  age?: string;
+  minimumAge?: string;
+  maximumAge?: string;
   gender?: string;
   qualification?: string;
   applyJob: string;
