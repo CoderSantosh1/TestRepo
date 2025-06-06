@@ -32,7 +32,8 @@ interface JobFormData {
   description?: string;
   category?: string;
   salary?: string;
-  age?: string;
+  minimumAge?: string;
+  maximumAge?: string;
   gender?: string;
   qualification?: string;
   totalVacancy: string;
@@ -106,7 +107,8 @@ export default function AdminDashboard() {
     description: '',
     category: '',
     salary: '',
-    age: '',
+    minimumAge: '',
+    maximumAge: '',
     gender: '',
     qualification: '',
     totalVacancy: '',

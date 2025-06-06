@@ -19,7 +19,8 @@ interface Job {
   totalVacancy: string; 
   applicationDeadline: string; 
   status: string;
-  age?: string;
+  minimumAge?: string;
+  maximumAge?: string;
   gender?: string;
   qualification?: string;
   applyJob: string;
@@ -270,40 +271,61 @@ export default function JobDetail() {
 
 
                                 {/* Salary Section (optional display below) */}
-                             
-                                  <div className="mt-4 border border-black-500 bg-white p-4 w-full">
+                                <div className="grid grid-cols-2 md:grid-cols-2  ">
+                                <div className="border border-blue-700 overflow-hidden w-full">
+                                <div className="bg-white p-4">
+                                    {job.minimumAge && (
+                                    <li >
+                                      <span className='font-bold text-[10px]'>Minimum Age: </span>
+                                      <span className='text-blue-700 font-bold text-[10px] '> {job.minimumAge} Years</span> 
+                                    </li>                                   
+                                    )}
+                                    {
+                                      job.maximumAge && (
+                                        <li >
+                                          <span className='font-bold text-[10px]'>Maximum Age: </span>
+                                          <span className='text-blue-700 font-bold text-[10px]'> {job.maximumAge} Years</span>
+                                        </li>
+                                      )
+                                    }
+                                    
+                                    {job.gender && (
+                                    <li >
+                                      <span className='font-bold text-[10px]'>Gender: </span>
+                                      <span className='text-blue-700 font-bold text-[10px]'> {job.gender}</span>
+                                    </li>
+                                    )}
+                                   </div>
+                                  </div>
+                                <div className="border border-blue-700 overflow-hidden w-full">
+                                <div className="bg-white p-4">
                                    
-                                    {job.age && (
-                                    <li className='text-blue-700 text-sm break-words whitespace-pre-wrap '>
-                                    Age: {job.age}
+                                {job.qualification && (
+                                    <li >
+                                      <span className='font-bold text-[10px]'>Qualification:- </span>
+                                    <span className='text-blue-700  text-[10px]'> {job.qualification}</span>
                                     </li>
                                     )}
                                     
-                                    {job.gender && (
-                                    <li className='text-blue-700 text-sm break-words whitespace-pre-wrap '>
-                                    Gender: {job.gender}
+                                    {job.salary && (
+                                    <li >
+                                      <span className='font-bold text-[10px]'>Salary:- </span>
+                                    <span className='text-blue-700 font-bold text-[10px]'> {job.salary}</span>
                                     </li>
                                     )}
-                                    {/* {job.qualification && (
-                                    <li className='text-blue-700 text-sm break-words whitespace-pre-wrap '>
-                                    Qualification: {job.qualification}
+
+                                    {job.totalVacancy && (
+                                    <li >
+                                      <span className='font-bold text-[10px]'>Total Seats:- </span>
+                                    <span className='text-blue-700 font-bold text-[10px]'> {job.totalVacancy}</span>
                                     </li>
-                                    )} */}
-                                    {/* {job.salary && (
-                                    <li className='text-blue-700 text-sm break-words whitespace-pre-wrap '>
-                                    Salary: {job.salary}
-                                    </li>
-                                    )} */}
-                                    {/* {job.totalVacancy && (
-                                    <li className='text-blue-700 text-sm break-words whitespace-pre-wrap '>
-                                    Total Seats: {job.totalVacancy}
-                                    </li>
-                                    )} */}
+                                    )}
+                                   </div>
                                   </div>
-                              
+                                  </div>
                               {job.applyJob && (
                                   <div className="mt-4 p-4 border border-blue-700  bg-white">
-                                    <span className="text-sm font-medium text-gray-800 mr-2">Apply Job:</span>
+                                    <span className="text-sm font-medium text-gray-800 mr-2">Click Now to Apply:</span>
                                     <a
                                       onClick={() => router.push(job.applyJob)}
                                       className="text-red-500 hover:underline cursor-pointer transition-colors duration-200 hover:text-blue-700 font-semibold"
