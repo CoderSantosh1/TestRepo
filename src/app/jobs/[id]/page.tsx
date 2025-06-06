@@ -197,45 +197,44 @@ export default function JobDetail() {
                     <div className="border border-blue-700 overflow-hidden w-full">
                       <div className="bg-white p-2">
                         <h2 className="text-sm font-semibold text-red-900 mb-3">Important Dates</h2>
-                        <ul className="list-disc  text-sm text-black-700 space-y-1">
+                        <div className="text-sm text-black-700 space-y-1">
                           {job.applicationBeginDate && (
-                            <li>
+                            <div>
                               <span className='font-bold text-[8px]'>Application Begin:</span>{' '}
                               <span className="font-semibold  text-[8px]">{new Date(job.applicationBeginDate).toLocaleDateString()}</span>
-                            </li>
+                            </div>
                           )}
                           {job.lastDateApplyOnline && (
-                            <li>
+                            <div>
                               <span className='font-bold text-[8px]'>Last Date for Apply Online:</span>{' '}
                               <span className="text-red-600 font-semibold  text-[8px]">{new Date(job.lastDateApplyOnline).toLocaleDateString()}</span>
-                            </li>
+                            </div>
                           )}
                           {job.formCompleteLastDate && (
-                            <li>
+                            <div>
                               <span className='font-bold text-[8px]'>Pay Exam Fee Last Date:</span>{' '}
                               <span className="text-blue-500 font-bold text-[10px]">{new Date(job.formCompleteLastDate).toLocaleDateString()}</span>
-                            </li>
+                            </div>
                           )}
                           {job.correctionDate && (
-                            <li>
+                            <div>
                               <span className='font-bold text-[10px]'>Correction Date:</span>{' '}
                               <span className="text-blue-500 font-bold text-[10px]">{job.correctionDate}</span>
-                            </li>
+                            </div>
                           )}
                           {job.examDate && (
-                            <li>
+                            <div>
                               <span className='font-bold text-[10px]'>Exam Date:</span>{' '}
                               <span className="text-blue-500 font-bold text-[10px]">{job.examDate}</span>
-                            </li>
+                            </div>
                           )}
                           {job.admitCardDate && (
-                             <li>
+                             <div>
                                <span className='font-bold text-[10px]'>Admit Card Available:</span>{' '}
                                <span className="text-blue-500 font-bold text-[10px]">{job.admitCardDate}</span>
-                            </li>
+                            </div>
                            )}
-                          
-                        </ul>
+                        </div>
                       </div>
                     </div>
 
@@ -245,25 +244,24 @@ export default function JobDetail() {
                                   <div className="border border-blue-700 overflow-hidden w-full">
                                     <div className="bg-white p-4">
                                       <h2 className="text-sm font-semibold text-red-900 mb-3">Application Fee</h2>
-                                      <ul className="list-disc pl-5 text-sm text-black-700 space-y-1">
+                                      <div className="text-sm text-black-700 space-y-1">
                                         {job.applicationFeeGeneral && (
-                                          <li>
-                                            <span className='font-bold text-[10px]'>General / OBC / EWS:</span> <span className="text-blue-500 font-bold text-[10px]">{job.applicationFeeGeneral}/-</span>
-                                          </li>
+                                          <div>
+                                            <span className='font-bold text-[8px]'>General / OBC / EWS:</span> <span className="text-blue-500 font-bold text-[10px]">{job.applicationFeeGeneral}/-</span>
+                                          </div>
                                         )}
                                         {job.applicationFeeSCST && (
-                                          <li>
+                                          <div>
                                             <span className='font-bold text-[10px]'>SC / ST / Female:</span> <span className="text-blue-500 font-bold text-[10px]">{job.applicationFeeSCST}/-</span>
-                                          </li>
+                                          </div>
                                         )}
                                         {job.paymentMethod && (
-                                          <li>
+                                          <div>
                                             <span className='font-bold text-[10px]'>Pay the Exam Fee: </span>
                                             <span className="text-blue-500 font-bold text-[10px]">{job.paymentMethod}</span>
-                                          </li>
+                                          </div>
                                         )}
-                                        
-                                      </ul>
+                                      </div>
                                     </div>
                                   </div>
                                 )}
@@ -275,25 +273,25 @@ export default function JobDetail() {
                                 <div className="border border-blue-700 overflow-hidden w-full">
                                 <div className="bg-white p-4">
                                     {job.minimumAge && (
-                                    <li >
+                                    <div>
                                       <span className='font-bold text-[10px]'>Minimum Age: </span>
                                       <span className='text-blue-700 font-bold text-[10px] '> {job.minimumAge} Years</span> 
-                                    </li>                                   
+                                    </div>                                   
                                     )}
                                     {
                                       job.maximumAge && (
-                                        <li >
+                                        <div>
                                           <span className='font-bold text-[10px]'>Maximum Age: </span>
                                           <span className='text-blue-700 font-bold text-[10px]'> {job.maximumAge} Years</span>
-                                        </li>
+                                        </div>
                                       )
                                     }
                                     
                                     {job.gender && (
-                                    <li >
+                                    <div>
                                       <span className='font-bold text-[10px]'>Gender: </span>
                                       <span className='text-blue-700 font-bold text-[10px]'> {job.gender}</span>
-                                    </li>
+                                    </div>
                                     )}
                                    </div>
                                   </div>
@@ -301,24 +299,24 @@ export default function JobDetail() {
                                 <div className="bg-white p-4">
                                    
                                 {job.qualification && (
-                                    <li >
+                                    <div>
                                       <span className='font-bold text-[10px]'>Qualification:- </span>
                                     <span className='text-blue-700  text-[10px]'> {job.qualification}</span>
-                                    </li>
+                                    </div>
                                     )}
                                     
                                     {job.salary && (
-                                    <li >
+                                    <div>
                                       <span className='font-bold text-[10px]'>Salary:- </span>
                                     <span className='text-blue-700 font-bold text-[10px]'> {job.salary}</span>
-                                    </li>
+                                    </div>
                                     )}
 
                                     {job.totalVacancy && (
-                                    <li >
+                                    <div>
                                       <span className='font-bold text-[10px]'>Total Seats:- </span>
                                     <span className='text-blue-700 font-bold text-[10px]'> {job.totalVacancy}</span>
-                                    </li>
+                                    </div>
                                     )}
                                    </div>
                                   </div>
