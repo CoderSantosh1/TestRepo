@@ -50,7 +50,7 @@ export default function ResultsPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Latest Results</h1>
+      <h1 className="text-3xl font-bold mb-8 text-gray-900 ">Latest Results</h1>
       
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {results.map((result) => (
@@ -58,7 +58,7 @@ export default function ResultsPage() {
             key={result._id}
             className="block bg-white  rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-200"
           >
-            <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">{result.title}</h2>
+            <h2 className="text-xl font-semibold mb-2 text-gray-900 ">{result.title}</h2>
             
             <div className="mb-4">
               <p className="text-gray-600 dark:text-gray-300">{result.organization}</p>
