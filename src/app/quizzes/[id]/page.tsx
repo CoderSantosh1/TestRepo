@@ -195,7 +195,7 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
         </Alert>
       )}
 
-      <div className="m-8 bg-white">
+      <div className="ml-[30px] bg-white">
         <CardHeader>
           <CardTitle className="text-[#014F59] flex justify-center">{quiz.description}</CardTitle>
           {/* <p className="text-muted-foreground"></p> */}
