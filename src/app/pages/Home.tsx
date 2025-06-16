@@ -319,11 +319,13 @@ export default function Home() {
                     >
                         <table className="min-w-full table-auto border-collapse border border-orange-500">
                         <tr className="border-t-2 border-red-500 hover:bg-[#FFF8CC]">
-                        <td className="text-xl font-semibold text-[#014F59] mb-2 line-clamp-1 hover:text-blue-500">
+                        <td className="text-base font-semibold text-[#014F59] mb-2 line-clamp-1 hover:text-blue-500">
+                          <li className="m-4">
                         <a href="/quizzes">
                        
                           {quiz.title}
                          </a>
+                         </li>
                         </td> 
                         </tr>
                         {/* <p className="text-gray-600 mb-4 line-clamp-2 min-h-[3rem]">
