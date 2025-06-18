@@ -151,8 +151,8 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
+      <div className="flex items-center justify-center min-h-screen ">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500 bg-[#1a124d]"></div>
       </div>
     );
   }
@@ -162,7 +162,8 @@ export default function Home() {
   return (
     <>
       <Header />
-      <main className="flex flex-col items-center justify-center bg-[#FFFBD9] mt-2 w-10/14 max-w-7xl mx-auto px-4">
+      <div className="bg-[#1a124d]">
+      <main className="flex flex-col items-center  justify-center bg-[#FFFBD9]  w-10/14 max-w-7xl mx-auto px-4">
         <div className="max-w-7xl mx-auto  sm:px-6 py-2 space-y-6">
           <div className="grid grid-cols-2 gap-2">
             {results.slice(0, 2).map((item) => (
@@ -291,7 +292,7 @@ export default function Home() {
 
           {/* Quiz Section */}
           <div className="mt-8">
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between ">
               <h2 className="text-2xl font-bold text-[#014F59]">Free Mock Tests for All Government Exams</h2>
               <a 
                 href="/quizzes" 
@@ -317,7 +318,7 @@ export default function Home() {
                     >
                         <table className="min-w-full table-auto border-collapse border border-orange-500">
                         <tr className="border-t-2 border-red-500 hover:bg-[#FFF8CC]">
-                        <td className="text-base font-semibold text-[#014F59] mb-2 line-clamp-1 hover:text-blue-500">
+                        <td className="text-base font-semibold text-[#014F59]  line-clamp-1 hover:text-blue-500">
                           <li className="m-4">
                         <a href="/quizzes">
                        
@@ -386,6 +387,7 @@ export default function Home() {
           </div>
         </div>
       </main>
+      </div>
       <Footer />
      
     </>

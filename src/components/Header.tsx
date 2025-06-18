@@ -3,6 +3,7 @@ import Link from "next/link";
 
 export default function Header() {
   return (
+    <div className="w-full bg-[#1a124d]">
     <header className="bg-[#A92E2E] w-10/14 max-w-7xl mx-auto shadow-md">
       <div className="container mx-auto ">
         {/* Top Section with Logo */}
@@ -26,5 +27,6 @@ export default function Header() {
         </nav>
       </div>
     </header>
+    </div>
   );
 }

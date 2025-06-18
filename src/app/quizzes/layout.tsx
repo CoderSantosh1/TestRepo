@@ -15,7 +15,7 @@ export default function QuizLayout({
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-[#FFFBD9]">
+      <main className="min-h-screen bg-[#1a124d]">
         {children}
       </main>
       <Footer />

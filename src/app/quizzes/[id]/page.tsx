@@ -39,17 +39,17 @@ interface Quiz {
 const getStatusColor = (status: QuestionStatus): string => {
   switch (status) {
     case QuestionStatus.Attempted:
-      return "from-lime-400 to-emerald-500";
+      return "from-lime-400 to-lime-600";
     case QuestionStatus.Viewed:
-      return "from-red-400 to-pink-500";
+      return "from-magenta-400 to-magenta-600";
     case QuestionStatus.NotViewed:
       return "from-gray-500 to-gray-700";
     case QuestionStatus.ToReview:
-      return "from-cyan-400 to-blue-500";
+      return "from-cyan-400 to-cyan-600";
     case QuestionStatus.AttemptedAndMarkedForReview:
-      return "from-magenta-400 to-purple-500";
+      return "from-magenta-400 to-magenta-600";
     default:
-      return "from-gray-400 to-gray-600";
+      return "from-gray-500 to-gray-700";
   }
 };
 
@@ -527,13 +527,27 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
                 className="p-6 bg-gradient-to-br from-black/80 to-purple-900/40 backdrop-blur-sm border border-cyan-400/30 shadow-2xl"
                 style={{ clipPath: "polygon(0% 0%, 100% 0%, 100% 95%, 95% 100%, 0% 100%)" }}
               >
-                <h3 className="text-xl font-black text-cyan-400 mb-6 flex items-center gap-2">
-                  <Hexagon className="w-5 h-5 animate-spin" />
-                  Neural Map
-                </h3>
+              <h3 className="text-xl font-black text-cyan-400 mb-6 flex items-center justify-between">
+                    {/* Left: Spinning Hexagon */}
+                    <div className="flex items-center gap-2">
+                      <Hexagon className="w-5 h-5 animate-spin" />
+                     
+                    </div>
+
+                    {/* Right: Ping and Active */}
+                    <div className="flex items-center gap-2">
+                      <span className="relative flex h-3 w-3">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                      </span>
+                      <span className="text-green-400 animate-pulse text-sm font-semibold">Active</span>
+                    </div>
+                  </h3>
+
+                
 
                 {/* Question Grid */}
-                <div className="grid grid-cols-3 gap-3 mb-8">
+                <div className="grid grid-cols-5 gap-2 mb-8">
                   {quiz.questions.map((_, index) => {
                     const status = questionStatuses[index] || QuestionStatus.NotViewed;
                     const isActive = currentQuestion === index;
@@ -566,17 +580,17 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
 
                 {/* Status Legend */}
                 <div className="space-y-4">
-                  <h4 className="text-sm font-bold text-magenta-400 uppercase tracking-wider">Status Matrix</h4>
+                  <h4 className="text-sm font-bold text-pink-400 uppercase tracking-wider">Status Questions</h4>
                   {[
                     {
                       status: QuestionStatus.Attempted,
                       label: "Completed",
-                      color: "bg-gradient-to-r from-lime-400 to-emerald-500",
+                      color: "bg-gradient-to-r from-lime-400 to-lime-600",
                     },
                     {
                       status: QuestionStatus.Viewed,
                       label: "Incomplete",
-                      color: "bg-gradient-to-r from-red-400 to-pink-500",
+                      color: "bg-gradient-to-r from-magenta-400 to-magenta-600",
                     },
                     {
                       status: QuestionStatus.NotViewed,
@@ -586,9 +600,8 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
                     {
                       status: QuestionStatus.ToReview,
                       label: "Review Queue",
-                      color: "bg-gradient-to-r from-cyan-400 to-blue-500",
+                      color: "bg-gradient-to-r from-cyan-400 to-cyan-600",
                     },
-                    
                   ].map(({ label, color }) => (
                     <div key={label} className="flex items-center gap-3">
                       <div className={`w-4 h-4 rounded-full ${color} shadow-lg`} />

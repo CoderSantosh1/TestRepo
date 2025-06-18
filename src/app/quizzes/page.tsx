@@ -83,8 +83,8 @@ export default function QuizList() {
   }
 
   return (
-    <div className="container bg-white mx-auto py-6">
-      <h1 className="text-2xl font-bold mb-8 text-[#014F59] flex justify-center">Available Test</h1>
+    <div className="container bg-[#1a124d] mx-auto py-6">
+      <h1 className="text-2xl font-bold mb-8 text-white flex justify-center">Available Test</h1>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 ">
         {quizzes.map((quiz) => (
           <Card className="group relative overflow-hidden rounded-3xl border-0 bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-100 shadow-xl hover:shadow-2xl transition-all duration-500 w-[380px] m-5 hover:-translate-y-2 hover:rotate-1">
