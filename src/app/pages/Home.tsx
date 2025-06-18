@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useEffect, useState } from 'react';
 import { toast } from "sonner";
+import AnnouncementBar from "../../../my-nextjs-app/src/components/ui/AnnouncementBar";
 
 interface Job {
   _id: string;
@@ -162,6 +163,7 @@ export default function Home() {
   return (
     <>
       <Header />
+      
       <div className="bg-[#1a124d]">
       <main className="flex flex-col items-center  justify-center bg-[#FFFBD9]  w-10/14 max-w-7xl mx-auto px-4">
         <div className="max-w-7xl mx-auto  sm:px-6 py-2 space-y-6">
@@ -387,6 +389,26 @@ export default function Home() {
           </div>
         </div>
       </main>
+      </div>
+      {/* Announcement Bars */}
+      <div className="bg-[#1a124d]">
+      <div className="flex flex-col items-center  justify-center bg-[#FFFBD9]  w-10/14 max-w-7xl mx-auto px-4 ">
+        <AnnouncementBar title="Sarkari Results 10+2 Latest Job">
+          Most Recent Sarkari Work, Sarkari Test Result, Most Recent On The Web And Disconnected Structure, Concede Card, Prospectus, Affirmation, Ansawer Key, Grant, Notice Etc.If You Need To Get Refreshes Connected With Sarkari Occupations On Sarkari Result.Com.Cm Like Concede Warning Like Govt. Test, Sarkari Result, Most Recent Bord Result, Bihar Result Tenth And So On You Could Sarkari Result 10+2 Most Recent Occupation At Any Point Website Page Consistently.
+        </AnnouncementBar>
+        <AnnouncementBar title="Sarkari Results">
+          <b>Sarkari Results:</b> Sarkari Results Is A Famous Site In India That Gives Data About Sarkari Work Tests, Sarkari Result 2025, And Other Related Refreshes. It Is One Of The Notable Entries That Many Work Searchers Use To Secure Data About Government Position Opening, Concede Cards, Test Dates, And Results.
+        </AnnouncementBar>
+        <AnnouncementBar title="Sarkari Result Bihar">
+          Each Data Connected With Sarkari Test Result In Bihar Can Be Seen As Here Like: OFSS Bihar, Bihar Board Tenth Outcome, Sarkari Result Bihar Board 2025, Bihar Board Matric 2025, Bihar Police 2025, Bihar Board Tenth, Bihar Ssc, Bihar Je, Bihar Common Court, Sarkari Result Bihar Board Result, Bihar Work, Bihar Result, Bihar 10+2 Most Recent Work, Bihar Sarkari Result , Bihar Sarkari Test, Bihar Govt Work, Concede Card, Bihar Sarkari Result, Eleventh Affirmation And So Forth.
+        </AnnouncementBar>
+        <AnnouncementBar title="Sarkari Result Hindi">
+          Uttar Pradesh (Sarkariresult.Com.Cm UP Board) Is A State Where Lakhs Of Young People Give Sarkari Test Consistently To Land Government Positions, So Here UP Board Plays A Significant Part, So Here You Will Get Sarkari Result Up Board 2024, Up Barricade Result , Board 2025,Up Board Test Result, Sarkari Result Up Board Class Tenth, Up Board Result Date, Sarkari Result Up Board 2024 In Hindi And So On. Will Continue To Get Refreshes.
+        </AnnouncementBar>
+        <AnnouncementBar title="Sarkariresult">
+          Sarkariresult: Data Presents To You All The Most Recent News Like Outcome, Online Structure, Naukri, Test Result 2025, Work Result, Information Hindi Test, Government Work Data, And Updates, Notice And Output Gives.
+        </AnnouncementBar>
+      </div>
       </div>
       <Footer />
      
