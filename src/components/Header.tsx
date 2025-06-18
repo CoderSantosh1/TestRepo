@@ -9,10 +9,10 @@ export default function Header() {
         {/* Top Section with Logo */}
         <div className="flex flex-col items-center border-b border-gray-200">
           <div className="flex items-center gap-4">
-          <h1 className="text-3xl font-bold text-[#000000]">Sarkariresultsnow</h1>
+          <h1 className="text-3xl font-bold text-[#000000]">SARKARIRESULTSNOW</h1>
      
 </div>
-          <p className="text-sm text-[#000000] hover:text-blue-800"><a href="https://www.sarkariresultsnow.com/">WWW.sarkariresultsnow.IN</a></p>
+          <p className="text-sm text-[#000000] hover:text-blue-800"><a href="https://www.sarkariresultsnow.com/">WWW.SARKARIRESULTSNOW.COM</a></p>
         </div>
 
         {/* Navigation Menu */}
