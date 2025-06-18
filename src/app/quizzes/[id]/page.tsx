@@ -45,7 +45,7 @@ const getStatusColor = (status: QuestionStatus): string => {
     case QuestionStatus.NotViewed:
       return "from-gray-500 to-gray-700";
     case QuestionStatus.ToReview:
-      return "from-red-400 to-red-600";
+      return "from-cyan-400 to-cyan-600";
     case QuestionStatus.AttemptedAndMarkedForReview:
       return "from-red-400 to-red-600";
     default:
