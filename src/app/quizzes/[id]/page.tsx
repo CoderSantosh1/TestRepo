@@ -276,7 +276,7 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
   const answeredQuestions = answers.filter((answer) => answer !== -1).length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-black p-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-black p-2 sm:p-4">
       {/* Floating particles background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         {Array.from({ length: 20 }).map((_, i) => (
@@ -293,7 +293,7 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
         ))}
       </div>
 
-      <div className="container mx-auto py-8 px-4 relative z-10">
+      <div className="container mx-auto py-4 sm:py-8 px-2 sm:px-4 relative z-10">
         {/* Warning Alert - Cyberpunk Style */}
         {/* {showWarning && (
           <Alert className="mb-6 border-0 bg-gradient-to-r from-red-500/20 to-orange-500/20 backdrop-blur-sm animate-pulse">
@@ -320,79 +320,76 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
           <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-lime-400 via-cyan-400 to-magenta-400 opacity-50 animate-pulse" />
 
           {/* Header Section */}
-          <CardHeader className="border-b border-cyan-400/30 bg-gradient-to-r from-black/50 to-purple-900/30 backdrop-blur-sm">
-            <div className="text-center mb-6">
-              <CardTitle className="text-4xl font-black mb-2">
+          <CardHeader className="border-b border-cyan-400/30 bg-gradient-to-r from-black/50 to-purple-900/30 backdrop-blur-sm p-4 sm:p-6">
+            <div className="text-center mb-4 sm:mb-6">
+              <CardTitle className="text-2xl sm:text-4xl font-black mb-2">
                 <span className="bg-gradient-to-r from-cyan-400 via-magenta-400 to-lime-400 bg-clip-text text-transparent animate-pulse">
                   {quiz.title}
                 </span>
               </CardTitle>
-              <p className="text-cyan-300 text-lg font-semibold">{quiz.description}</p>
+              <p className="text-cyan-300 text-base sm:text-lg font-semibold">{quiz.description}</p>
             </div>
 
             {/* Stats Grid - Futuristic Design */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 mb-4 sm:mb-6">
               {/* Time Left */}
               <div className="relative group">
                 <div
-                  className="p-4 bg-gradient-to-br from-red-500/20 to-orange-500/20 backdrop-blur-sm border border-red-400/30 transform group-hover:scale-105 transition-transform duration-300"
+                  className="p-3 sm:p-4 bg-gradient-to-br from-red-500/20 to-orange-500/20 backdrop-blur-sm border border-red-400/30 transform group-hover:scale-105 transition-transform duration-300"
                   style={{ clipPath: "polygon(0% 0%, 90% 0%, 100% 25%, 100% 100%, 10% 100%, 0% 75%)" }}
                 >
-                  <div className="flex items-center justify-center gap-3">
-                    <Clock className="h-6 w-6 text-red-400 animate-pulse" />
+                  <div className="flex items-center justify-center gap-2 sm:gap-3">
+                    <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-red-400 animate-pulse" />
                     <div className="text-center">
-                      <div className="text-2xl font-black text-red-400">
+                      <div className="text-xl sm:text-2xl font-black text-red-400">
                         {minutes}:{seconds.toString().padStart(2, "0")}
                       </div>
-                      <div className="text-xs font-bold text-red-300 uppercase tracking-wider">Time Quantum</div>
+                      <div className="text-[10px] sm:text-xs font-bold text-red-300 uppercase tracking-wider">Time Quantum</div>
                     </div>
                   </div>
                 </div>
-                <div className="absolute inset-0 bg-red-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
               </div>
 
               {/* Answered Questions */}
               <div className="relative group">
                 <div
-                  className="p-4 bg-gradient-to-br from-lime-500/20 to-emerald-500/20 backdrop-blur-sm border border-lime-400/30 transform group-hover:scale-105 transition-transform duration-300"
+                  className="p-3 sm:p-4 bg-gradient-to-br from-lime-500/20 to-emerald-500/20 backdrop-blur-sm border border-lime-400/30 transform group-hover:scale-105 transition-transform duration-300"
                   style={{ clipPath: "polygon(10% 0%, 100% 0%, 100% 75%, 90% 100%, 0% 100%, 0% 25%)" }}
                 >
-                  <div className="flex items-center justify-center gap-3">
-                    <CheckCircle2 className="h-6 w-6 text-lime-400 animate-pulse" />
+                  <div className="flex items-center justify-center gap-2 sm:gap-3">
+                    <CheckCircle2 className="h-5 w-5 sm:h-6 sm:w-6 text-lime-400 animate-pulse" />
                     <div className="text-center">
-                      <div className="text-2xl font-black text-lime-400">
+                      <div className="text-xl sm:text-2xl font-black text-lime-400">
                         {answeredQuestions}/{quiz.questions.length}
                       </div>
-                      <div className="text-xs font-bold text-lime-300 uppercase tracking-wider">Completed</div>
+                      <div className="text-[10px] sm:text-xs font-bold text-lime-300 uppercase tracking-wider">Completed</div>
                     </div>
                   </div>
                 </div>
-                <div className="absolute inset-0 bg-lime-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
               </div>
 
               {/* Current Question */}
               <div className="relative group">
                 <div
-                  className="p-4 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 backdrop-blur-sm border border-cyan-400/30 transform group-hover:scale-105 transition-transform duration-300"
+                  className="p-3 sm:p-4 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 backdrop-blur-sm border border-cyan-400/30 transform group-hover:scale-105 transition-transform duration-300"
                   style={{ clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)" }}
                 >
-                  <div className="flex items-center justify-center gap-3">
-                    <Brain className="h-6 w-6 text-cyan-400 animate-spin" />
+                  <div className="flex items-center justify-center gap-2 sm:gap-3">
+                    <Brain className="h-5 w-5 sm:h-6 sm:w-6 text-cyan-400 animate-spin" />
                     <div className="text-center">
-                      <div className="text-2xl font-black text-cyan-400">
+                      <div className="text-xl sm:text-2xl font-black text-cyan-400">
                         {currentQuestion + 1}/{quiz.questions.length}
                       </div>
-                      <div className="text-xs font-bold text-cyan-300 uppercase tracking-wider">Current Node</div>
+                      <div className="text-[10px] sm:text-xs font-bold text-cyan-300 uppercase tracking-wider">Current Node</div>
                     </div>
                   </div>
                 </div>
-                <div className="absolute inset-0 bg-cyan-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
               </div>
             </div>
 
-            {/* Progress Bar - Holographic Style */}
+            {/* Progress Bar */}
             <div className="relative">
-              <div className="h-3 bg-black/50 rounded-full border border-cyan-400/30 overflow-hidden">
+              <div className="h-2 sm:h-3 bg-black/50 rounded-full border border-cyan-400/30 overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-cyan-400 via-magenta-400 to-lime-400 transition-all duration-500 relative"
                   style={{ width: `${progress}%` }}
@@ -400,47 +397,47 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse" />
                 </div>
               </div>
-              <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/20 via-magenta-400/20 to-lime-400/20 blur-sm animate-pulse" />
             </div>
           </CardHeader>
 
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 p-8">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-8 p-4 sm:p-8">
             {/* Question Section */}
             <div className="lg:col-span-3">
               <Card className="border-0 bg-gradient-to-br from-black/60 to-purple-900/30 backdrop-blur-sm shadow-2xl">
-                <CardHeader className="border-b border-magenta-400/30">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-magenta-400 to-purple-600 rounded-lg flex items-center justify-center">
-                      <Brain className="w-6 h-6 text-white animate-pulse" />
+                <CardHeader className="border-b border-magenta-400/30 p-4 sm:p-6">
+                  <div className="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-magenta-400 to-purple-600 rounded-lg flex items-center justify-center">
+                      <Brain className="w-5 h-5 sm:w-6 sm:h-6 text-white animate-pulse" />
                     </div>
-                    <div className="text-sm font-bold text-magenta-400 uppercase tracking-wider">Neural Query</div>
+                    <div className="text-xs sm:text-sm font-bold text-magenta-400 uppercase tracking-wider">Neural Query</div>
                   </div>
-                  <CardTitle className="text-xl font-bold text-white leading-relaxed">
+                  <CardTitle className="text-lg sm:text-xl font-bold text-white leading-relaxed">
                     {currentQuestionData.text}
                   </CardTitle>
                 </CardHeader>
 
-                <CardContent className="pt-6">
+                <CardContent className="pt-4 sm:pt-6">
                   <RadioGroup
                     value={answers[currentQuestion]?.toString() || ""}
                     onValueChange={handleAnswerChange}
-                    className="space-y-4"
+                    className="space-y-3 sm:space-y-4"
                   >
                     {currentQuestionData.options.map((option, index) => (
                       <div
                         key={index}
-                        className={`group relative p-4 rounded-lg border transition-all duration-300 cursor-pointer hover:scale-[1.02] ${answers[currentQuestion] === index
+                        className={`group relative p-3 sm:p-4 rounded-lg border transition-all duration-300 cursor-pointer hover:scale-[1.02] ${
+                          answers[currentQuestion] === index
                             ? "border-cyan-400 bg-cyan-400/10 shadow-lg shadow-cyan-400/20"
                             : "border-gray-600/50 bg-black/20 hover:border-magenta-400/50 hover:bg-magenta-400/5"
-                          }`}
+                        }`}
                         onClick={() => handleAnswerChange(index.toString())}
                       >
-                        <div className="flex items-center space-x-4">
+                        <div className="flex items-center space-x-3 sm:space-x-4">
                           <div className="relative">
                             <RadioGroupItem
                               value={index.toString()}
                               id={`option-${index}`}
-                              className="h-6 w-6 border-2 border-cyan-400 text-cyan-400"
+                              className="h-5 w-5 sm:h-6 sm:w-6 border-2 border-cyan-400 text-cyan-400"
                             />
                             {answers[currentQuestion] === index && (
                               <div className="absolute inset-0 bg-cyan-400/20 rounded-full blur-sm animate-pulse" />
@@ -448,14 +445,11 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
                           </div>
                           <Label
                             htmlFor={`option-${index}`}
-                            className="text-gray-200 cursor-pointer flex-1 font-medium text-lg"
+                            className="text-gray-200 cursor-pointer flex-1 font-medium text-base sm:text-lg"
                           >
                             {option}
                           </Label>
                         </div>
-
-                        {/* Hover effect */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-magenta-400/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
                       </div>
                     ))}
                   </RadioGroup>
@@ -463,28 +457,28 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
               </Card>
 
               {/* Action Buttons */}
-              <div className="mt-8 flex flex-wrap justify-between gap-4">
-                <div className="flex gap-4">
+              <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row justify-between gap-3 sm:gap-4">
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                   <Button
                     onClick={handleClearResponse}
-                    className="border-2 border-red-400 text-red-400 bg-transparent hover:bg-red-400/10 font-bold px-6 py-3 transition-all duration-300 hover:shadow-lg hover:shadow-red-400/20"
+                    className="border-2 border-red-400 text-red-400 bg-transparent hover:bg-red-400/10 font-bold px-4 sm:px-6 py-2 sm:py-3 transition-all duration-300 hover:shadow-lg hover:shadow-red-400/20 text-sm sm:text-base"
                   >
                     Clear Response
                   </Button>
                   <Button
                     onClick={handleMarkForReview}
-                    className="border-2 border-yellow-400 text-yellow-400 bg-transparent hover:bg-yellow-400/10 font-bold px-6 py-3 transition-all duration-300 hover:shadow-lg hover:shadow-yellow-400/20"
+                    className="border-2 border-yellow-400 text-yellow-400 bg-transparent hover:bg-yellow-400/10 font-bold px-4 sm:px-6 py-2 sm:py-3 transition-all duration-300 hover:shadow-lg hover:shadow-yellow-400/20 text-sm sm:text-base"
                   >
                     <Flag className="h-4 w-4 mr-2" />
                     Mark for Review
                   </Button>
                 </div>
 
-                <div className="flex gap-4">
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                   <Button
                     onClick={handlePrevious}
                     disabled={currentQuestion === 0}
-                    className="border-2 border-cyan-400 text-cyan-400 bg-transparent hover:bg-cyan-400/10 font-bold px-6 py-3 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-400/20 disabled:opacity-50"
+                    className="border-2 border-cyan-400 text-cyan-400 bg-transparent hover:bg-cyan-400/10 font-bold px-4 sm:px-6 py-2 sm:py-3 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-400/20 disabled:opacity-50 text-sm sm:text-base"
                   >
                     <ArrowLeft className="h-4 w-4 mr-2" />
                     Previous
@@ -494,7 +488,7 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
                     <Button
                       onClick={handleSubmit}
                       disabled={submitting}
-                      className="bg-gradient-to-r from-lime-400 to-emerald-500 hover:from-lime-500 hover:to-emerald-600 text-black font-black px-8 py-3 transition-all duration-300 hover:shadow-lg hover:shadow-lime-400/30"
+                      className="bg-gradient-to-r from-lime-400 to-emerald-500 hover:from-lime-500 hover:to-emerald-600 text-black font-black px-6 sm:px-8 py-2 sm:py-3 transition-all duration-300 hover:shadow-lg hover:shadow-lime-400/30 text-sm sm:text-base"
                     >
                       {submitting ? (
                         <span className="flex items-center gap-2">
@@ -511,7 +505,7 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
                   ) : (
                     <Button
                       onClick={handleNext}
-                      className="bg-gradient-to-r from-magenta-400 to-purple-500 hover:from-magenta-500 hover:to-purple-600 text-white font-black px-8 py-3 transition-all duration-300 hover:shadow-lg hover:shadow-magenta-400/30"
+                      className="bg-gradient-to-r from-magenta-400 to-purple-500 hover:from-magenta-500 hover:to-purple-600 text-white font-black px-6 sm:px-8 py-2 sm:py-3 transition-all duration-300 hover:shadow-lg hover:shadow-magenta-400/30 text-sm sm:text-base"
                     >
                       Next
                       <ArrowRight className="h-4 w-4 ml-2" />
@@ -524,30 +518,24 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
             {/* Question Overview Sidebar */}
             <div className="lg:col-span-1">
               <div
-                className="p-6 bg-gradient-to-br from-black/80 to-purple-900/40 backdrop-blur-sm border border-cyan-400/30 shadow-2xl"
+                className="p-4 sm:p-6 bg-gradient-to-br from-black/80 to-purple-900/40 backdrop-blur-sm border border-cyan-400/30 shadow-2xl"
                 style={{ clipPath: "polygon(0% 0%, 100% 0%, 100% 95%, 95% 100%, 0% 100%)" }}
               >
-              <h3 className="text-xl font-black text-cyan-400 mb-6 flex items-center justify-between">
-                    {/* Left: Spinning Hexagon */}
-                    <div className="flex items-center gap-2">
-                      <Hexagon className="w-5 h-5 animate-spin" />
-                     
-                    </div>
-
-                    {/* Right: Ping and Active */}
-                    <div className="flex items-center gap-2">
-                      <span className="relative flex h-3 w-3">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-                      </span>
-                      <span className="text-green-400 animate-pulse text-sm font-semibold">Active</span>
-                    </div>
-                  </h3>
-
-                
+                <h3 className="text-lg sm:text-xl font-black text-cyan-400 mb-4 sm:mb-6 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Hexagon className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="relative flex h-2 w-2 sm:h-3 sm:w-3">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 sm:h-3 sm:w-3 bg-green-500"></span>
+                    </span>
+                    <span className="text-green-400 animate-pulse text-xs sm:text-sm font-semibold">Active</span>
+                  </div>
+                </h3>
 
                 {/* Question Grid */}
-                <div className="grid grid-cols-5 gap-2 mb-8">
+                <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 mb-6 sm:mb-8">
                   {quiz.questions.map((_, index) => {
                     const status = questionStatuses[index] || QuestionStatus.NotViewed;
                     const isActive = currentQuestion === index;
@@ -557,10 +545,11 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
                         key={index}
                         onClick={() => handleQuestionNavigation(index)}
                         className={`
-                          relative w-12 h-12 rounded-lg font-black text-white transition-all duration-300 hover:scale-110
+                          relative w-8 h-8 sm:w-12 sm:h-12 rounded-lg font-black text-white transition-all duration-300 hover:scale-110
                           ${isActive ? "ring-2 ring-cyan-400 ring-offset-2 ring-offset-black" : ""}
                           bg-gradient-to-br ${getStatusColor(status)}
                           hover:shadow-lg hover:shadow-current/30
+                          text-sm sm:text-base
                         `}
                         style={{
                           clipPath:
@@ -579,8 +568,8 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
                 </div>
 
                 {/* Status Legend */}
-                <div className="space-y-4">
-                  <h4 className="text-sm font-bold text-pink-400 uppercase tracking-wider">Status Questions</h4>
+                <div className="space-y-3 sm:space-y-4">
+                  <h4 className="text-xs sm:text-sm font-bold text-pink-400 uppercase tracking-wider">Status Questions</h4>
                   {[
                     {
                       status: QuestionStatus.Attempted,
@@ -603,9 +592,9 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
                       color: "bg-gradient-to-r from-cyan-400 to-cyan-600",
                     },
                   ].map(({ label, color }) => (
-                    <div key={label} className="flex items-center gap-3">
-                      <div className={`w-4 h-4 rounded-full ${color} shadow-lg`} />
-                      <span className="text-gray-300 text-sm font-medium">{label}</span>
+                    <div key={label} className="flex items-center gap-2 sm:gap-3">
+                      <div className={`w-3 h-3 sm:w-4 sm:h-4 rounded-full ${color} shadow-lg`} />
+                      <span className="text-gray-300 text-xs sm:text-sm font-medium">{label}</span>
                     </div>
                   ))}
                 </div>
