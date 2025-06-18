@@ -1,7 +1,11 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Analytics } from "@vercel/analytics/next";
+import { injectSpeedInsights } from "@vercel/speed-insights";
+import { inject } from "@vercel/analytics";
+
+// Initialize Vercel Analytics and Speed Insights
+inject();
+injectSpeedInsights({ framework: "nextjs" });
 
 export default function QuizLayout({
   children,
@@ -15,8 +19,6 @@ export default function QuizLayout({
         {children}
       </main>
       <Footer />
-      <SpeedInsights />
-      <Analytics />
     </>
   );
 } 
