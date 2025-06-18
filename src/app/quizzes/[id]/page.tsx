@@ -41,13 +41,13 @@ const getStatusColor = (status: QuestionStatus): string => {
     case QuestionStatus.Attempted:
       return "from-lime-400 to-lime-600";
     case QuestionStatus.Viewed:
-      return "from-magenta-400 to-magenta-600";
+      return "from-red-400 to-red-600";
     case QuestionStatus.NotViewed:
       return "from-gray-500 to-gray-700";
     case QuestionStatus.ToReview:
-      return "from-cyan-400 to-cyan-600";
+      return "from-red-400 to-red-600";
     case QuestionStatus.AttemptedAndMarkedForReview:
-      return "from-magenta-400 to-magenta-600";
+      return "from-red-400 to-red-600";
     default:
       return "from-gray-500 to-gray-700";
   }
@@ -590,7 +590,7 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
                     {
                       status: QuestionStatus.Viewed,
                       label: "Incomplete",
-                      color: "bg-gradient-to-r from-magenta-400 to-magenta-600",
+                      color: "bg-gradient-to-r from-red-400 to-red-600",
                     },
                     {
                       status: QuestionStatus.NotViewed,
