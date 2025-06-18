@@ -22,7 +22,7 @@ export function ModeToggle() {
       <button
         onClick={() => setTheme(currentTheme === "dark" ? "light" : "dark")}
         type="button"
-        className="flex h-10 w-10 p-2 items-center justify-center rounded-md border border-gray-800 text-gray-800 focus:outline-none focus:ring-0 focus:ring-gray-200 dark:border-slate-300 dark:text-white"
+        className="flex h-10 w-10 p-2 items-center justify-center rounded-md border border-gray-800 text-gray-800 focus:outline-none focus:ring-0 focus:ring-gray-200 dark:border-slate-300 "
       >
         <Sun className="h-5 w-5 dark:hidden" />
         <Moon className="h-5 w-5 hidden dark:block" />

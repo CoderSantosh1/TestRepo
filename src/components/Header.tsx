@@ -3,15 +3,16 @@ import Link from "next/link";
 
 export default function Header() {
   return (
+    <div className="w-full bg-[#1a124d]">
     <header className="bg-[#A92E2E] w-10/14 max-w-7xl mx-auto shadow-md">
       <div className="container mx-auto ">
         {/* Top Section with Logo */}
         <div className="flex flex-col items-center border-b border-gray-200">
           <div className="flex items-center gap-4">
-          <h1 className="text-3xl font-bold text-[#000000]">JOBSPLATFORM</h1>
+          <h1 className="text-3xl font-bold text-[#000000]">Sarkariresultsnow</h1>
      
 </div>
-          <p className="text-sm text-[#000000] hover:text-blue-800"><a href="https://www.jobsplatform.in/">WWW.JOBSPLATFORM.IN</a></p>
+          <p className="text-sm text-[#000000] hover:text-blue-800"><a href="https://www.sarkariresultsnow.com/">WWW.sarkariresultsnow.IN</a></p>
         </div>
 
         {/* Navigation Menu */}
@@ -26,5 +27,6 @@ export default function Header() {
         </nav>
       </div>
     </header>
+    </div>
   );
 }

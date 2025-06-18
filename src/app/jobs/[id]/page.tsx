@@ -6,6 +6,7 @@ import Navbar from "../../../components/Header"
 import Footer from '@/components/Footer';
 import BackImages from "@/assists/back.png"
 import Image from 'next/image';
+import GoogleAdsense from '@/components/GoogleAdsense';
 
 interface Job {
   _id: string;
@@ -18,7 +19,8 @@ interface Job {
   totalVacancy: string; 
   applicationDeadline: string; 
   status: string;
-  age?: string;
+  minimumAge?: string;
+  maximumAge?: string;
   gender?: string;
   qualification?: string;
   applyJob: string;
@@ -145,13 +147,21 @@ export default function JobDetail() {
     <React.Fragment>
         <Navbar/>
         <div className="container mx-auto px-4 py-8">
-          <div className="max-w-7xl mx-auto bg-white  shadow-lg overflow-hidden">
+          <div className="max-w-7xl mx-auto bg-white shadow-lg overflow-hidden">
             <div className="p-2">
-              <h1 className="text-3xl font-bold text-red-800 mb-2">{job.title}</h1>
-             
-    
-              <div className="col-mb-6">
-                <h2 className="text-xl font-semibold text-red-900 mb-3">Job Description</h2>
+              <h1 className="text-3xl font-bold text-red-800 ">{job.title}</h1>
+              
+              {/* Ad placement at the top of the content */}
+              <div className="my-4">
+                <GoogleAdsense
+                  adSlot="YOUR_AD_SLOT_ID_HERE"
+                  style={{ display: 'block' }}
+                  className="w-full"
+                />
+              </div>
+
+              <div className="col-mb-12">
+                
                 <p className="text-black-700 whitespace-pre-line">{job.description}</p>
               </div>
               <div className="row">
@@ -186,71 +196,72 @@ export default function JobDetail() {
                     {/* Important Dates Section */}
                     <div className="border border-blue-700 overflow-hidden w-full">
                       <div className="bg-white p-2">
-                        <ul className="list-disc  text-sm text-black-700 space-y-1">
+                        <h2 className="text-sm font-semibold text-red-900 mb-3">Important Dates</h2>
+                        <div className="text-sm text-black-700 space-y-1">
                           {job.applicationBeginDate && (
-                            <li>
+                            <div>
                               <span className='font-bold text-[8px]'>Application Begin:</span>{' '}
                               <span className="font-semibold  text-[8px]">{new Date(job.applicationBeginDate).toLocaleDateString()}</span>
-                            </li>
+                            </div>
                           )}
                           {job.lastDateApplyOnline && (
-                            <li>
+                            <div>
                               <span className='font-bold text-[8px]'>Last Date for Apply Online:</span>{' '}
                               <span className="text-red-600 font-semibold  text-[8px]">{new Date(job.lastDateApplyOnline).toLocaleDateString()}</span>
-                            </li>
+                            </div>
                           )}
                           {job.formCompleteLastDate && (
-                            <li>
+                            <div>
                               <span className='font-bold text-[8px]'>Pay Exam Fee Last Date:</span>{' '}
                               <span className="text-blue-500 font-bold text-[10px]">{new Date(job.formCompleteLastDate).toLocaleDateString()}</span>
-                            </li>
+                            </div>
                           )}
                           {job.correctionDate && (
-                            <li>
+                            <div>
                               <span className='font-bold text-[10px]'>Correction Date:</span>{' '}
                               <span className="text-blue-500 font-bold text-[10px]">{job.correctionDate}</span>
-                            </li>
+                            </div>
                           )}
                           {job.examDate && (
-                            <li>
+                            <div>
                               <span className='font-bold text-[10px]'>Exam Date:</span>{' '}
                               <span className="text-blue-500 font-bold text-[10px]">{job.examDate}</span>
-                            </li>
+                            </div>
                           )}
-                          
-                        </ul>
+                          {job.admitCardDate && (
+                             <div>
+                               <span className='font-bold text-[10px]'>Admit Card Available:</span>{' '}
+                               <span className="text-blue-500 font-bold text-[10px]">{job.admitCardDate}</span>
+                            </div>
+                           )}
+                        </div>
                       </div>
                     </div>
 
                         {/* Application Fee Section */}
+                       
                                 {(job.applicationFeeGeneral || job.applicationFeeSCST || job.paymentMethod) && (
                                   <div className="border border-blue-700 overflow-hidden w-full">
                                     <div className="bg-white p-4">
-                                    
-                                      <ul className="list-disc pl-5 text-sm text-black-700 space-y-1">
+                                      <h2 className="text-sm font-semibold text-red-900 mb-3">Application Fee</h2>
+                                      <div className="text-sm text-black-700 space-y-1">
                                         {job.applicationFeeGeneral && (
-                                          <li>
-                                            <span className='font-bold text-[10px]'>General / OBC / EWS:</span> <span className="text-blue-500 font-bold text-[10px]">{job.applicationFeeGeneral}/-</span>
-                                          </li>
+                                          <div>
+                                            <span className='font-bold text-[8px]'>General / OBC / EWS:</span> <span className="text-blue-500 font-bold text-[10px]">{job.applicationFeeGeneral}/-</span>
+                                          </div>
                                         )}
                                         {job.applicationFeeSCST && (
-                                          <li>
+                                          <div>
                                             <span className='font-bold text-[10px]'>SC / ST / Female:</span> <span className="text-blue-500 font-bold text-[10px]">{job.applicationFeeSCST}/-</span>
-                                          </li>
+                                          </div>
                                         )}
                                         {job.paymentMethod && (
-                                          <li>
-                                            <span className='font-bold text-[10px]'>Pay the Examination Fee Through: </span>
+                                          <div>
+                                            <span className='font-bold text-[10px]'>Pay the Exam Fee: </span>
                                             <span className="text-blue-500 font-bold text-[10px]">{job.paymentMethod}</span>
-                                          </li>
+                                          </div>
                                         )}
-                                        {job.admitCardDate && (
-                                        <li>
-                                          <span className='font-bold text-[10px]'>Admit Card Available:</span>{' '}
-                                          <span className="text-blue-500 font-bold text-[10px]">{job.admitCardDate}</span>
-                                        </li>
-                                      )}
-                                      </ul>
+                                      </div>
                                     </div>
                                   </div>
                                 )}
@@ -258,24 +269,61 @@ export default function JobDetail() {
 
 
                                 {/* Salary Section (optional display below) */}
-                                {job.salary && (
-                                  <div className="mt-4 border border-black-500 bg-white p-4 w-full">
-                                    <p className="text-blue-900 font-bold text-sm break-words whitespace-pre-wrap">
-                                      Salary: {job.salary}
-                                    </p>
-                                    <p className='text-blue-900 font-bold text-sm break-words whitespace-pre-wrap'>
-                                     Total Seats: {job.totalVacancy}
-                                    </p>
-                                    <p className='text-blue-700 text-sm break-words whitespace-pre-wrap '></p>
-                                    Age: {job.age}
-                                    Gender: {job.gender}
-                                    Qualification: {job.qualification}
+                                <div className="grid grid-cols-2 md:grid-cols-2  ">
+                                <div className="border border-blue-700 overflow-hidden w-full">
+                                <div className="bg-white p-4">
+                                    {job.minimumAge && (
+                                    <div>
+                                      <span className='font-bold text-[10px]'>Minimum Age: </span>
+                                      <span className='text-blue-700 font-bold text-[10px] '> {job.minimumAge} Years</span> 
+                                    </div>                                   
+                                    )}
+                                    {
+                                      job.maximumAge && (
+                                        <div>
+                                          <span className='font-bold text-[10px]'>Maximum Age: </span>
+                                          <span className='text-blue-700 font-bold text-[10px]'> {job.maximumAge} Years</span>
+                                        </div>
+                                      )
+                                    }
+                                    
+                                    {job.gender && (
+                                    <div>
+                                      <span className='font-bold text-[10px]'>Gender: </span>
+                                      <span className='text-blue-700 font-bold text-[10px]'> {job.gender}</span>
+                                    </div>
+                                    )}
+                                   </div>
                                   </div>
-                                )}
+                                <div className="border border-blue-700 overflow-hidden w-full">
+                                <div className="bg-white p-4">
+                                   
+                                {job.qualification && (
+                                    <div>
+                                      <span className='font-bold text-[10px]'>Qualification:- </span>
+                                    <span className='text-blue-700  text-[10px]'> {job.qualification}</span>
+                                    </div>
+                                    )}
+                                    
+                                    {job.salary && (
+                                    <div>
+                                      <span className='font-bold text-[10px]'>Salary:- </span>
+                                    <span className='text-blue-700 font-bold text-[10px]'> {job.salary}</span>
+                                    </div>
+                                    )}
 
+                                    {job.totalVacancy && (
+                                    <div>
+                                      <span className='font-bold text-[10px]'>Total Seats:- </span>
+                                    <span className='text-blue-700 font-bold text-[10px]'> {job.totalVacancy}</span>
+                                    </div>
+                                    )}
+                                   </div>
+                                  </div>
+                                  </div>
                               {job.applyJob && (
                                   <div className="mt-4 p-4 border border-blue-700  bg-white">
-                                    <span className="text-sm font-medium text-gray-800 mr-2">Apply Job:</span>
+                                    <span className="text-sm font-medium text-gray-800 mr-2">Click Now to Apply:</span>
                                     <a
                                       onClick={() => router.push(job.applyJob)}
                                       className="text-red-500 hover:underline cursor-pointer transition-colors duration-200 hover:text-blue-700 font-semibold"

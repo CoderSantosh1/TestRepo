@@ -11,7 +11,8 @@ interface Job {
   location: string;
   salary?: string; 
   totalVacancy: string; 
-  age?: string; 
+  minimumAge?: string;
+  maximumAge?: string;
   gender?: string; 
   qualification?: string; 
   applicationDeadline: string;

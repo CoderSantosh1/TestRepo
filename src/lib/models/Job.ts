@@ -75,9 +75,31 @@ const jobSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
-  age: {
+  maximumAge: {
     type: String,
     required: false,
+    select: true,
+    validate: {
+      validator: function(value: string) {
+        if (!value) return true; // Allow empty value since it's optional
+        const num = Number(value);
+        return !isNaN(num) && num >= 0 && num <= 100;
+      },
+      message: 'Maximum age must be a valid number between 0 and 100'
+    }
+  },
+  minimumAge: {
+    type: String,
+    required: false,
+    select: true,
+    validate: {
+      validator: function(value: string) {
+        if (!value) return true; // Allow empty value since it's optional
+        const num = Number(value);
+        return !isNaN(num) && num >= 0 && num <= 100;
+      },
+      message: 'Minimum age must be a valid number between 0 and 100'
+    }
   },
   gender: {
     type: String,
@@ -111,6 +133,20 @@ const jobSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+});
+
+// Add pre-save middleware for age validation
+jobSchema.pre('save', function(next) {
+  if (this.minimumAge && this.maximumAge) {
+    const minAge = Number(this.minimumAge);
+    const maxAge = Number(this.maximumAge);
+    
+    if (minAge >= maxAge) {
+      next(new Error('Minimum age must be less than maximum age'));
+      return;
+    }
+  }
+  next();
 });
 
 const Job = mongoose.models.Job || mongoose.model('Job', jobSchema);

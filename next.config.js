@@ -6,6 +6,12 @@ const nextConfig = {
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
+  images: {
+    domains: ['localhost'],
+  },
+  // Ensure static files are served correctly
+  poweredByHeader: false,
+  compress: true,
 };
 
 module.exports = nextConfig;

@@ -1,0 +1,180 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { Clock, FileText, Trophy, ArrowRight, Sparkles } from "lucide-react"
+
+interface Question {
+  _id: string;
+  text: string;
+  options: string[];
+  correctAnswer: number;
+}
+
+interface Quiz {
+  _id: string;
+  title: string;
+  description: string;
+  timeLimit: number;
+  totalMarks: number;
+  questions: Array<{
+    _id: string;
+    text: string;
+    options: string[];
+    correctAnswer: number;
+  }>;
+  attempts?: Array<{
+    _id: string;
+    userId: string;
+    score: number;
+    completedAt: string;
+  }>;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export default function QuizList() {
+  const [quizzes, setQuizzes] = useState<Quiz[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchQuizzes = async () => {
+      try {
+        const response = await fetch("/api/quizzes");
+        if (!response.ok) {
+          throw new Error("Failed to fetch quizzes");
+        }
+        const data = await response.json();
+        console.log("Fetched quizzes data:", data);
+        setQuizzes(data);
+      } catch (error) {
+        console.error("Error fetching quizzes:", error);
+        toast.error("Failed to load quizzes");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchQuizzes();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
+      </div>
+    );
+  }
+
+  if (quizzes.length === 0) {
+    return (
+      <div className="container mx-auto py-8">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-4 text-[#014F59]">No Quizzes Available</h1>
+          <p className="text-muted-foreground mb-8">
+            There are no quizzes available at the moment.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="container bg-[#1a124d] mx-auto py-4 sm:py-6 px-2 sm:px-4">
+      <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-8 text-white flex justify-center">Available Test</h1>
+      <div className="grid gap-4 sm:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center">
+        {quizzes.map((quiz) => (
+          <Card className="group relative overflow-hidden rounded-3xl border-0 bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-100 shadow-xl hover:shadow-2xl transition-all duration-500 w-full max-w-[380px] m-2 sm:m-5 hover:-translate-y-2 hover:rotate-1">
+            {/* Animated background pattern */}
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-coral-400 to-orange-400 rounded-full blur-3xl animate-pulse" />
+              <div className="absolute bottom-0 right-0 w-40 h-40 bg-gradient-to-br from-teal-400 to-emerald-400 rounded-full blur-3xl animate-pulse delay-1000" />
+              <div className="absolute top-1/2 left-1/2 w-24 h-24 bg-gradient-to-br from-amber-400 to-yellow-400 rounded-full blur-2xl animate-pulse delay-500" />
+            </div>
+
+            {/* Decorative gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-br from-teal-600/10 via-transparent to-coral-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+            {/* Top decorative elements */}
+            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-coral-500 via-amber-500 via-teal-500 to-emerald-500" />
+            <div className="absolute top-2 right-4 w-3 h-3 bg-coral-400 rounded-full animate-ping" />
+            <div className="absolute top-6 right-8 w-2 h-2 bg-teal-400 rounded-full animate-ping delay-300" />
+
+            <CardHeader className="relative pb-4 sm:pb-6 pt-6 sm:pt-8">
+              <div className="flex items-start justify-between mb-3 sm:mb-4">
+                <div className="relative">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-coral-500 via-orange-500 to-amber-500 flex items-center justify-center shadow-2xl transform group-hover:scale-110 transition-transform duration-300">
+                    <Sparkles className="w-6 h-6 sm:w-8 sm:h-8 text-white animate-pulse" />
+                  </div>
+                  <div className="absolute -top-1 -right-1 w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-teal-400 to-emerald-400 rounded-full flex items-center justify-center">
+                    <FileText className="w-2 h-2 sm:w-3 sm:h-3 text-white" />
+                  </div>
+                </div>
+                <div className="px-3 py-1 sm:px-4 sm:py-2 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs sm:text-sm font-bold rounded-full shadow-lg animate-bounce">
+                  ✨ Live
+                </div>
+              </div>
+
+              <CardTitle className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-gray-800 via-teal-700 to-emerald-700 bg-clip-text text-transparent leading-tight line-clamp-2 min-h-[3rem] sm:min-h-[4rem]">
+                {quiz.description}
+              </CardTitle>
+            </CardHeader>
+
+            <CardContent className="relative pt-2">
+              {/* Stats Grid with unique design */}
+              <div className="grid grid-cols-3 gap-2 sm:gap-3 mb-6 sm:mb-8">
+                <div className="relative text-center p-2 sm:p-4 rounded-2xl bg-gradient-to-br from-coral-100 to-orange-100 border-2 border-coral-200/50 shadow-lg transform hover:scale-105 transition-transform duration-200">
+                  <div className="absolute -top-2 -right-2 w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-coral-500 to-orange-500 rounded-full flex items-center justify-center">
+                    <FileText className="w-2 h-2 sm:w-3 sm:h-3 text-white" />
+                  </div>
+                  <p className="text-xl sm:text-3xl font-black text-coral-600 mb-1">{quiz.questions.length}</p>
+                  <p className="text-[10px] sm:text-xs font-bold text-coral-700 uppercase tracking-wider">Questions</p>
+                </div>
+
+                <div className="relative text-center p-2 sm:p-4 rounded-2xl bg-gradient-to-br from-amber-100 to-yellow-100 border-2 border-amber-200/50 shadow-lg transform hover:scale-105 transition-transform duration-200">
+                  <div className="absolute -top-2 -right-2 w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-amber-500 to-yellow-500 rounded-full flex items-center justify-center">
+                    <Trophy className="w-2 h-2 sm:w-3 sm:h-3 text-white" />
+                  </div>
+                  <p className="text-xl sm:text-3xl font-black text-amber-600 mb-1">{quiz.totalMarks}</p>
+                  <p className="text-[10px] sm:text-xs font-bold text-amber-700 uppercase tracking-wider">Marks</p>
+                </div>
+
+                <div className="relative text-center p-2 sm:p-4 rounded-2xl bg-gradient-to-br from-teal-100 to-emerald-100 border-2 border-teal-200/50 shadow-lg transform hover:scale-105 transition-transform duration-200">
+                  <div className="absolute -top-2 -right-2 w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-teal-500 to-emerald-500 rounded-full flex items-center justify-center">
+                    <Clock className="w-2 h-2 sm:w-3 sm:h-3 text-white" />
+                  </div>
+                  <p className="text-xl sm:text-3xl font-black text-teal-600 mb-1">{quiz.timeLimit}</p>
+                  <p className="text-[10px] sm:text-xs font-bold text-teal-700 uppercase tracking-wider">Minutes</p>
+                </div>
+              </div>
+
+              {/* Action Button with unique design */}
+              <Link href={`/quizzes/${quiz._id}`} className="block">
+                <Button className="relative w-full bg-gradient-to-r from-coral-500 via-orange-500 to-amber-500 hover:from-coral-600 hover:via-orange-600 hover:to-amber-600 text-white font-bold py-3 sm:py-5 rounded-2xl shadow-2xl hover:shadow-coral-500/25 transition-all duration-300 group/btn overflow-hidden">
+                  {/* Button background animation */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-teal-500 via-emerald-500 to-cyan-500 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300" />
+
+                  <span className="relative flex items-center justify-center gap-2 sm:gap-3 text-base sm:text-lg">
+                    <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
+                    Test Start
+                    <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover/btn:translate-x-2 group-hover/btn:scale-110 transition-all duration-300" />
+                  </span>
+
+                  {/* Button shine effect */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-700" />
+                </Button>
+              </Link>
+
+              {/* Decorative floating elements */}
+              <div className="absolute -bottom-4 -left-4 w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-coral-400/20 to-orange-400/20 rounded-full blur-xl animate-pulse" />
+              <div className="absolute -top-4 -right-4 w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-br from-teal-400/20 to-emerald-400/20 rounded-full blur-xl animate-pulse delay-700" />
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+} 

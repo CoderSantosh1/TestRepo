@@ -16,7 +16,8 @@ interface JobFormData {
   description?: string;
   category?: string;
   salary?: string;
-  age?: string;
+  minimumAge?: string;
+  maximumAge?: string;
   gender?: string;
   qualification?: string;
   requirements?: string[] | string; // Allow both array and comma-separated string
@@ -49,7 +50,8 @@ export default function JobForm({ initialData, onSubmit, onCancel }: JobFormProp
     category: initialData?.category || '',
     salary: initialData?.salary || '',
     totalVacancy: initialData?.totalVacancy || '',
-    age: initialData?.age || '',
+    minimumAge: initialData?.minimumAge || '',
+    maximumAge: initialData?.maximumAge || '',
     gender: initialData?.gender || '',
     qualification: initialData?.qualification || '',
     requirements: initialData?.requirements ? (Array.isArray(initialData.requirements) ? initialData.requirements.join(', ') : initialData.requirements as string) : '',
@@ -75,6 +77,31 @@ export default function JobForm({ initialData, onSubmit, onCancel }: JobFormProp
     if (!formData.applicationDeadline) newErrors.applicationDeadline = 'Application deadline is required';
     if(formData.description && !formData.description.trim()) newErrors.description = 'Description is required';
     
+    // Validate minimum age
+    if (formData.minimumAge) {
+      const minAge = parseInt(formData.minimumAge);
+      if (isNaN(minAge) || minAge < 18 || minAge > 100) {
+        newErrors.minimumAge = 'Minimum age must be between 18 and 100';
+      }
+    }
+
+    // Validate maximum age
+    if (formData.maximumAge) {
+      const maxAge = parseInt(formData.maximumAge);
+      if (isNaN(maxAge) || maxAge < 18 || maxAge > 100) {
+        newErrors.maximumAge = 'Maximum age must be between 18 and 100';
+      }
+    }
+
+    // Validate that minimum age is not greater than maximum age
+    if (formData.minimumAge && formData.maximumAge) {
+      const minAge = parseInt(formData.minimumAge);
+      const maxAge = parseInt(formData.maximumAge);
+      if (!isNaN(minAge) && !isNaN(maxAge) && minAge > maxAge) {
+        newErrors.maximumAge = 'Maximum age must be greater than minimum age';
+      }
+    }
+    
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -98,7 +125,13 @@ export default function JobForm({ initialData, onSubmit, onCancel }: JobFormProp
     if (name === 'totalVacancy') {
       const numValue = value.replace(/[^0-9]/g, '');
       setFormData(prev => ({ ...prev, [name]: numValue }));
-    } else {
+    } 
+    // Special handling for age fields to ensure they're valid numbers
+    else if (name === 'minimumAge' || name === 'maximumAge') {
+      const numValue = value.replace(/[^0-9]/g, '');
+      setFormData(prev => ({ ...prev, [name]: numValue }));
+    }
+    else {
       setFormData(prev => ({ ...prev, [name]: value }));
     }
     if (errors[name as keyof JobFormData]) {
@@ -247,16 +280,39 @@ export default function JobForm({ initialData, onSubmit, onCancel }: JobFormProp
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="age" className="block text-sm font-medium text-gray-700">Age</label>
-            <Input id="age" name="age" type="text" value={formData.age} onChange={handleChange} />
+            <label htmlFor="minimumAge" className="block text-sm font-medium text-gray-700">Minimum Age</label>
+            <Input 
+              id="minimumAge" 
+              name="minimumAge" 
+              type="text" 
+              value={formData.minimumAge} 
+              onChange={handleChange}
+              className={errors.minimumAge ? 'border-red-500' : ''}
+              placeholder="Enter minimum age"
+            />
+            {errors.minimumAge && <p className="text-red-500 text-sm mt-1">{errors.minimumAge}</p>}
+          </div>
+          <div>
+            <label htmlFor="maximumAge" className="block text-sm font-medium text-gray-700">Maximum Age</label>
+            <Input 
+              id="maximumAge" 
+              name="maximumAge" 
+              type="text" 
+              value={formData.maximumAge} 
+              onChange={handleChange}
+              className={errors.maximumAge ? 'border-red-500' : ''}
+              placeholder="Enter maximum age"
+            />
+            {errors.maximumAge && <p className="text-red-500 text-sm mt-1">{errors.maximumAge}</p>}
+          </div>
+         
+          <div>
+            <label htmlFor="gender" className="block text-sm font-medium text-gray-700">Gender</label>
+            <Input id="gender" name="gender" type="text" value={formData.gender} onChange={handleChange} />
           </div>
           <div>
             <label htmlFor="qualification" className="block text-sm font-medium text-gray-700">Qualification</label>
             <Input id="qualification" name="qualification" type="text" value={formData.qualification} onChange={handleChange} />
-          </div>
-          <div>
-            <label htmlFor="gender" className="block text-sm font-medium text-gray-700">Gender</label>
-            <Input id="gender" name="gender" type="text" value={formData.gender} onChange={handleChange} />
           </div>
         </div>
 

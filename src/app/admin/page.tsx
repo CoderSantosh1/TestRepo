@@ -12,6 +12,8 @@ import AnswerKeyList from './components/AnswerKeyList';
 import AdmissionForm, { AdmissionFormData as AdmissionFormDataType } from './components/AdmissionForm';
 import AdmissionList from './components/AdmissionList'; 
 import JobForm from './components/JobForm'; 
+import QuizForm from './components/QuizForm';
+import QuizList from './components/QuizList';
 
 interface NewsFormData {
   title: string;
@@ -32,7 +34,8 @@ interface JobFormData {
   description?: string;
   category?: string;
   salary?: string;
-  age?: string;
+  minimumAge?: string;
+  maximumAge?: string;
   gender?: string;
   qualification?: string;
   totalVacancy: string;
@@ -68,7 +71,7 @@ interface ResultFormData {
   status: string;
 }
 
-type TabType = 'jobs' | 'results' | 'admit-cards' | 'news' | 'answer-keys' | 'admissions';
+type TabType = 'jobs' | 'results' | 'admit-cards' | 'news' | 'answer-keys' | 'admissions' | 'quizzes';
 
 export default function AdminDashboard() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -106,7 +109,8 @@ export default function AdminDashboard() {
     description: '',
     category: '',
     salary: '',
-    age: '',
+    minimumAge: '',
+    maximumAge: '',
     gender: '',
     qualification: '',
     totalVacancy: '',
@@ -382,6 +386,7 @@ export default function AdminDashboard() {
     { id: 'news' as TabType, label: 'News' },
     { id: 'answer-keys' as TabType, label: 'Answer Keys' },
     { id: 'admissions' as TabType, label: 'Admissions' },
+    { id: 'quizzes' as TabType, label: 'Quizzes' },
   ];
 
   return (
@@ -424,12 +429,12 @@ export default function AdminDashboard() {
                 onSubmit={handleCreateJobSubmit} // Assumes handleCreateJobSubmit is defined in AdminPage
                 onCancel={() => {
                   console.log("New job form cancelled.");
-                  // Optionally, add logic to clear form or navigate
+                
                 }}
-                // initialData is omitted for new job creation mode
+              
               />
             </div>
-            <JobList key={jobListRefreshKey} /> {/* Assumes jobListRefreshKey and JobList are defined/imported */}
+            <JobList key={jobListRefreshKey} /> 
           </div>
         </>
       )}
@@ -734,9 +739,8 @@ export default function AdminDashboard() {
              
               <AdmissionForm 
                 onSubmit={handleAdmissionSubmit} 
-                initialData={admissionFormData} // This is for the create form's initial state
+                initialData={admissionFormData}
                 onCancel={() => { 
-                  // Reset form data if cancellation means clearing the form
                   setAdmissionFormData({
                     title: '',
                     organization: '',
@@ -750,8 +754,21 @@ export default function AdminDashboard() {
                 }}
               />
             </div>
-            {/* AdmissionList to display existing admissions */}
             <AdmissionList key={admissionListRefreshKey} />
+          </div>
+        </>
+      )}
+      {activeTab === 'quizzes' && (
+        <>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <h2 className="text-2xl font-semibold mb-6">Create New Quiz</h2>
+              <QuizForm />
+            </div>
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <h2 className="text-2xl font-semibold mb-6">Quiz List</h2>
+              <QuizList />
+            </div>
           </div>
         </>
       )}
