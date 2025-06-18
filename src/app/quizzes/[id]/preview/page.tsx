@@ -63,9 +63,8 @@ export default function QuizPreview({ params }: { params: { id: string } }) {
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4 text-[#014F59]">Quiz Not Found</h1>
           <Button
-            variant="outline"
             onClick={() => router.push("/quizzes")}
-            className="border-[#014F59] text-[#014F59] hover:bg-[#014F59] hover:text-white"
+            className="border-2 border-[#014F59] text-[#014F59] hover:bg-[#014F59] hover:text-white transition-colors"
           >
             Back to Quizzes
           </Button>
@@ -124,15 +123,14 @@ export default function QuizPreview({ params }: { params: { id: string } }) {
 
       <div className="mt-8 flex justify-center gap-4">
         <Button
-          variant="outline"
           onClick={() => router.push("/quizzes")}
-          className="border-[#014F59] text-[#014F59] hover:bg-[#014F59] hover:text-white"
+          className="border-2 border-[#014F59] text-[#014F59] hover:bg-[#014F59] hover:text-white transition-colors"
         >
           Back to Quizzes
         </Button>
         <Button
           onClick={() => router.push(`/quizzes/${quiz._id}`)}
-          className="bg-[#059669] hover:bg-[#059669]/90"
+          className="bg-[#059669] hover:bg-[#059669]/90 text-white transition-colors"
         >
           Take Quiz
         </Button>

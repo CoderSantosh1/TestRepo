@@ -3,8 +3,6 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useEffect, useState } from 'react';
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Analytics } from "@vercel/analytics/next";
 import { toast } from "sonner";
 
 interface Job {
@@ -389,8 +387,7 @@ export default function Home() {
         </div>
       </main>
       <Footer />
-      <SpeedInsights />
-      <Analytics />
+     
     </>
   );
 }
