@@ -153,7 +153,7 @@ export default function QuizResults({ params }: { params: { id: string } }) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-black p-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-black p-2 sm:p-4">
       {/* Floating particles background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         {[...Array(25)].map((_, i) => (
@@ -170,131 +170,123 @@ export default function QuizResults({ params }: { params: { id: string } }) {
         ))}
       </div>
 
-      <div className="container mx-auto py-8 px-4 relative z-10">
+      <div className="container mx-auto py-4 sm:py-8 px-2 sm:px-4 relative z-10">
         {/* Main Results Container */}
         <div
-          className="relative overflow-hidden border-0 bg-black/80 backdrop-blur-sm shadow-2xl mb-8"
+          className="relative overflow-hidden border-0 bg-black/80 backdrop-blur-sm shadow-2xl mb-4 sm:mb-8"
           style={{
             clipPath: "polygon(0% 0%, 95% 0%, 100% 5%, 100% 100%, 5% 100%, 0% 95%)",
             background:
               "linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(26,10,46,0.9) 25%, rgba(22,33,62,0.9) 50%, rgba(15,52,96,0.9) 75%, rgba(0,0,0,0.9) 100%)",
           }}
         >
-          {/* Animated border */}
-          <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-cyan-400 via-magenta-400 to-lime-400 opacity-50 animate-pulse" />
-          <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-lime-400 via-cyan-400 to-magenta-400 opacity-50 animate-pulse" />
-
-          <CardHeader className="border-b border-cyan-400/30 bg-gradient-to-r from-black/50 to-purple-900/30 backdrop-blur-sm">
+          <CardHeader className="border-b border-cyan-400/30 bg-gradient-to-r from-black/50 to-purple-900/30 backdrop-blur-sm p-4 sm:p-6">
             <div className="text-center">
-              <CardTitle className="text-4xl font-black mb-2">
+              <CardTitle className="text-2xl sm:text-4xl font-black mb-2">
                 <span className="bg-gradient-to-r from-cyan-400 via-magenta-400 to-lime-400 bg-clip-text text-transparent animate-pulse">
                   {quiz.title}
                 </span>
               </CardTitle>
-              <p className="text-cyan-300 text-lg font-semibold">{quiz.description}</p>
+              <p className="text-cyan-300 text-base sm:text-lg font-semibold">{quiz.description}</p>
             </div>
           </CardHeader>
 
-          <CardContent className="p-8">
+          <CardContent className="p-4 sm:p-8">
             {/* Score Display - Futuristic Design */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-8 mb-8 sm:mb-12">
               {/* Main Score */}
               <div className="lg:col-span-2 relative">
                 <div
-                  className="p-8 bg-gradient-to-br from-black/60 to-purple-900/30 backdrop-blur-sm border border-cyan-400/30 text-center"
+                  className="p-4 sm:p-8 bg-gradient-to-br from-black/60 to-purple-900/30 backdrop-blur-sm border border-cyan-400/30 text-center"
                   style={{ clipPath: "polygon(0% 0%, 90% 0%, 100% 25%, 100% 100%, 10% 100%, 0% 75%)" }}
                 >
-                  <div className="flex items-center justify-center gap-4 mb-6">
-                    <div className="w-16 h-16 bg-gradient-to-br from-cyan-400 to-magenta-500 rounded-lg flex items-center justify-center">
-                      <Trophy className="w-8 h-8 text-white animate-pulse" />
+                  <div className="flex items-center justify-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+                    <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-cyan-400 to-magenta-500 rounded-lg flex items-center justify-center">
+                      <Trophy className="w-6 h-6 sm:w-8 sm:h-8 text-white animate-pulse" />
                     </div>
                     <div>
                       <div
-                        className={`text-6xl font-black bg-gradient-to-r ${getScoreColor(score)} bg-clip-text text-transparent`}
+                        className={`text-4xl sm:text-6xl font-black bg-gradient-to-r ${getScoreColor(score)} bg-clip-text text-transparent`}
                       >
                         {score.toFixed(1)}%
                       </div>
-                      <div className="text-sm font-bold text-cyan-400 uppercase tracking-wider">
+                      <div className="text-xs sm:text-sm font-bold text-cyan-400 uppercase tracking-wider">
                         {getScoreGrade(score)}
                       </div>
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-6 mt-8">
+                  <div className="grid grid-cols-2 gap-4 sm:gap-6 mt-6 sm:mt-8">
                     <div className="text-center">
-                      <div className="text-2xl font-black text-lime-400">{correctAnswers}</div>
-                      <div className="text-xs font-bold text-lime-300 uppercase tracking-wider">Correct</div>
+                      <div className="text-xl sm:text-2xl font-black text-lime-400">{correctAnswers}</div>
+                      <div className="text-[10px] sm:text-xs font-bold text-lime-300 uppercase tracking-wider">Correct</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl font-black text-red-400">{quiz.questions.length - correctAnswers}</div>
-                      <div className="text-xs font-bold text-red-300 uppercase tracking-wider">Incorrect</div>
+                      <div className="text-xl sm:text-2xl font-black text-red-400">{quiz.questions.length - correctAnswers}</div>
+                      <div className="text-[10px] sm:text-xs font-bold text-red-300 uppercase tracking-wider">Incorrect</div>
                     </div>
                   </div>
                 </div>
-                <div className="absolute inset-0 bg-cyan-400/10 blur-xl opacity-50 animate-pulse -z-10" />
               </div>
 
               {/* Stats Sidebar */}
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 {/* Total Marks */}
                 <div className="relative group">
                   <div
-                    className="p-4 bg-gradient-to-br from-magenta-500/20 to-purple-500/20 backdrop-blur-sm border border-magenta-400/30 transform group-hover:scale-105 transition-transform duration-300"
+                    className="p-3 sm:p-4 bg-gradient-to-br from-magenta-500/20 to-purple-500/20 backdrop-blur-sm border border-magenta-400/30 transform group-hover:scale-105 transition-transform duration-300"
                     style={{ clipPath: "polygon(10% 0%, 100% 0%, 100% 75%, 90% 100%, 0% 100%, 0% 25%)" }}
                   >
-                    <div className="flex items-center gap-3">
-                      <Target className="h-6 w-6 text-magenta-400 animate-pulse" />
+                    <div className="flex items-center gap-2 sm:gap-3">
+                      <Target className="h-5 w-5 sm:h-6 sm:w-6 text-magenta-400 animate-pulse" />
                       <div>
-                        <div className="text-2xl font-black text-magenta-400">{quiz.totalMarks || 100}</div>
-                        <div className="text-xs font-bold text-magenta-300 uppercase tracking-wider">Total Points</div>
+                        <div className="text-xl sm:text-2xl font-black text-magenta-400">{quiz.totalMarks || 100}</div>
+                        <div className="text-[10px] sm:text-xs font-bold text-magenta-300 uppercase tracking-wider">Total Points</div>
                       </div>
                     </div>
                   </div>
-                  <div className="absolute inset-0 bg-magenta-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
                 </div>
 
                 {/* Time Limit */}
                 <div className="relative group">
                   <div
-                    className="p-4 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 backdrop-blur-sm border border-yellow-400/30 transform group-hover:scale-105 transition-transform duration-300"
+                    className="p-3 sm:p-4 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 backdrop-blur-sm border border-yellow-400/30 transform group-hover:scale-105 transition-transform duration-300"
                     style={{ clipPath: "polygon(0% 0%, 90% 0%, 100% 25%, 100% 100%, 10% 100%, 0% 75%)" }}
                   >
-                    <div className="flex items-center gap-3">
-                      <Clock className="h-6 w-6 text-yellow-400 animate-pulse" />
+                    <div className="flex items-center gap-2 sm:gap-3">
+                      <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-yellow-400 animate-pulse" />
                       <div>
-                        <div className="text-2xl font-black text-yellow-400">{quiz.timeLimit}</div>
-                        <div className="text-xs font-bold text-yellow-300 uppercase tracking-wider">Minutes</div>
+                        <div className="text-xl sm:text-2xl font-black text-yellow-400">{quiz.timeLimit}</div>
+                        <div className="text-[10px] sm:text-xs font-bold text-yellow-300 uppercase tracking-wider">Minutes</div>
                       </div>
                     </div>
                   </div>
-                  <div className="absolute inset-0 bg-yellow-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
                 </div>
 
                 {/* Completion Time */}
                 <div className="relative group">
                   <div
-                    className="p-4 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 backdrop-blur-sm border border-cyan-400/30 transform group-hover:scale-105 transition-transform duration-300"
+                    className="p-3 sm:p-4 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 backdrop-blur-sm border border-cyan-400/30 transform group-hover:scale-105 transition-transform duration-300"
                     style={{ clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)" }}
                   >
-                    <div className="flex items-center gap-3">
-                      <CheckCircle2 className="h-6 w-6 text-cyan-400 animate-pulse" />
+                    <div className="flex items-center gap-2 sm:gap-3">
+                      <CheckCircle2 className="h-5 w-5 sm:h-6 sm:w-6 text-cyan-400 animate-pulse" />
                       <div>
-                        <div className="text-sm font-black text-cyan-400">
+                        <div className="text-xs sm:text-sm font-black text-cyan-400">
                           {new Date(attempt.completedAt).toLocaleDateString()}
                         </div>
-                        <div className="text-xs font-bold text-cyan-300 uppercase tracking-wider">Completed</div>
+                        <div className="text-[10px] sm:text-xs font-bold text-cyan-300 uppercase tracking-wider">Completed</div>
                       </div>
                     </div>
                   </div>
-                  <div className="absolute inset-0 bg-cyan-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
                 </div>
               </div>
             </div>
 
             {/* Questions Review */}
-            <div className="space-y-6">
-              <h2 className="text-2xl font-black text-center mb-8 flex items-center justify-center gap-3">
-                <Brain className="w-8 h-8 text-magenta-400 animate-pulse" />
+            <div className="space-y-4 sm:space-y-6">
+              <h2 className="text-xl sm:text-2xl font-black text-center mb-6 sm:mb-8 flex items-center justify-center gap-2 sm:gap-3">
+                <Brain className="w-6 h-6 sm:w-8 sm:h-8 text-magenta-400 animate-pulse" />
                 <span className="bg-gradient-to-r from-magenta-400 to-purple-400 bg-clip-text text-transparent">
                   {quiz.title}
                 </span>
@@ -310,12 +302,12 @@ export default function QuizResults({ params }: { params: { id: string } }) {
                     key={question._id}
                     className="border-0 bg-gradient-to-br from-black/60 to-purple-900/30 backdrop-blur-sm shadow-xl"
                   >
-                    <CardContent className="p-6">
-                      <div className="space-y-4">
+                    <CardContent className="p-4 sm:p-6">
+                      <div className="space-y-3 sm:space-y-4">
                         {/* Question Header */}
-                        <div className="flex items-start gap-4">
+                        <div className="flex items-start gap-3 sm:gap-4">
                           <div
-                            className={`w-12 h-12 rounded-lg flex items-center justify-center font-black text-white ${
+                            className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center font-black text-white ${
                               isCorrect
                                 ? "bg-gradient-to-br from-lime-400 to-emerald-500"
                                 : wasAnswered
@@ -332,17 +324,17 @@ export default function QuizResults({ params }: { params: { id: string } }) {
                             {index + 1}
                           </div>
                           <div className="flex-1">
-                            <h3 className="font-bold text-white text-lg leading-relaxed">{question.text}</h3>
+                            <h3 className="font-bold text-white text-base sm:text-lg leading-relaxed">{question.text}</h3>
                             <div className="flex items-center gap-2 mt-2">
                               {isCorrect ? (
-                                <CheckCircle2 className="w-5 h-5 text-lime-400" />
+                                <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-lime-400" />
                               ) : wasAnswered ? (
-                                <XCircle className="w-5 h-5 text-red-400" />
+                                <XCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-400" />
                               ) : (
-                                <div className="w-5 h-5 rounded-full bg-gray-400" />
+                                <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-gray-400" />
                               )}
                               <span
-                                className={`text-sm font-bold uppercase tracking-wider ${
+                                className={`text-xs sm:text-sm font-bold uppercase tracking-wider ${
                                   isCorrect ? "text-lime-400" : wasAnswered ? "text-red-400" : "text-gray-400"
                                 }`}
                               >
@@ -353,7 +345,7 @@ export default function QuizResults({ params }: { params: { id: string } }) {
                         </div>
 
                         {/* Answer Options */}
-                        <div className="space-y-3 ml-16">
+                        <div className="space-y-2 sm:space-y-3 ml-12 sm:ml-16">
                           {question.options.map((option, optionIndex) => {
                             const isUserAnswer = optionIndex === userAnswer
                             const isCorrectAnswer = optionIndex === question.correctAnswer
@@ -361,7 +353,7 @@ export default function QuizResults({ params }: { params: { id: string } }) {
                             return (
                               <div
                                 key={optionIndex}
-                                className={`p-4 rounded-lg border transition-all duration-300 ${
+                                className={`p-3 sm:p-4 rounded-lg border transition-all duration-300 ${
                                   isCorrectAnswer
                                     ? "border-lime-400 bg-lime-400/10 shadow-lg shadow-lime-400/20"
                                     : isUserAnswer && !isCorrectAnswer
@@ -369,9 +361,9 @@ export default function QuizResults({ params }: { params: { id: string } }) {
                                       : "border-gray-600/50 bg-black/20"
                                 }`}
                               >
-                                <div className="flex items-center gap-3">
+                                <div className="flex items-center gap-2 sm:gap-3">
                                   <div
-                                    className={`w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold ${
+                                    className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center text-xs sm:text-sm font-bold ${
                                       isCorrectAnswer
                                         ? "bg-lime-400 text-black"
                                         : isUserAnswer && !isCorrectAnswer
@@ -382,7 +374,7 @@ export default function QuizResults({ params }: { params: { id: string } }) {
                                     {String.fromCharCode(65 + optionIndex)}
                                   </div>
                                   <span
-                                    className={`font-medium ${
+                                    className={`text-sm sm:text-base font-medium ${
                                       isCorrectAnswer
                                         ? "text-lime-300"
                                         : isUserAnswer && !isCorrectAnswer
@@ -392,9 +384,9 @@ export default function QuizResults({ params }: { params: { id: string } }) {
                                   >
                                     {option}
                                   </span>
-                                  {isCorrectAnswer && <CheckCircle2 className="w-5 h-5 text-lime-400 ml-auto" />}
+                                  {isCorrectAnswer && <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-lime-400 ml-auto" />}
                                   {isUserAnswer && !isCorrectAnswer && (
-                                    <XCircle className="w-5 h-5 text-red-400 ml-auto" />
+                                    <XCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-400 ml-auto" />
                                   )}
                                 </div>
                               </div>
@@ -409,21 +401,18 @@ export default function QuizResults({ params }: { params: { id: string } }) {
             </div>
 
             {/* Action Button */}
-            <div className="flex justify-center mt-12">
+            <div className="flex justify-center mt-8 sm:mt-12">
               <Button
                 onClick={() => (window.location.href = "/quizzes")}
-                className="relative bg-gradient-to-r from-cyan-400 via-magenta-400 to-lime-400 hover:from-cyan-500 hover:via-magenta-500 hover:to-lime-500 text-black font-black px-12 py-4 text-lg transition-all duration-300 hover:shadow-lg hover:shadow-cyan-400/30 overflow-hidden"
+                className="relative bg-gradient-to-r from-cyan-400 via-magenta-400 to-lime-400 hover:from-cyan-500 hover:via-magenta-500 hover:to-lime-500 text-black font-black px-8 sm:px-12 py-3 sm:py-4 text-base sm:text-lg transition-all duration-300 hover:shadow-lg hover:shadow-cyan-400/30 overflow-hidden"
                 style={{
                   clipPath: "polygon(0% 0%, 90% 0%, 100% 30%, 100% 100%, 10% 100%, 0% 70%)",
                 }}
               >
-                {/* Button background animation */}
-                <div className="absolute inset-0 bg-gradient-to-r from-lime-400/20 via-cyan-400/20 to-magenta-400/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-
-                <span className="relative flex items-center gap-3 z-10">
-                  <ArrowLeft className="w-6 h-6" />
+                <span className="relative flex items-center gap-2 sm:gap-3 z-10">
+                  <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6" />
                   Return to Neural Hub
-                  <Hexagon className="w-6 h-6 animate-spin" />
+                  <Hexagon className="w-5 h-5 sm:w-6 sm:h-6 animate-spin" />
                 </span>
               </Button>
             </div>
