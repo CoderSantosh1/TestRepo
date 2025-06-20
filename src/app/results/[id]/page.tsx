@@ -1,12 +1,21 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { CircularProgress, Container, Paper, Typography, Box, Divider, Grid, Chip, IconButton } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import Navbar from '../../../components/Header';
-import Footer from '../../../components/Footer';
-
+import { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import {
+  CircularProgress,
+  Container,
+  Paper,
+  Typography,
+  Box,
+  Divider,
+  Grid,
+  Chip,
+  IconButton,
+} from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import Navbar from "../../../components/Header";
+import Footer from "../../../components/Footer";
 
 interface Result {
   _id: string;
@@ -17,6 +26,8 @@ interface Result {
   category: string;
   status: string;
   downloadLink?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export default function ResultDetails() {
@@ -34,12 +45,12 @@ export default function ResultDetails() {
         const data = await response.json();
 
         if (!response.ok) {
-          throw new Error(data.error || 'Failed to fetch result');
+          throw new Error(data.error || "Failed to fetch result");
         }
 
         setResult(data.data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred');
+        setError(err instanceof Error ? err.message : "An error occurred");
       } finally {
         setLoading(false);
       }
@@ -53,15 +64,23 @@ export default function ResultDetails() {
   if (loading) {
     return (
       <Container maxWidth="md" sx={{ mt: 4 }}>
-      <Box sx={{ mb: 2 }}>
-        <IconButton
-          onClick={() => router.back()}
-          sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main' } }}
+        <Box sx={{ mb: 2 }}>
+          <IconButton
+            onClick={() => router.back()}
+            sx={{
+              color: "text.secondary",
+              "&:hover": { color: "primary.main" },
+            }}
+          >
+            <ArrowBackIcon />
+          </IconButton>
+        </Box>
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          minHeight="50vh"
         >
-          <ArrowBackIcon />
-        </IconButton>
-      </Box>
-        <Box display="flex" justifyContent="center" alignItems="center" minHeight="50vh">
           <CircularProgress />
         </Box>
       </Container>
@@ -71,15 +90,18 @@ export default function ResultDetails() {
   if (error) {
     return (
       <Container maxWidth="md" sx={{ mt: 4 }}>
-      <Box sx={{ mb: 2 }}>
-        <IconButton
-          onClick={() => router.back()}
-          sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main' } }}
-        >
-          <ArrowBackIcon />
-        </IconButton>
-      </Box>
-        <Paper sx={{ p: 3, backgroundColor: '#ffebee' }}>
+        <Box sx={{ mb: 2 }}>
+          <IconButton
+            onClick={() => router.back()}
+            sx={{
+              color: "text.secondary",
+              "&:hover": { color: "primary.main" },
+            }}
+          >
+            <ArrowBackIcon />
+          </IconButton>
+        </Box>
+        <Paper sx={{ p: 3, backgroundColor: "#ffebee" }}>
           <Typography color="error" variant="h6" gutterBottom>
             Error
           </Typography>
@@ -92,14 +114,17 @@ export default function ResultDetails() {
   if (!result) {
     return (
       <Container maxWidth="md" sx={{ mt: 4 }}>
-      <Box sx={{ mb: 2 }}>
-        <IconButton
-          onClick={() => router.back()}
-          sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main' } }}
-        >
-          <ArrowBackIcon />
-        </IconButton>
-      </Box>
+        <Box sx={{ mb: 2 }}>
+          <IconButton
+            onClick={() => router.back()}
+            sx={{
+              color: "text.secondary",
+              "&:hover": { color: "primary.main" },
+            }}
+          >
+            <ArrowBackIcon />
+          </IconButton>
+        </Box>
         <Paper sx={{ p: 3 }}>
           <Typography variant="h6">Result not found</Typography>
         </Paper>
@@ -109,75 +134,94 @@ export default function ResultDetails() {
 
   return (
     <>
-    <Navbar />
-    <div className="max-w-7xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
-   
-      <Box sx={{ mb: 2 }}>
-        <IconButton
-          onClick={() => router.back()}
-          sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main' } }}
-        >
-          <ArrowBackIcon />
-        </IconButton>
-      </Box>
-      <Paper sx={{ p: 4 }}>
-        <Typography variant="h4" gutterBottom sx={{ color: 'primary.main' }}>
-          {result.title}
-        </Typography>
-        <Divider sx={{ my: 2 }} />
-        
-        <Grid container >
-          <Grid item xs={12} sm={6}>
-            <Typography variant="subtitle2" color="text.secondary">Organization</Typography>
-            <Typography variant="body1">{result.organization}</Typography>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Typography variant="subtitle2" color="text.secondary">Category</Typography>
-            <Typography variant="body1">{result.category}</Typography>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Typography variant="subtitle2" color="text.secondary">Status</Typography>
-            <Chip
-              label={result.status}
-              color={result.status.toLowerCase() === 'published' ? 'success' : 'default'}
-              size="small"
-              sx={{ mt: 0.5 }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Typography variant="subtitle2" color="text.secondary">Posted Date</Typography>
-            <Typography variant="body1">{new Date(result.postDate).toLocaleDateString()}</Typography>
-          </Grid>
-        </Grid>
+      <Navbar />
+      <div className="max-w-7xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+        <Box sx={{ mb: 2 }}>
+          <IconButton
+            onClick={() => router.back()}
+            sx={{
+              color: "text.secondary",
+              "&:hover": { color: "primary.main" },
+            }}
+          >
+            <ArrowBackIcon />
+          </IconButton>
+        </Box>
+        <Paper sx={{ p: 4 }}>
+          <Typography variant="h4" gutterBottom sx={{ color: "primary.main" }}>
+            {result.title}
+          </Typography>
+          <Divider sx={{ my: 2 }} />
 
-        <Typography variant="h6" gutterBottom sx={{ mt: 3 }}>
-          Description
-        </Typography>
-        <Typography variant="body1" paragraph sx={{ mb: 3, whiteSpace: 'pre-line' }}>
-          {result.description || 'No description available'}
-        </Typography>
-
-        {result.downloadLink && (
-          <Box sx={{ mt: 3 }}>
-            <a
-              href={result.downloadLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ textDecoration: 'none' }}
-            >
+          <Grid container>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="subtitle2" color="text.secondary">
+                Organization
+              </Typography>
+              <Typography variant="body1">{result.organization}</Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="subtitle2" color="text.secondary">
+                Category
+              </Typography>
+              <Typography variant="body1">{result.category}</Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="subtitle2" color="text.secondary">
+                Status
+              </Typography>
               <Chip
-                label="Download Result"
-                color="primary"
-                clickable
-                sx={{ '&:hover': { backgroundColor: 'primary.dark' } }}
+                label={result.status}
+                color={
+                  result.status.toLowerCase() === "published"
+                    ? "success"
+                    : "default"
+                }
+                size="small"
+                sx={{ mt: 0.5 }}
               />
-            </a>
-          </Box>
-        )}
-      </Paper>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="subtitle2" color="text.secondary">
+                Posted Date
+              </Typography>
+              <Typography variant="body1">
+                {new Date(result.createdAt).toLocaleDateString()}
+              </Typography>
+            </Grid>
+          </Grid>
 
-    </div>
-    <Footer />
+          <Typography variant="h6" gutterBottom sx={{ mt: 3 }}>
+            Description
+          </Typography>
+          <Typography
+            variant="body1"
+            paragraph
+            sx={{ mb: 3, whiteSpace: "pre-line" }}
+          >
+            {result.description || "No description available"}
+          </Typography>
+
+          {result.downloadLink && (
+            <Box sx={{ mt: 3 }}>
+              <a
+                href={result.downloadLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ textDecoration: "none" }}
+              >
+                <Chip
+                  label="Download Result"
+                  color="primary"
+                  clickable
+                  sx={{ "&:hover": { backgroundColor: "primary.dark" } }}
+                />
+              </a>
+            </Box>
+          )}
+        </Paper>
+      </div>
+      <Footer />
     </>
   );
 }
