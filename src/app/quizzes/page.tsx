@@ -5,7 +5,8 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Clock, FileText, Trophy, ArrowRight, Sparkles } from "lucide-react"
+import { Clock, FileText, Trophy, ArrowRight, Sparkles, User, LogOut } from "lucide-react"
+import AuthModal from '@/components/AuthModal';
 
 interface Question {
   _id: string;
@@ -36,11 +37,33 @@ interface Quiz {
   updatedAt?: string;
 }
 
+interface User {
+  _id: string;
+  name: string;
+  mobile: string;
+}
+
 export default function QuizList() {
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<User | null>(null);
+  const [showAuth, setShowAuth] = useState(false);
 
   useEffect(() => {
+    // Get user from localStorage
+    if (typeof window !== "undefined") {
+      const userData = localStorage.getItem("user");
+      if (userData) {
+        try {
+          setUser(JSON.parse(userData));
+        } catch (error) {
+          console.error("Error parsing user data:", error);
+        }
+      } else {
+        setShowAuth(true);
+      }
+    }
+
     const fetchQuizzes = async () => {
       try {
         const response = await fetch("/api/quizzes");
@@ -49,7 +72,7 @@ export default function QuizList() {
         }
         const data = await response.json();
         console.log("Fetched quizzes data:", data);
-        setQuizzes(data);
+        setQuizzes(data.data);
       } catch (error) {
         console.error("Error fetching quizzes:", error);
         toast.error("Failed to load quizzes");
@@ -60,6 +83,24 @@ export default function QuizList() {
 
     fetchQuizzes();
   }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setUser(null);
+    setShowAuth(true);
+    toast.success("Logged out successfully");
+  };
+
+  const handleAuthSuccess = (user: User) => {
+    setUser(user);
+    setShowAuth(false);
+    toast.success(`Welcome back, ${user.name}!`);
+  };
+
+  // Show auth modal if user is not logged in
+  if (showAuth) {
+    return <AuthModal onSuccess={handleAuthSuccess} />;
+  }
 
   if (loading) {
     return (
@@ -84,6 +125,39 @@ export default function QuizList() {
 
   return (
     <div className="container bg-[#1a124d] mx-auto py-4 sm:py-6 px-2 sm:px-4">
+      {/* User Profile Section */}
+      {user && (
+        <div className="mb-6 sm:mb-8">
+          <Card className="border-0 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 backdrop-blur-sm shadow-xl">
+            <CardContent className="p-4 sm:p-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3 sm:gap-4">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center shadow-lg">
+                    <User className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+                  </div>
+                 <div>
+                    <h2 className="text-lg sm:text-xl font-bold text-white">
+                      Welcome , {user.name}! 👋
+                    </h2>
+                    <p className="text-emerald-200 text-sm sm:text-base">
+                      Ready to take on some challenges?
+                    </p>
+                  </div> 
+                </div>
+                <Button
+                  onClick={handleLogout}
+                  variant="outline"
+                  className="border-emerald-400 text-emerald-400 hover:bg-emerald-400 hover:text-white transition-colors duration-300"
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Logout
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
       <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-8 text-white flex justify-center">Available Test</h1>
       <div className="grid gap-4 sm:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center">
         {quizzes.map((quiz) => (
