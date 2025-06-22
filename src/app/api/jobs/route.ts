@@ -111,10 +111,10 @@ export async function GET() {
 
     console.log(`Found ${jobs.length} jobs`);
 
-    if (!jobs || jobs.length === 0) {
+    if (!jobs) {
       return NextResponse.json(
-        { success: false, error: 'No published jobs found' },
-        { status: 404 }
+        { success: true, data: [] },
+        { status: 200 }
       );
     }
 

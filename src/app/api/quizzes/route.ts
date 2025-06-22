@@ -49,7 +49,7 @@ export async function GET() {
   try {
     await connectDB();
     const quizzes = await Quiz.find().populate('questions');
-    return NextResponse.json(quizzes);
+    return NextResponse.json({ success: true, data: quizzes });
   } catch (error) {
     console.error('Error fetching quizzes:', error);
     return NextResponse.json(

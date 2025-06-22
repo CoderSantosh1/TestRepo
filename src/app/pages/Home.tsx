@@ -4,7 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useEffect, useState } from 'react';
 import { toast } from "sonner";
-import AnnouncementBar from "../../../my-nextjs-app/src/components/ui/AnnouncementBar";
+import AnnouncementBar from "@/components/ui/AnnouncementBar";
 
 interface Job {
   _id: string;
@@ -86,7 +86,7 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [jobsRes, resultsRes, admitCardsRes, newsRes, answerKeysRes, admissionsRes, quizzesRes] = await Promise.all([
+        const responses = await Promise.all([
           fetch('/api/jobs'),
           fetch('/api/results'),
           fetch('/api/admit-cards'),
@@ -96,45 +96,23 @@ export default function Home() {
           fetch('/api/quizzes'),
         ]);
 
-        // Check if quizzes response is ok
-        if (!quizzesRes.ok) {
-          console.error('Failed to fetch quizzes:', quizzesRes.status);
-          toast.error('Failed to load quizzes');
-          setQuizzes([]);
-        }
+        const dataPromises = responses.map(res => res.ok ? res.json() : Promise.resolve({ data: [] }));
+        const allData = await Promise.all(dataPromises);
 
-        const [jobsData, resultsData, admitCardsData, newsData, answerKeysData, admissionsData, quizzesData] = await Promise.all([
-          jobsRes.json(),
-          resultsRes.json(),
-          admitCardsRes.json(),
-          newsRes.json(),
-          answerKeysRes.json(),
-          admissionsRes.json(),
-          quizzesRes.json()
-        ]);
+        const [jobsData, resultsData, admitCardsData, newsData, answerKeysData, admissionsData, quizzesData] = allData;
 
-        console.log('Quizzes Data:', quizzesData);
-
-        setNews(newsData.data.sort((a: News, b: News) => new Date(b.postedDate).getTime() - new Date(a.postedDate).getTime()) || []);
-        setAnswerKeys(answerKeysData.data.sort((a: AnswerKey, b: AnswerKey) => new Date(b.postedDate).getTime() - new Date(a.postedDate).getTime()) || []);
-        setAdmissions(admissionsData.data.sort((a: Admission, b: Admission) => new Date(b.postedDate).getTime() - new Date(a.postedDate).getTime()) || []);
-        
-        // Validate and set quizzes data
-        if (Array.isArray(quizzesData)) {
-          console.log('Setting quizzes:', quizzesData);
-          setQuizzes(quizzesData.sort((a: Quiz, b: Quiz) => {
+        setJobs(jobsData.data?.sort((a: Job, b: Job) => new Date(b.postedDate).getTime() - new Date(a.postedDate).getTime()) || []);
+        setResults(resultsData.data?.sort((a: Result, b: Result) => new Date(b.resultDate).getTime() - new Date(a.resultDate).getTime()) || []);
+        setAdmitCards(admitCardsData.data?.sort((a: AdmitCard, b: AdmitCard) => new Date(b.applicationDeadline).getTime() - new Date(a.applicationDeadline).getTime()) || []);
+        setNews(newsData.data?.sort((a: News, b: News) => new Date(b.postedDate).getTime() - new Date(a.postedDate).getTime()) || []);
+        setAnswerKeys(answerKeysData.data?.sort((a: AnswerKey, b: AnswerKey) => new Date(b.postedDate).getTime() - new Date(a.postedDate).getTime()) || []);
+        setAdmissions(admissionsData.data?.sort((a: Admission, b: Admission) => new Date(b.postedDate).getTime() - new Date(a.postedDate).getTime()) || []);
+        setQuizzes(quizzesData.data?.sort((a: Quiz, b: Quiz) => {
             const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
             const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
             return dateB - dateA;
-          }));
-        } else {
-          console.error('Invalid quizzes data format:', quizzesData);
-          setQuizzes([]);
-        }
+          }) || []);
 
-        setJobs(jobsData.data.sort((a: Job, b: Job) => new Date(b.postedDate).getTime() - new Date(a.postedDate).getTime()) || []);
-        setResults(resultsData.data.sort((a: Result, b: Result) => new Date(b.resultDate).getTime() - new Date(a.resultDate).getTime()) || []);
-        setAdmitCards(admitCardsData.data.sort((a: AdmitCard, b: AdmitCard) => new Date(b.applicationDeadline).getTime() - new Date(a.applicationDeadline).getTime()) || []);
       } catch (error) {
         console.error('Error fetching data:', error);
         toast.error('Failed to load data');
@@ -390,8 +368,8 @@ export default function Home() {
         </div>
       </main>
       </div>
-      {/* Announcement Bars */}
-      <div className="bg-[#1a124d]">
+       {/* Announcement Bars */}
+       <div className="bg-[#1a124d]">
       <div className="flex flex-col items-center  justify-center bg-[#FFFBD9]  w-10/14 max-w-7xl mx-auto px-4 ">
         <AnnouncementBar title="Sarkari Results 10+2 Latest Job">
           Most Recent Sarkari Work, Sarkari Test Result, Most Recent On The Web And Disconnected Structure, Concede Card, Prospectus, Affirmation, Ansawer Key, Grant, Notice Etc.If You Need To Get Refreshes Connected With Sarkari Occupations On Sarkari Result.Com.Cm Like Concede Warning Like Govt. Test, Sarkari Result, Most Recent Bord Result, Bihar Result Tenth And So On You Could Sarkari Result 10+2 Most Recent Occupation At Any Point Website Page Consistently.
