@@ -1,11 +1,12 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useSearchParams } from "next/navigation"
+import { useSearchParams, useRouter } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
 import { Trophy, Target, Clock, CheckCircle2, XCircle, ArrowLeft, Brain, Hexagon, LogOut, UserIcon } from "lucide-react"
+import Link from "next/link"
 
 interface User {
   _id: string
@@ -40,6 +41,7 @@ interface QuizAttempt {
 
 export default function QuizResults({ params }: { params: { id: string } }) {
   const searchParams = useSearchParams()
+  const router = useRouter()
   const [quiz, setQuiz] = useState<Quiz | null>(null)
   const [attempt, setAttempt] = useState<QuizAttempt | null>(null)
   const [loading, setLoading] = useState(true)
@@ -50,6 +52,10 @@ export default function QuizResults({ params }: { params: { id: string } }) {
     localStorage.removeItem("user")
     window.location.href = "/quizzes"
   }
+
+  const handleStart = () => {
+    router.push(`/quizzes/${params.id}`);
+  };
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -508,22 +514,23 @@ export default function QuizResults({ params }: { params: { id: string } }) {
 
             {/* Action Button - Enhanced Mobile */}
             <div className="flex justify-center mt-6 sm:mt-8 md:mt-10 lg:mt-12">
-              <Button
-                onClick={() => (window.location.href = "/quizzes")}
-                className="relative bg-gradient-to-r from-cyan-400 via-magenta-400 to-lime-400 hover:from-cyan-500 hover:via-magenta-500 hover:to-lime-500 text-black font-black px-6 sm:px-8 md:px-10 lg:px-12 py-3 sm:py-4 md:py-5 text-sm sm:text-base md:text-lg transition-all duration-300 hover:shadow-lg hover:shadow-cyan-400/30 overflow-hidden w-full sm:w-auto max-w-sm touch-manipulation"
-                style={{
-                  clipPath: "polygon(0% 0%, 90% 0%, 100% 30%, 100% 100%, 10% 100%, 0% 70%)",
-                }}
-              >
-                {/* Button background animation */}
-                <div className="absolute inset-0 bg-gradient-to-r from-lime-400/20 via-cyan-400/20 to-magenta-400/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+              <Link href={`/quizzes/${params.id}/instructions`} className="block">
+                <Button
+                  className="relative bg-gradient-to-r from-cyan-400 via-magenta-400 to-lime-400 hover:from-cyan-500 hover:via-magenta-500 hover:to-lime-500 text-black font-black px-6 sm:px-8 md:px-10 lg:px-12 py-3 sm:py-4 md:py-5 text-sm sm:text-base md:text-lg transition-all duration-300 hover:shadow-lg hover:shadow-cyan-400/30 overflow-hidden w-full sm:w-auto max-w-sm touch-manipulation"
+                  style={{
+                    clipPath: "polygon(0% 0%, 90% 0%, 100% 30%, 100% 100%, 10% 100%, 0% 70%)",
+                  }}
+                >
+                  {/* Button background animation */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-lime-400/20 via-cyan-400/20 to-magenta-400/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
 
-                <span className="relative flex items-center justify-center gap-2 sm:gap-3 z-10">
-                  <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:h-6" />
-                  Return to Test Series
-                  <Hexagon className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 animate-spin" />
-                </span>
-              </Button>
+                  <span className="relative flex items-center justify-center gap-2 sm:gap-3 z-10">
+                    <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:h-6" />
+                    Return to Test Series
+                    <Hexagon className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 animate-spin" />
+                  </span>
+                </Button>
+              </Link>
             </div>
           </CardContent>
         </div>
