@@ -378,7 +378,7 @@ export default function QuizList() {
               </div>
 
               {/* Action Button with unique design */}
-              <Link href={`/quizzes/${quiz._id}`} className="block">
+              <Link href={`/quizzes/${quiz._id}/instructions`} className="block">
                 <Button className="relative w-full bg-gradient-to-r from-coral-500 via-orange-500 to-amber-500 hover:from-coral-600 hover:via-orange-600 hover:to-amber-600 text-white font-bold py-3 sm:py-5 rounded-2xl shadow-2xl hover:shadow-coral-500/25 transition-all duration-300 group/btn overflow-hidden">
                   {/* Button background animation */}
                   <div className="absolute inset-0 bg-gradient-to-r from-teal-500 via-emerald-500 to-cyan-500 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300" />
