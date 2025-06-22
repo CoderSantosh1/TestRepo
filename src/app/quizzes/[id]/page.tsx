@@ -12,6 +12,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { AlertCircle, Clock, CheckCircle2, Flag, ArrowRight, Zap, Star, Hexagon, Brain, ArrowLeft, User } from 'lucide-react';
 import Link from "next/link"
 import AuthModal from '@/components/AuthModal';
+import { title } from 'process';
 
 enum QuestionStatus {
   NotViewed = 'not-viewed',
@@ -286,10 +287,10 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
                     return (
                       <>
                         <h2 className="text-lg sm:text-xl font-bold text-white">
-                          Welcome, {user.name}! 👋
+                          Welcome, {user.name}! 
                         </h2>
                         <p className="text-emerald-200 text-sm sm:text-base">
-                          Ready to take on some challenges?
+                          Ready to take on {title}
                         </p>
                       </>
                     );
@@ -329,7 +330,7 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
           </div>
           <div className="absolute inset-0 bg-cyan-400/20 rounded-full blur-xl animate-pulse" />
           <p className="text-cyan-400 font-bold text-lg mt-8 text-center animate-pulse">
-            Initializing Neural Interface...
+            Started Test...
           </p>
         </div>
       </div>
