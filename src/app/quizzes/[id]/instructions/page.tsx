@@ -315,8 +315,8 @@ export default function QuizInstructions({ params }: { params: { id: string } })
                             <span className="text-[10px] sm:text-xs font-black text-white">A</span>
                           </div>
                           <p className="text-gray-200 text-xs sm:text-base">
-                            Choose one answer from the 4 options (A, B, C, D) given below the question, click on the
-                            bubble placed before the chosen option.
+                            Choose one answer from the 4 options (A, B, C, D) given below the question, and click on the
+                            bubble is placed before the chosen option.
                           </p>
                         </div>
                         <div className="flex items-start gap-2 sm:gap-3">
