@@ -221,7 +221,7 @@ export default function QuizResults({ params }: { params: { id: string } }) {
                       <p className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-cyan-400 truncate">
                         {user.name}
                       </p>
-                      <p className="text-emerald-200 text-xs sm:text-sm">Test Results</p>
+                      
                     </div>
                   </div>
 
