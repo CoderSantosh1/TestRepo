@@ -18,9 +18,9 @@ const questionSchema = new mongoose.Schema(
       trim: true,
     }],
     correctAnswer: {
-      type: Number,
+      type: String,
       required: [true, 'Correct answer is required'],
-      min: [0, 'Correct answer must be a valid option index'],
+      trim: true,
     },
   },
   {

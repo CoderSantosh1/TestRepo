@@ -34,7 +34,7 @@ export default function QuizList() {
         throw new Error('Failed to fetch quizzes');
       }
       const data = await response.json();
-      setQuizzes(data);
+      setQuizzes(data.data || []);
     } catch (error) {
       console.error('Error fetching quizzes:', error);
       toast.error('Failed to fetch quizzes');

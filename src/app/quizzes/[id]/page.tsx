@@ -12,7 +12,9 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { AlertCircle, Clock, CheckCircle2, Flag, ArrowRight, Zap, Star, Hexagon, Brain, ArrowLeft, User } from 'lucide-react';
 import Link from "next/link"
 import AuthModal from '@/components/AuthModal';
+import ConfirmationModal from "../../../components/ui/ConfirmationModal"
 import { title } from 'process';
+import { LANG } from "./lang";
 
 enum QuestionStatus {
   NotViewed = 'not-viewed',
@@ -68,6 +70,17 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
   const [showRegister, setShowRegister] = useState(false);
   const [isInitializing, setIsInitializing] = useState(true);
   const [mounted, setMounted] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [confirmModalData, setConfirmModalData] = useState({
+    title: "",
+    message: "",
+    confirmText: "",
+    cancelText: "",
+    type: "warning" as "warning" | "danger" | "success" | "info",
+    unansweredCount: 0,
+  });
+  const [lang, setLang] = useState<'en' | 'hi' | null>(null);
+  const t = lang ? LANG[lang] : LANG['en'];
 
   // Initialize user check
   useEffect(() => {
@@ -97,7 +110,12 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
         }
         const data = await response.json();
         setQuiz(data);
-        setTimeLeft(data.timeLimit * 60); // Convert minutes to seconds
+        // Only set timer if timeLimit is a positive number
+        if (data.timeLimit && data.timeLimit > 0) {
+          setTimeLeft(data.timeLimit * 60); // Convert minutes to seconds
+        } else {
+          setTimeLeft(-1); // Special value for no/invalid time limit
+        }
         setAnswers(new Array(data.questions.length).fill(-1));
         setQuestionStatuses(new Array(data.questions.length).fill(QuestionStatus.NotViewed));
       } catch (error) {
@@ -116,6 +134,7 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
 
   // Timer effect
   useEffect(() => {
+    // Only run timer if timeLeft is positive
     if (timeLeft <= 0) {
       return;
     }
@@ -139,12 +158,37 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
     setShowRegister(false);
   };
 
+  const showSubmitConfirmation = () => {
+    const unanswered = answers.filter((answer) => answer === -1).length;
+
+    if (unanswered > 0) {
+      setConfirmModalData({
+        title: "Submit Quiz?",
+        message: "Are you sure you want to submit your quiz? This action cannot be undone.",
+        confirmText: "Submit Quiz",
+        cancelText: "Continue Quiz",
+        type: "warning",
+        unansweredCount: unanswered,
+      });
+    } else {
+      setConfirmModalData({
+        title: "Submit Quiz?",
+        message: "You have answered all questions. Are you ready to submit your quiz?",
+        confirmText: "Submit Quiz",
+        cancelText: "Review Answers",
+        type: "success",
+        unansweredCount: 0,
+      });
+    }
+
+    setShowConfirmModal(true);
+  };
+
   const handleSubmit = useCallback(async () => {
     if (submitting) return;
 
-    if (!quiz || !quiz._id) {
+    if (!quiz) {
       toast.error("Quiz data is missing. Please reload the page.");
-      console.error("Quiz or quiz._id is missing:", quiz);
       return;
     }
 
@@ -153,14 +197,6 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
       toast.error("User not found. Please register again.");
       setShowRegister(true);
       return;
-    }
-
-    const unanswered = answers.filter((answer) => answer === -1).length;
-    if (unanswered > 0) {
-      const confirm = window.confirm(
-        `You have ${unanswered} unanswered questions. Are you sure you want to submit?`
-      );
-      if (!confirm) return;
     }
 
     setSubmitting(true);
@@ -173,7 +209,7 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
         },
         body: JSON.stringify({
           quizId: quiz._id,
-          userId: user.mobile, // Use mobile number as userId
+          userId: user.mobile,
           answers,
         }),
       });
@@ -194,10 +230,31 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
 
   // Handle time expiration
   useEffect(() => {
-    if (timeLeft <= 0 && !submitting) {
-      handleSubmit();
+    // Only trigger expiration if timeLeft is zero and was set from a valid timeLimit
+    if (timeLeft === 0 && quiz && quiz.timeLimit && quiz.timeLimit > 0 && !submitting) {
+      setConfirmModalData({
+        title: "Time Expired!",
+        message: "Your quiz time has expired. Your answers will be automatically submitted.",
+        confirmText: "Submit Now",
+        cancelText: "",
+        type: "danger",
+        unansweredCount: answers.filter((answer) => answer === -1).length,
+      });
+      setShowConfirmModal(true);
+      setTimeout(() => {
+        handleSubmit();
+        // After 3 seconds, reset the quiz state so user can start again
+        setTimeout(() => {
+          // Reset quiz state to initial
+          setCurrentQuestion(0);
+          setAnswers(new Array(quiz.questions.length).fill(-1));
+          setQuestionStatuses(new Array(quiz.questions.length).fill(QuestionStatus.NotViewed));
+          setTimeLeft(quiz.timeLimit * 60);
+          setShowConfirmModal(false);
+        }, 3000);
+      }, 3000);
     }
-  }, [timeLeft, submitting, handleSubmit]);
+  }, [timeLeft, submitting, handleSubmit, answers, quiz]);
 
   const handleAnswerChange = (value: string) => {
     const newAnswers = [...answers];
@@ -284,6 +341,27 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
     }));
   }, []);
 
+  // Set language from localStorage or default to 'en' on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('lang');
+      if (stored === 'hi' || stored === 'en') {
+        setLang(stored);
+      } else {
+        setLang('en');
+      }
+    }
+  }, []);
+
+  // When user switches language, persist it
+  const handleLangSwitch = () => {
+    const nextLang = lang === 'en' ? 'hi' : 'en';
+    setLang(nextLang);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('lang', nextLang);
+    }
+  };
+
   // Show register modal if user is not registered
   if (showRegister) {
     return <AuthModal onSuccess={handleRegister} />;
@@ -363,7 +441,7 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-black flex items-center justify-center p-4">
         <Card
-          className="border-0 bg-black/80 backdrop-blur-sm shadow-2xl p-8 text-center"
+          className="border-0 bg-black/80 backdrop-blur-sm shadow-2xl"
           style={{
             clipPath: "polygon(0% 0%, 95% 0%, 100% 5%, 100% 100%, 5% 100%, 0% 95%)",
             background: "linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(26,10,46,0.9) 50%, rgba(0,0,0,0.9) 100%)",
@@ -386,11 +464,30 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
     );
   }
 
+  // Show a message if no valid time limit is set
+  if (quiz && (!quiz.timeLimit || quiz.timeLimit <= 0)) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-purple-900 to-black p-4">
+        <Card className="border-0 bg-black/80 backdrop-blur-sm shadow-2xl p-8 text-center">
+          <h1 className="text-3xl font-black mb-4 bg-gradient-to-r from-red-400 to-pink-400 bg-clip-text text-transparent">
+            No Time Limit Set For This Quiz
+          </h1>
+          <p className="text-gray-300 mb-8">Please contact the administrator to set a valid time limit for this quiz.</p>
+          <Button onClick={() => router.push("/quizzes")} className="bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-black font-bold px-8 py-3">
+            Return to Hub
+          </Button>
+        </Card>
+      </div>
+    );
+  }
+
   const currentQuestionData = quiz.questions[currentQuestion];
   const progress = ((currentQuestion + 1) / quiz.questions.length) * 100;
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
   const answeredQuestions = answers.filter((answer) => answer !== -1).length;
+
+  if (!lang) return null; // or a loading spinner
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-black p-2 sm:p-4">
@@ -628,7 +725,7 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
 
                   {currentQuestion === quiz.questions.length - 1 ? (
                     <Button
-                      onClick={handleSubmit}
+                      onClick={showSubmitConfirmation}
                       disabled={submitting}
                       className="bg-gradient-to-r from-lime-400 to-emerald-500 hover:from-lime-500 hover:to-emerald-600 text-black font-black px-6 sm:px-8 py-2 sm:py-3 transition-all duration-300 hover:shadow-lg hover:shadow-lime-400/30 text-sm sm:text-base"
                     >
@@ -744,6 +841,25 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={showConfirmModal}
+        onClose={() => setShowConfirmModal(false)}
+        onConfirm={handleSubmit}
+        title={confirmModalData.title}
+        message={confirmModalData.message}
+        confirmText={confirmModalData.confirmText}
+        cancelText={confirmModalData.cancelText}
+        type={confirmModalData.type}
+        unansweredCount={confirmModalData.unansweredCount}
+      />
+
+      <div className="flex justify-end mb-4">
+        <Button onClick={handleLangSwitch} variant="outline">
+          {lang === 'en' ? 'हिंदी' : 'English'}
+        </Button>
       </div>
     </div>
   );
