@@ -11,10 +11,10 @@ export async function GET() {
     const answerKeys = await AnswerKey.find()
       .sort({ postedDate: -1 });
 
-    if (!answerKeys || answerKeys.length === 0) {
+    if (!answerKeys) {
       return NextResponse.json(
-        { success: false, error: 'No answer keys found' },
-        { status: 404 }
+        { success: true, data: [] },
+        { status: 200 }
       );
     }
 

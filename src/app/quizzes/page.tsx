@@ -1,93 +1,317 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
-import { Clock, FileText, Trophy, ArrowRight, Sparkles } from "lucide-react"
+import { useEffect, useState } from "react"
+import Link from "next/link"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { toast } from "sonner"
+import { Clock, FileText, Trophy, ArrowRight, Sparkles, UserIcon, LogOut, Globe, CheckCircle2 } from "lucide-react"
+import AuthModal from "@/components/AuthModal"
+import { useRouter } from "next/navigation"
+import { Select } from "@/components/ui/select"
 
 interface Question {
-  _id: string;
-  text: string;
-  options: string[];
-  correctAnswer: number;
+  _id: string
+  text: string
+  options: string[]
+  correctAnswer: number
 }
 
 interface Quiz {
-  _id: string;
-  title: string;
-  description: string;
-  timeLimit: number;
-  totalMarks: number;
+  _id: string
+  title: string
+  description: string
+  timeLimit: number
+  totalMarks: number
   questions: Array<{
-    _id: string;
-    text: string;
-    options: string[];
-    correctAnswer: number;
-  }>;
+    _id: string
+    text: string
+    options: string[]
+    correctAnswer: number
+  }>
   attempts?: Array<{
-    _id: string;
-    userId: string;
-    score: number;
-    completedAt: string;
-  }>;
-  createdAt?: string;
-  updatedAt?: string;
+    _id: string
+    userId: string
+    score: number
+    completedAt: string
+  }>
+  createdAt?: string
+  updatedAt?: string
+}
+
+interface Language {
+  code: string
+  name: string
+  nativeName: string
+  flag: string
+}
+
+const supportedLanguages: Language[] = [
+  { code: "en", name: "English", nativeName: "English", flag: "🇺🇸" },
+  { code: "hi", name: "Hindi", nativeName: "हिंदी", flag: "🇮🇳" },
+  { code: "bn", name: "Bengali", nativeName: "বাংলা", flag: "🇧🇩" },
+  { code: "te", name: "Telugu", nativeName: "తెలుగు", flag: "🇮🇳" },
+  { code: "ta", name: "Tamil", nativeName: "தமிழ்", flag: "🇮🇳" },
+  { code: "mr", name: "Marathi", nativeName: "मराठी", flag: "🇮🇳" },
+  { code: "gu", name: "Gujarati", nativeName: "ગુજરાતી", flag: "🇮🇳" },
+  { code: "kn", name: "Kannada", nativeName: "ಕನ್ನಡ", flag: "🇮🇳" },
+  { code: "ml", name: "Malayalam", nativeName: "മലയാളം", flag: "🇮🇳" },
+  { code: "pa", name: "Punjabi", nativeName: "ਪੰਜਾਬੀ", flag: "🇮🇳" },
+]
+
+const translations = {
+  en: {
+    welcome: "Welcome",
+    ready: "Ready to take on some challenges?",
+    logout: "Logout",
+    availableTests: "Available Tests",
+    questions: "Questions",
+    marks: "Marks",
+    minutes: "Minutes",
+    testStart: "Test Start",
+    language: "Language",
+    selectLanguage: "Select Language",
+    languageChanged: "Language changed successfully!",
+    noQuizzes: "No Quizzes Available",
+    noQuizzesDesc: "There are no quizzes available at the moment.",
+    loading: "Loading...",
+  },
+  hi: {
+    welcome: "स्वागत है",
+    ready: "कुछ चुनौतियों का सामना करने के लिए तैयार हैं?",
+    logout: "लॉग आउट",
+    availableTests: "उपलब्ध परीक्षाएं",
+    questions: "प्रश्न",
+    marks: "अंक",
+    minutes: "मिनट",
+    testStart: "परीक्षा शुरू करें",
+    language: "भाषा",
+    selectLanguage: "भाषा चुनें",
+    languageChanged: "भाषा सफलतापूर्वक बदल दी गई!",
+    noQuizzes: "कोई प्रश्नोत्तरी उपलब्ध नहीं",
+    noQuizzesDesc: "इस समय कोई प्रश्नोत्तरी उपलब्ध नहीं है।",
+    loading: "लोड हो रहा है...",
+  },
+  bn: {
+    welcome: "স্বাগতম",
+    ready: "কিছু চ্যালেঞ্জ নিতে প্রস্তুত?",
+    logout: "লগ আউট",
+    availableTests: "উপলব্ধ পরীক্ষা",
+    questions: "প্রশ্ন",
+    marks: "নম্বর",
+    minutes: "মিনিট",
+    testStart: "পরীক্ষা শুরু",
+    language: "ভাষা",
+    selectLanguage: "ভাষা নির্বাচন করুন",
+    languageChanged: "ভাষা সফলভাবে পরিবর্তিত হয়েছে!",
+    noQuizzes: "কোন কুইজ উপলব্ধ নেই",
+    noQuizzesDesc: "এই মুহূর্তে কোন কুইজ উপলব্ধ নেই।",
+    loading: "লোড হচ্ছে...",
+  },
 }
 
 export default function QuizList() {
-  const [quizzes, setQuizzes] = useState<Quiz[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [quizzes, setQuizzes] = useState<Quiz[]>([])
+  const [loading, setLoading] = useState(true)
+  const [loggedInUser, setLoggedInUser] = useState<{ _id: string; name: string; mobile: string } | null>(null)
+  const [showAuth, setShowAuth] = useState(false)
+  const [currentLanguage, setCurrentLanguage] = useState<string>("en")
+  const [languageLoading, setLanguageLoading] = useState(false)
+  const router = useRouter()
+
+  // Get current translations
+  const t = translations[currentLanguage as keyof typeof translations] || translations.en
 
   useEffect(() => {
+    // Get user and language preference from localStorage
+    if (typeof window !== "undefined") {
+      const userData = localStorage.getItem("user")
+      if (userData) {
+        try {
+          setLoggedInUser(JSON.parse(userData))
+        } catch (error) {
+          console.error("Error parsing user data:", error)
+        }
+      } else {
+        setShowAuth(true)
+      }
+
+      // Get saved language preference
+      const savedLanguage = localStorage.getItem("preferredLanguage")
+      if (savedLanguage && supportedLanguages.find((lang) => lang.code === savedLanguage)) {
+        setCurrentLanguage(savedLanguage)
+      }
+    }
+
     const fetchQuizzes = async () => {
       try {
-        const response = await fetch("/api/quizzes");
+        const response = await fetch("/api/quizzes")
         if (!response.ok) {
-          throw new Error("Failed to fetch quizzes");
+          throw new Error("Failed to fetch quizzes")
         }
-        const data = await response.json();
-        console.log("Fetched quizzes data:", data);
-        setQuizzes(data);
+        const data = await response.json()
+        console.log("Fetched quizzes data:", data)
+        setQuizzes(data.data)
       } catch (error) {
-        console.error("Error fetching quizzes:", error);
-        toast.error("Failed to load quizzes");
+        console.error("Error fetching quizzes:", error)
+        toast.error("Failed to load quizzes")
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
-    fetchQuizzes();
-  }, []);
+    fetchQuizzes()
+  }, [])
+
+  const handleLogout = () => {
+    localStorage.removeItem("user")
+    setLoggedInUser(null)
+    setShowAuth(true)
+    toast.success("Logged out successfully")
+  }
+
+  const handleAuthSuccess = (user: { _id: string; name: string; mobile: string }) => {
+    setLoggedInUser(user)
+    setShowAuth(false)
+    toast.success(`${t.welcome}, ${user.name}!`)
+  }
+
+  const handleLanguageChange = async (languageCode: string) => {
+    // Validate language code
+    const selectedLanguage = supportedLanguages.find((lang) => lang.code === languageCode)
+
+    if (!selectedLanguage) {
+      toast.error("Invalid language selection")
+      return
+    }
+
+    if (languageCode === currentLanguage) {
+      toast.info("Language is already selected")
+      return
+    }
+
+    setLanguageLoading(true)
+
+    try {
+      // Simulate API call for language change validation
+      await new Promise((resolve) => setTimeout(resolve, 500))
+
+      // Update language
+      setCurrentLanguage(languageCode)
+
+      // Save to localStorage
+      localStorage.setItem("preferredLanguage", languageCode)
+
+      // Show success message
+      const newTranslations = translations[languageCode as keyof typeof translations] || translations.en
+      toast.success(
+        <div className="flex items-center gap-2">
+          <CheckCircle2 className="w-4 h-4 text-green-500" />
+          <span>
+            {selectedLanguage.flag} {newTranslations.languageChanged}
+          </span>
+        </div>,
+      )
+    } catch (error) {
+      console.error("Error changing language:", error)
+      toast.error("Failed to change language. Please try again.")
+    } finally {
+      setLanguageLoading(false)
+    }
+  }
+
+  // Show auth modal if user is not logged in
+  if (showAuth) {
+    return <AuthModal onSuccess={handleAuthSuccess} />
+  }
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
+      <div className="flex items-center justify-center min-h-screen bg-[#1a124d]">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500 mx-auto mb-4"></div>
+          <p className="text-white font-semibold">{t.loading}</p>
+        </div>
       </div>
-    );
+    )
   }
 
   if (quizzes.length === 0) {
     return (
-      <div className="container mx-auto py-8">
+      <div className="container mx-auto py-8 bg-[#1a124d] min-h-screen">
         <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4 text-[#014F59]">No Quizzes Available</h1>
-          <p className="text-muted-foreground mb-8">
-            There are no quizzes available at the moment.
-          </p>
+          <h1 className="text-2xl font-bold mb-4 text-white">{t.noQuizzes}</h1>
+          <p className="text-gray-300 mb-8">{t.noQuizzesDesc}</p>
         </div>
       </div>
-    );
+    )
   }
 
   return (
-    <div className="container bg-[#1a124d] mx-auto py-4 sm:py-6 px-2 sm:px-4">
-      <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-8 text-white flex justify-center">Available Test</h1>
+    <div className="container bg-[#1a124d] mx-auto py-4 sm:py-6 px-2 sm:px-4 min-h-screen">
+      {/* User Profile Section */}
+      {loggedInUser && (
+        <div className="mb-6 sm:mb-8">
+          <Card className="border-0 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 backdrop-blur-sm shadow-xl">
+            <CardContent className="p-4 sm:p-6">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="flex items-center gap-3 sm:gap-4 flex-1">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center shadow-lg">
+                    <UserIcon className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg sm:text-xl font-bold text-white">
+                      {t.welcome}, {loggedInUser.name}! 👋
+                    </h2>
+                    <p className="text-emerald-200 text-sm sm:text-base">{t.ready}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto">
+                  {/* Language Selector */}
+                  <div className="flex items-center gap-2 flex-1 sm:flex-initial">
+                    <Globe className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                    <select
+                      value={currentLanguage}
+                      onChange={(e) => handleLanguageChange(e.target.value)}
+                      className="border rounded px-2 py-1"
+                    >
+                      <option value="en">English</option>
+                      <option value="hi">हिंदी</option>
+                    </select>
+                  </div>
+
+                  <Button
+                    onClick={handleLogout}
+                    variant="outline"
+                    className="border-emerald-400 text-emerald-400 hover:bg-emerald-400 hover:text-white transition-colors duration-300 flex-shrink-0"
+                  >
+                    <LogOut className="w-4 h-4 mr-2" />
+                    {t.logout}
+                  </Button>
+                </div>
+              </div>
+
+              {/* Language Loading Indicator */}
+              {languageLoading && (
+                <div className="mt-4 flex items-center justify-center gap-2 text-emerald-300">
+                  <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-emerald-400"></div>
+                  <span className="text-sm">Changing language...</span>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-8 text-white flex justify-center">{t.availableTests}</h1>
+
       <div className="grid gap-4 sm:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center">
         {quizzes.map((quiz) => (
-          <Card className="group relative overflow-hidden rounded-3xl border-0 bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-100 shadow-xl hover:shadow-2xl transition-all duration-500 w-full max-w-[380px] m-2 sm:m-5 hover:-translate-y-2 hover:rotate-1">
+          <Card
+            key={quiz._id}
+            className="group relative overflow-hidden rounded-3xl border-0 bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-100 shadow-xl hover:shadow-2xl transition-all duration-500 w-full max-w-[380px] m-2 sm:m-5 hover:-translate-y-2 hover:rotate-1"
+          >
             {/* Animated background pattern */}
             <div className="absolute inset-0 opacity-10">
               <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-coral-400 to-orange-400 rounded-full blur-3xl animate-pulse" />
@@ -131,7 +355,9 @@ export default function QuizList() {
                     <FileText className="w-2 h-2 sm:w-3 sm:h-3 text-white" />
                   </div>
                   <p className="text-xl sm:text-3xl font-black text-coral-600 mb-1">{quiz.questions.length}</p>
-                  <p className="text-[10px] sm:text-xs font-bold text-coral-700 uppercase tracking-wider">Questions</p>
+                  <p className="text-[10px] sm:text-xs font-bold text-coral-700 uppercase tracking-wider">
+                    {t.questions}
+                  </p>
                 </div>
 
                 <div className="relative text-center p-2 sm:p-4 rounded-2xl bg-gradient-to-br from-amber-100 to-yellow-100 border-2 border-amber-200/50 shadow-lg transform hover:scale-105 transition-transform duration-200">
@@ -139,7 +365,7 @@ export default function QuizList() {
                     <Trophy className="w-2 h-2 sm:w-3 sm:h-3 text-white" />
                   </div>
                   <p className="text-xl sm:text-3xl font-black text-amber-600 mb-1">{quiz.totalMarks}</p>
-                  <p className="text-[10px] sm:text-xs font-bold text-amber-700 uppercase tracking-wider">Marks</p>
+                  <p className="text-[10px] sm:text-xs font-bold text-amber-700 uppercase tracking-wider">{t.marks}</p>
                 </div>
 
                 <div className="relative text-center p-2 sm:p-4 rounded-2xl bg-gradient-to-br from-teal-100 to-emerald-100 border-2 border-teal-200/50 shadow-lg transform hover:scale-105 transition-transform duration-200">
@@ -147,19 +373,19 @@ export default function QuizList() {
                     <Clock className="w-2 h-2 sm:w-3 sm:h-3 text-white" />
                   </div>
                   <p className="text-xl sm:text-3xl font-black text-teal-600 mb-1">{quiz.timeLimit}</p>
-                  <p className="text-[10px] sm:text-xs font-bold text-teal-700 uppercase tracking-wider">Minutes</p>
+                  <p className="text-[10px] sm:text-xs font-bold text-teal-700 uppercase tracking-wider">{t.minutes}</p>
                 </div>
               </div>
 
               {/* Action Button with unique design */}
-              <Link href={`/quizzes/${quiz._id}`} className="block">
+              <Link href={`/quizzes/${quiz._id}/instructions`} className="block">
                 <Button className="relative w-full bg-gradient-to-r from-coral-500 via-orange-500 to-amber-500 hover:from-coral-600 hover:via-orange-600 hover:to-amber-600 text-white font-bold py-3 sm:py-5 rounded-2xl shadow-2xl hover:shadow-coral-500/25 transition-all duration-300 group/btn overflow-hidden">
                   {/* Button background animation */}
                   <div className="absolute inset-0 bg-gradient-to-r from-teal-500 via-emerald-500 to-cyan-500 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300" />
 
                   <span className="relative flex items-center justify-center gap-2 sm:gap-3 text-base sm:text-lg">
                     <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
-                    Test Start
+                    {t.testStart}
                     <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover/btn:translate-x-2 group-hover/btn:scale-110 transition-all duration-300" />
                   </span>
 
@@ -176,5 +402,5 @@ export default function QuizList() {
         ))}
       </div>
     </div>
-  );
-} 
+  )
+}

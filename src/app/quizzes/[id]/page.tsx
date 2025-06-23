@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button, type ButtonProps } from '@/components/ui/button';
@@ -9,8 +9,10 @@ import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
 import { Progress } from '@/components/ui/progress';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { AlertCircle, Clock, CheckCircle2, Flag, ArrowRight, Zap, Star, Hexagon, Brain, ArrowLeft } from 'lucide-react';
+import { AlertCircle, Clock, CheckCircle2, Flag, ArrowRight, Zap, Star, Hexagon, Brain, ArrowLeft, User } from 'lucide-react';
 import Link from "next/link"
+import AuthModal from '@/components/AuthModal';
+import { title } from 'process';
 
 enum QuestionStatus {
   NotViewed = 'not-viewed',
@@ -63,7 +65,29 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
   const [submitting, setSubmitting] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const [questionStatuses, setQuestionStatuses] = useState<QuestionStatus[]>([]);
+  const [showRegister, setShowRegister] = useState(false);
+  const [isInitializing, setIsInitializing] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
+  // Initialize user check
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const user = localStorage.getItem("user");
+      if (!user) {
+        setShowRegister(true);
+        setIsInitializing(false);
+        return;
+      }
+      const acknowledged = localStorage.getItem(`quiz-instructions-acknowledged-${params.id}`);
+      if (!acknowledged) {
+        router.replace(`/quizzes/${params.id}/instructions`);
+        return;
+      }
+      setIsInitializing(false);
+    }
+  }, [params.id, router]);
+
+  // Fetch quiz data
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
@@ -85,12 +109,14 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
       }
     };
 
-    fetchQuiz();
-  }, [params.id, router]);
+    if (!isInitializing && !showRegister) {
+      fetchQuiz();
+    }
+  }, [params.id, router, isInitializing, showRegister]);
 
+  // Timer effect
   useEffect(() => {
     if (timeLeft <= 0) {
-      handleSubmit();
       return;
     }
 
@@ -101,12 +127,70 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
     return () => clearInterval(timer);
   }, [timeLeft]);
 
-  // Show warning when time is running low
+  // Warning effect
   useEffect(() => {
     if (timeLeft <= 300) { // 5 minutes
       setShowWarning(true);
     }
   }, [timeLeft]);
+
+  const handleRegister = (user: { name: string, mobile: string }) => {
+    localStorage.setItem("user", JSON.stringify(user));
+    setShowRegister(false);
+  };
+
+  const handleSubmit = useCallback(async () => {
+    if (submitting) return;
+
+    const user = typeof window !== "undefined" ? JSON.parse(localStorage.getItem("user") || "null") : null;
+    if (!user || !user._id) {
+      toast.error("User not found. Please register again.");
+      setShowRegister(true);
+      return;
+    }
+
+    const unanswered = answers.filter((answer) => answer === -1).length;
+    if (unanswered > 0) {
+      const confirm = window.confirm(
+        `You have ${unanswered} unanswered questions. Are you sure you want to submit?`
+      );
+      if (!confirm) return;
+    }
+
+    setSubmitting(true);
+    try {
+      const response = await fetch('/api/quiz-attempts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          quizId: quiz?._id,
+          userId: user._id, // Use backend user ID
+          answers,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit quiz');
+      }
+
+      const attempt = await response.json();
+      toast.success('Quiz submitted successfully!');
+      router.push(`/quizzes/${params.id}/results?attemptId=${attempt._id}`);
+    } catch (error) {
+      console.error('Error submitting quiz:', error);
+      toast.error('Failed to submit quiz');
+      setSubmitting(false);
+    }
+  }, [submitting, answers, quiz?._id, params.id, router, setShowRegister]);
+
+  // Handle time expiration
+  useEffect(() => {
+    if (timeLeft <= 0 && !submitting) {
+      handleSubmit();
+    }
+  }, [timeLeft, submitting, handleSubmit]);
 
   const handleAnswerChange = (value: string) => {
     const newAnswers = [...answers];
@@ -179,44 +263,70 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
     setQuestionStatuses(newStatuses);
   };
 
-  const handleSubmit = async () => {
-    if (submitting) return;
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-    const unanswered = answers.filter((answer) => answer === -1).length;
-    if (unanswered > 0) {
-      const confirm = window.confirm(
-        `You have ${unanswered} unanswered questions. Are you sure you want to submit?`
-      );
-      if (!confirm) return;
-    }
+  // Generate particles only once on mount
+  const particles = useMemo(() => {
+    return Array.from({ length: 20 }).map(() => ({
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+      duration: 4 + Math.random() * 3,
+      delay: Math.random() * 2,
+    }));
+  }, []);
 
-    setSubmitting(true);
-    try {
-      const response = await fetch('/api/quiz-attempts', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          quizId: quiz?._id,
-          userId: 'user123', // Replace with actual user ID
-          answers,
-        }),
-      });
+  // Show register modal if user is not registered
+  if (showRegister) {
+    return <AuthModal onSuccess={handleRegister} />;
+  }
 
-      if (!response.ok) {
-        throw new Error('Failed to submit quiz');
-      }
-
-      const attempt = await response.json();
-      toast.success('Quiz submitted successfully!');
-      router.push(`/quizzes/${params.id}/results?attemptId=${attempt._id}`);
-    } catch (error) {
-      console.error('Error submitting quiz:', error);
-      toast.error('Failed to submit quiz');
-      setSubmitting(false);
-    }
-  };
+  // Show loading state while initializing
+  if (isInitializing) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-black flex items-center justify-center">
+        <div className="relative">
+          <div className="w-20 h-20 border-4 border-cyan-400/30 rounded-full animate-spin">
+            <div
+              className="absolute inset-2 border-4 border-magenta-400/50 rounded-full animate-spin"
+              style={{ animationDirection: "reverse" }}
+            >
+              <div>
+                {(() => {
+                  if (typeof window === 'undefined') return null;
+                  const userData = localStorage.getItem('user');
+                  if (!userData) return null;
+                  try {
+                    const user = JSON.parse(userData);
+                    return (
+                      <>
+                        <h2 className="text-lg sm:text-xl font-bold text-white">
+                          Welcome, {user.name}! 
+                        </h2>
+                        <p className="text-emerald-200 text-sm sm:text-base">
+                          Ready to take on {title}
+                        </p>
+                      </>
+                    );
+                  } catch (e) {
+                    return null; // Avoids crashing if JSON is invalid
+                  }
+                })()}
+              </div>
+              <div className="absolute inset-2 border-4 border-lime-400/70 rounded-full animate-spin">
+                <div className="absolute inset-2 bg-gradient-to-br from-cyan-400 to-magenta-400 rounded-full animate-pulse" />
+              </div>
+            </div>
+          </div>
+          <div className="absolute inset-0 bg-cyan-400/20 rounded-full blur-xl animate-pulse" />
+          <p className="text-cyan-400 font-bold text-lg mt-8 text-center animate-pulse">
+            Initializing...
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   if (loading) {
     return (
@@ -235,7 +345,7 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
           </div>
           <div className="absolute inset-0 bg-cyan-400/20 rounded-full blur-xl animate-pulse" />
           <p className="text-cyan-400 font-bold text-lg mt-8 text-center animate-pulse">
-            Initializing Neural Interface...
+            Started Test...
           </p>
         </div>
       </div>
@@ -278,20 +388,22 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-black p-2 sm:p-4">
       {/* Floating particles background */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        {Array.from({ length: 20 }).map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-1 h-1 bg-cyan-400 rounded-full opacity-30"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animation: `float ${4 + Math.random() * 3}s ease-in-out infinite ${Math.random() * 2}s`,
-              boxShadow: "0 0 4px currentColor",
-            }}
-          />
-        ))}
-      </div>
+      {mounted && (
+        <div className="fixed inset-0 overflow-hidden pointer-events-none">
+          {particles.map((p, i) => (
+            <div
+              key={i}
+              className="absolute w-1 h-1 bg-cyan-400 rounded-full opacity-30"
+              style={{
+                left: `${p.left}%`,
+                top: `${p.top}%`,
+                animation: `float ${p.duration}s ease-in-out infinite ${p.delay}s`,
+                boxShadow: "0 0 4px currentColor",
+              }}
+            />
+          ))}
+        </div>
+      )}
 
       <div className="container mx-auto py-4 sm:py-8 px-2 sm:px-4 relative z-10">
         {/* Warning Alert - Cyberpunk Style */}
@@ -321,6 +433,29 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
 
           {/* Header Section */}
           <CardHeader className="border-b border-cyan-400/30 bg-gradient-to-r from-black/50 to-purple-900/30 backdrop-blur-sm p-4 sm:p-6">
+            {/* User Profile Display */}
+            {(() => {
+              const userData = typeof window !== "undefined" ? localStorage.getItem("user") : null;
+              const user = userData ? JSON.parse(userData) : null;
+              return user ? (
+                <div className="mb-4 sm:mb-6">
+                  <div className="flex items-center justify-center gap-3 sm:gap-4">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-cyan-400 to-magenta-500 flex items-center justify-center shadow-lg">
+                      <User className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                    </div>
+                    <div className="text-center">
+                      <h3 className="text-lg sm:text-xl font-bold text-white">
+                        {user.name}
+                      </h3>
+                      <p className="text-cyan-300 text-sm sm:text-base">
+                        Neural Interface Active
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ) : null;
+            })()}
+
             <div className="text-center mb-4 sm:mb-6">
               <CardTitle className="text-2xl sm:text-4xl font-black mb-2">
                 <span className="bg-gradient-to-r from-cyan-400 via-magenta-400 to-lime-400 bg-clip-text text-transparent animate-pulse">
@@ -380,7 +515,7 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
                       <div className="text-xl sm:text-2xl font-black text-cyan-400">
                         {currentQuestion + 1}/{quiz.questions.length}
                       </div>
-                      <div className="text-[10px] sm:text-xs font-bold text-cyan-300 uppercase tracking-wider">Current Node</div>
+                      <div className="text-[10px] sm:text-xs font-bold text-cyan-300 uppercase tracking-wider">Current Questions</div>
                     </div>
                   </div>
                 </div>
