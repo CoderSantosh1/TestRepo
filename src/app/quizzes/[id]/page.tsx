@@ -149,7 +149,7 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
     }
 
     const user = typeof window !== "undefined" ? JSON.parse(localStorage.getItem("user") || "null") : null;
-    if (!user || !user._id) {
+    if (!user || !user.mobile) {
       toast.error("User not found. Please register again.");
       setShowRegister(true);
       return;
@@ -165,15 +165,15 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
 
     setSubmitting(true);
     try {
-      console.log("Submitting quiz attempt with quizId:", quiz._id, "userId:", user._id, "answers:", answers);
+      console.log("Submitting quiz attempt with quizId:", quiz._id, "userId:", user.mobile, "answers:", answers);
       const response = await fetch('/api/quiz-attempts', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          quizId: quiz._id, // Always include quizId
-          userId: user._id, // Use backend user ID
+          quizId: quiz._id,
+          userId: user.mobile, // Use mobile number as userId
           answers,
         }),
       });
