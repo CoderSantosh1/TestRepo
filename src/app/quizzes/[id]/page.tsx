@@ -142,8 +142,14 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
   const handleSubmit = useCallback(async () => {
     if (submitting) return;
 
+    if (!quiz || !quiz._id) {
+      toast.error("Quiz data is missing. Please reload the page.");
+      console.error("Quiz or quiz._id is missing:", quiz);
+      return;
+    }
+
     const user = typeof window !== "undefined" ? JSON.parse(localStorage.getItem("user") || "null") : null;
-    if (!user || !user._id) {
+    if (!user || !user.mobile) {
       toast.error("User not found. Please register again.");
       setShowRegister(true);
       return;
@@ -159,14 +165,15 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
 
     setSubmitting(true);
     try {
+      console.log("Submitting quiz attempt with quizId:", quiz._id, "userId:", user.mobile, "answers:", answers);
       const response = await fetch('/api/quiz-attempts', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          quizId: quiz?._id,
-          userId: user._id, // Use backend user ID
+          quizId: quiz._id,
+          userId: user.mobile, // Use mobile number as userId
           answers,
         }),
       });
@@ -183,7 +190,7 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
       toast.error('Failed to submit quiz');
       setSubmitting(false);
     }
-  }, [submitting, answers, quiz?._id, params.id, router, setShowRegister]);
+  }, [submitting, answers, quiz, params.id, router, setShowRegister]);
 
   // Handle time expiration
   useEffect(() => {

@@ -106,7 +106,10 @@ export default function QuizInstructions({ params }: { params: { id: string } })
   }, [])
 
   const handleStart = () => {
-    router.push(`/quizzes/${params.id}`)
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(`quiz-instructions-acknowledged-${params.id}`, 'true');
+    }
+    router.push(`/quizzes/${params.id}`);
   }
 
   const handlePrevious = () => {
