@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button, type ButtonProps } from '@/components/ui/button';
@@ -67,6 +67,7 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
   const [questionStatuses, setQuestionStatuses] = useState<QuestionStatus[]>([]);
   const [showRegister, setShowRegister] = useState(false);
   const [isInitializing, setIsInitializing] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
   // Initialize user check
   useEffect(() => {
@@ -262,6 +263,20 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
     setQuestionStatuses(newStatuses);
   };
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Generate particles only once on mount
+  const particles = useMemo(() => {
+    return Array.from({ length: 20 }).map(() => ({
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+      duration: 4 + Math.random() * 3,
+      delay: Math.random() * 2,
+    }));
+  }, []);
+
   // Show register modal if user is not registered
   if (showRegister) {
     return <AuthModal onSuccess={handleRegister} />;
@@ -373,20 +388,22 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-black p-2 sm:p-4">
       {/* Floating particles background */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        {Array.from({ length: 20 }).map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-1 h-1 bg-cyan-400 rounded-full opacity-30"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animation: `float ${4 + Math.random() * 3}s ease-in-out infinite ${Math.random() * 2}s`,
-              boxShadow: "0 0 4px currentColor",
-            }}
-          />
-        ))}
-      </div>
+      {mounted && (
+        <div className="fixed inset-0 overflow-hidden pointer-events-none">
+          {particles.map((p, i) => (
+            <div
+              key={i}
+              className="absolute w-1 h-1 bg-cyan-400 rounded-full opacity-30"
+              style={{
+                left: `${p.left}%`,
+                top: `${p.top}%`,
+                animation: `float ${p.duration}s ease-in-out infinite ${p.delay}s`,
+                boxShadow: "0 0 4px currentColor",
+              }}
+            />
+          ))}
+        </div>
+      )}
 
       <div className="container mx-auto py-4 sm:py-8 px-2 sm:px-4 relative z-10">
         {/* Warning Alert - Cyberpunk Style */}
@@ -498,7 +515,7 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
                       <div className="text-xl sm:text-2xl font-black text-cyan-400">
                         {currentQuestion + 1}/{quiz.questions.length}
                       </div>
-                      <div className="text-[10px] sm:text-xs font-bold text-cyan-300 uppercase tracking-wider">Current Node</div>
+                      <div className="text-[10px] sm:text-xs font-bold text-cyan-300 uppercase tracking-wider">Current Questions</div>
                     </div>
                   </div>
                 </div>
