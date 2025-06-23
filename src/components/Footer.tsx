@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-100 border-t border-gray-200 mt-8">
+    <footer className="bg-gray-100 border-t border-gray-200">
       <div className="container mx-auto px-4 py-6">
         {/* Footer Navigation */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
@@ -28,13 +28,16 @@ export default function Footer() {
           </div>
           <div>
             <h3 className="text-lg font-bold text-red-600 mb-3">Contact Information</h3>
-            <p className="text-gray-700 mb-2">email: <a href="mailto:jobsplatform.in">support@JobsPlatform.in</a></p>
+            <p className="text-gray-700 mb-2">email: <a href="mailto:sarkariresultsnow.com">support@sarkariresultsnow.com</a></p>
             
             <div className="flex space-x-6">
+            <a href="https://t.me/+edSF3XKgzRU0MTY1" className="text-blue-600 hover:text-blue-800">
+                <Image src="/telegram.png" alt="Telogram" width={24} height={24} />
+              </a>
               <a href="#" className="text-blue-600 hover:text-blue-800">
                 <Image src="/facebook.png" alt="Facebook" width={24} height={24} />
               </a>
-              <a href="#" className="text-blue-600 hover:text-blue-800">
+              <a href="https://www.instagram.com/sarkariresultsnow/" className="text-blue-600 hover:text-blue-800">
                 <Image src="/insta.png" alt="Instagram" width={24} height={24} />
               </a>
               <a href="#" className="text-blue-600 hover:text-blue-800">
@@ -53,9 +56,9 @@ export default function Footer() {
         
         {/* Copyright */}
         <div className="text-center">
-          <h2 className="text-xl font-bold text-red-600 mb-1">JobsPlatform</h2>
-          <p className="text-sm text-gray-600">WWW.JOBSPLATFORM.IN</p>
-          <p className="text-sm text-gray-600 mt-2">&copy; {new Date().getFullYear()} JobsPlatform. All Rights Reserved.</p>
+          <h2 className="text-xl font-bold text-red-600 mb-1">Sarkariresultsnow</h2>
+          <p className="text-sm text-gray-600">WWW.sarkariresultsnow.COM</p>
+          <p className="text-sm text-gray-600 mt-2">&copy; {new Date().getFullYear()} Sarkariresultsnow. All Rights Reserved.</p>
         </div>
       </div>
     </footer>
