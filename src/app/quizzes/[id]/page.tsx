@@ -551,9 +551,9 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
                       <h3 className="text-lg sm:text-xl font-bold text-white">
                         {user.name}
                       </h3>
-                      <p className="text-cyan-300 text-sm sm:text-base">
+                      {/* <p className="text-cyan-300 text-sm sm:text-base">
                         Neural Interface Active
-                      </p>
+                      </p> */}
                     </div>
                   </div>
                 </div>
