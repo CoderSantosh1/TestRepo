@@ -62,7 +62,7 @@ const supportedLanguages: Language[] = [
 const translations = {
   en: {
     welcome: "Welcome",
-    ready: "Ready to take on some challenges?",
+    ready: "Are you Ready Test?",
     logout: "Logout",
     availableTests: "Available Tests",
     questions: "Questions",
@@ -75,10 +75,11 @@ const translations = {
     noQuizzes: "No Quizzes Available",
     noQuizzesDesc: "There are no quizzes available at the moment.",
     loading: "Loading...",
+    TestInstructions: "Test Instructions",
   },
   hi: {
     welcome: "स्वागत है",
-    ready: "कुछ चुनौतियों का सामना करने के लिए तैयार हैं?",
+    ready: "क्या आप Exam के लिए तैयार हैं?",
     logout: "लॉग आउट",
     availableTests: "उपलब्ध परीक्षाएं",
     questions: "प्रश्न",
@@ -86,28 +87,14 @@ const translations = {
     minutes: "मिनट",
     testStart: "परीक्षा शुरू करें",
     language: "भाषा",
+    TestInstructions:"परीक्षण निर्देश",
     selectLanguage: "भाषा चुनें",
     languageChanged: "भाषा सफलतापूर्वक बदल दी गई!",
     noQuizzes: "कोई प्रश्नोत्तरी उपलब्ध नहीं",
     noQuizzesDesc: "इस समय कोई प्रश्नोत्तरी उपलब्ध नहीं है।",
     loading: "लोड हो रहा है...",
   },
-  bn: {
-    welcome: "স্বাগতম",
-    ready: "কিছু চ্যালেঞ্জ নিতে প্রস্তুত?",
-    logout: "লগ আউট",
-    availableTests: "উপলব্ধ পরীক্ষা",
-    questions: "প্রশ্ন",
-    marks: "নম্বর",
-    minutes: "মিনিট",
-    testStart: "পরীক্ষা শুরু",
-    language: "ভাষা",
-    selectLanguage: "ভাষা নির্বাচন করুন",
-    languageChanged: "ভাষা সফলভাবে পরিবর্তিত হয়েছে!",
-    noQuizzes: "কোন কুইজ উপলব্ধ নেই",
-    noQuizzesDesc: "এই মুহূর্তে কোন কুইজ উপলব্ধ নেই।",
-    loading: "লোড হচ্ছে...",
-  },
+ 
 }
 
 export default function QuizList() {

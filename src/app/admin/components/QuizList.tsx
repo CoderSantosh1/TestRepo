@@ -45,7 +45,7 @@ export default function QuizList() {
         throw new Error('Failed to fetch quizzes');
       }
       const data = await response.json();
-      setQuizzes(data);
+      setQuizzes(data.data || []);
     } catch (error) {
       setError('Error loading quizzes');
       console.error('Error fetching quizzes:', error);

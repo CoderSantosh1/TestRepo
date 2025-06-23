@@ -26,7 +26,10 @@ const quizSchema = z.object({
   questions: z.array(z.object({
     text: z.string().min(1, 'Question is required'),
     options: z.array(z.string()).min(2, 'At least 2 options are required'),
-    correctAnswer: z.number().min(0, 'Correct answer is required'),
+    correctAnswer: z.string().min(1, 'Correct answer is required'),
+  }).refine((q) => q.options.includes(q.correctAnswer), {
+    message: 'Correct answer must match one of the options',
+    path: ['correctAnswer'],
   })).min(1, 'At least one question is required'),
 });
 
@@ -50,7 +53,7 @@ type QuestionFormFieldRenderProps = {
 };
 
 export default function QuizForm() {
-  const [questions, setQuestions] = useState([{ text: '', options: ['', ''], correctAnswer: 0 }]);
+  const [questions, setQuestions] = useState([{ text: '', options: ['', ''], correctAnswer: '' }]);
   
   const form = useForm<QuizFormValues>({
     resolver: zodResolver(quizSchema),
@@ -64,7 +67,7 @@ export default function QuizForm() {
   });
 
   const addQuestion = () => {
-    setQuestions([...questions, { text: '', options: ['', ''], correctAnswer: 0 }]);
+    setQuestions([...questions, { text: '', options: ['', ''], correctAnswer: '' }]);
   };
 
   const addOption = (questionIndex: number) => {
@@ -89,7 +92,7 @@ export default function QuizForm() {
 
       toast.success('Quiz created successfully');
       form.reset();
-      setQuestions([{ text: '', options: ['', ''], correctAnswer: 0 }]);
+      setQuestions([{ text: '', options: ['', ''], correctAnswer: '' }]);
     } catch (error) {
       console.error('Error creating quiz:', error);
       toast.error('Failed to create quiz');
@@ -214,14 +217,13 @@ export default function QuizForm() {
                 name={`questions.${questionIndex}.correctAnswer` as const}
                 render={({ field, fieldState, formState }: QuestionFormFieldRenderProps) => (
                   <FormItem>
-                    <FormLabel>Correct Answer (0-indexed)</FormLabel>
+                    <FormLabel>Correct Answer (enter the exact option text)</FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        min={0}
-                        max={question.options.length - 1}
+                        type="text"
+                        placeholder="Enter the correct answer exactly as one of the options"
                         {...field}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => field.onChange(Number(e.target.value))}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => field.onChange(e.target.value)}
                       />
                     </FormControl>
                     <FormMessage />
