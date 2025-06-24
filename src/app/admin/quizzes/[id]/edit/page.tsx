@@ -274,7 +274,7 @@ export default function EditQuiz({ params }: { params: { id: string } }) {
                         <input
                           type="radio"
                           name={`correctAnswer-${questionIndex}`}
-                          checked={question.correctAnswer === optionIndex}
+                          checked={Number(question.correctAnswer) === optionIndex}
                           onChange={() => handleCorrectAnswerChange(questionIndex, optionIndex)}
                           className="w-4 h-4"
                         />
