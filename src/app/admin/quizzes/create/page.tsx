@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
 
 interface Question {
-  question: string;
+  text: string;
   options: string[];
   correctAnswer: string;
 }
@@ -27,7 +27,7 @@ export default function CreateQuiz() {
   });
 
   const [currentQuestion, setCurrentQuestion] = useState<Question>({
-    question: '',
+    text: '',
     options: ['', '', '', ''],
     correctAnswer: ''
   });
@@ -49,10 +49,15 @@ export default function CreateQuiz() {
   };
 
   const handleOptionChange = (index: number, value: string) => {
-    setCurrentQuestion(prev => ({
-      ...prev,
-      options: prev.options.map((opt, i) => i === index ? value : opt)
-    }));
+    setCurrentQuestion(prev => {
+      const wasCorrect = prev.correctAnswer === prev.options[index];
+      const newOptions = prev.options.map((opt, i) => i === index ? value : opt);
+      return {
+        ...prev,
+        options: newOptions,
+        correctAnswer: wasCorrect ? value : prev.correctAnswer
+      };
+    });
   };
 
   const handleCorrectAnswerChange = (value: string) => {
@@ -63,7 +68,7 @@ export default function CreateQuiz() {
   };
 
   const addQuestion = () => {
-    if (!currentQuestion.question.trim()) {
+    if (!currentQuestion.text.trim()) {
       toast.error('Question text is required');
       return;
     }
@@ -82,7 +87,7 @@ export default function CreateQuiz() {
     }));
 
     setCurrentQuestion({
-      question: '',
+      text: '',
       options: ['', '', '', ''],
       correctAnswer: ''
     });
@@ -97,7 +102,8 @@ export default function CreateQuiz() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+    console.log('[DEBUG] handleSubmit called');
+    console.log('[DEBUG] formData:', formData);
     if (!formData.title.trim()) {
       toast.error('Title is required');
       return;
@@ -120,7 +126,7 @@ export default function CreateQuiz() {
         },
         body: JSON.stringify(formData),
       });
-
+      console.log('[DEBUG] API response status:', response.status);
       if (!response.ok) {
         throw new Error('Failed to create quiz');
       }
@@ -128,7 +134,7 @@ export default function CreateQuiz() {
       toast.success('Quiz created successfully');
       router.push('/admin/quizzes');
     } catch (error) {
-      console.error('Error creating quiz:', error);
+      console.error('[DEBUG] Error creating quiz:', error);
       toast.error('Failed to create quiz');
     } finally {
       setLoading(false);
@@ -199,11 +205,11 @@ export default function CreateQuiz() {
             <div className="space-y-4">
               <h3 className="text-lg font-medium">Add Question</h3>
               <div>
-                <Label htmlFor="question">Question</Label>
+                <Label htmlFor="text">Question</Label>
                 <Textarea
-                  id="question"
-                  name="question"
-                  value={currentQuestion.question}
+                  id="text"
+                  name="text"
+                  value={currentQuestion.text}
                   onChange={handleQuestionChange}
                   placeholder="Enter question"
                 />
@@ -246,7 +252,7 @@ export default function CreateQuiz() {
                   <div key={index} className="p-4 border rounded-lg">
                     <div className="flex justify-between items-start">
                       <div>
-                        <p className="font-medium">{q.question}</p>
+                        <p className="font-medium">{q.text}</p>
                         <ul className="mt-2 space-y-1">
                           {q.options.map((opt, optIndex) => (
                             <li key={optIndex} className="flex items-center gap-2">
