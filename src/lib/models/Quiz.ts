@@ -28,6 +28,11 @@ const quizSchema = new mongoose.Schema(
       ref: "Question",
     }],
     attempts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'QuizAttempt' }],
+    status: {
+      type: String,
+      enum: ['published', 'draft'],
+      default: 'draft',
+    },
   },
   {
     timestamps: true,
