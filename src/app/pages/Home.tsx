@@ -142,97 +142,94 @@ export default function Home() {
   return (
     <>
       <Header />
-      
       <div className="bg-[#1a124d]">
-      <main className="flex flex-col items-center justify-center bg-[#FFFBD9] w-full max-w-7xl mx-auto px-2 sm:px-4">
-        <div className="max-w-7xl mx-auto sm:px-6 py-2 space-y-6">
-         
-          <div className="w-full overflow-x-auto">
-            <table className="min-w-full table-auto border-collapse border border-orange-500 text-xs sm:text-sm md:text-base">
-              <thead>
-                <tr className="bg-red-600 text-[#FCFCD8] font-bold">
-                  <th className="p-1 sm:p-2 md:p-3 text-center">Result</th>
-                  <th className="p-1 sm:p-2 md:p-3 text-center">Latest Jobs</th>
-                  <th className="p-1 sm:p-2 md:p-3 text-center">Latest News</th>
-                </tr>
-              </thead>
-              <tbody>
-                {Array.from({ length: Math.max(results.length, admitCards.length, jobs.length) })
-                  .map((_, index) => (
-                    <tr key={index} className="border-t-2 border-red-500 hover:bg-[#FFF8CC]">
-                      <td className="p-1 sm:p-2 md:p-3 border-x text-xs sm:text-sm md:text-base">
-                        {results[index] ? (
-                          <a href={`/results/${results[index]._id}`} className="text-[#014F59] hover:underline hover:text-blue-800">
-                            {results[index].title}
-                          </a>
-                        ) : "-"}
-                      </td>
-                     
-                      <td className="p-1 sm:p-2 md:p-3 border-x text-xs sm:text-sm md:text-base">
-                        {jobs[index] ? (
-                          <a href={`/jobs/${jobs[index]._id}`} className="text-[#014F59] hover:underline hover:text-blue-800">
-                            {jobs[index].title}
-                          </a>
-                        ) : "-"}
-                      </td>
-                      <td className="p-1 sm:p-2 md:p-3 text-xs sm:text-sm md:text-base">
-                        {news[index] ? (
-                          <a href={`/news/${news[index]._id}`} className="text-[#014F59] hover:underline hover:text-blue-800">
-                            {news[index].title}
-                          </a>
-                        ) : "-"}
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          </div>
-        <div className="w-full overflow-x-auto mt-4">
-            <table className="min-w-full table-auto border-collapse border border-orange-500 text-xs sm:text-sm md:text-base">
-              <thead>
-                <tr className="bg-red-600 text-[#FCFCD8] font-bold">
-                  <th className="p-1 sm:p-2 md:p-3 text-center">Admit Card</th>
-                  <th className="p-1 sm:p-2 md:p-3 text-center">Answer key</th>
-                  <th className="p-1 sm:p-2 md:p-3 text-center">Admission</th>
-                </tr>
-              </thead>
-              <tbody>
-                {Array.from({ length: Math.max(admitCards.length) })
-                  .map((_, index) => (
-                    <tr key={index} className="border-t-2 border-red-500 hover:bg-[#FFF8CC]">
-                      <td className="p-1 sm:p-2 md:p-3 border-x text-xs sm:text-sm md:text-base">
-                        {admitCards[index] ? (
-                          <a href={`/admit-cards/${admitCards[index]._id}`} className="text-[#014F59] hover:underline hover:text-blue-800">
-                            {admitCards[index].title}
-                          </a>
-                        ) : "-"}
-                      </td>
-                      <td className="p-1 sm:p-2 md:p-3 border-x text-xs sm:text-sm md:text-base">
-                        {answerKeys[index] ? (
-                          <a href={`/answer-keys/${answerKeys[index]._id}`} className="text-[#014F59] hover:underline hover:text-blue-800">
-                            {answerKeys[index].title}
-                          </a>
-                        ) : "-"}
-                      </td>
-                      <td className="p-1 sm:p-2 md:p-3 border-x text-xs sm:text-sm md:text-base">
-                        {admissions[index] ? (
-                          <a href={`/admissions/${admissions[index]._id}`} target="_blank" rel="noopener noreferrer" className="text-[#014F59] hover:underline hover:text-blue-800">
-                            {admissions[index].title}
-                          </a>
-                        ) : "-"}
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          </div>
-
-          
-         
-         
-        </div>
-      </main>
+  <main className="flex flex-col items-center justify-center bg-[#FFFBD9] w-full max-w-7xl mx-auto px-2 sm:px-4">
+    <div className="w-full space-y-6 py-4">
+      
+      {/* Section 1: Results / Jobs / News */}
+      <div className="w-full overflow-x-auto">
+        <table className="w-full table-auto border-collapse border border-orange-500 text-xs sm:text-sm md:text-base">
+          <thead>
+            <tr className="bg-red-600 text-[#FCFCD8] font-bold">
+              <th className="p-2 text-center whitespace-nowrap">Result</th>
+              <th className="p-2 text-center whitespace-nowrap">Latest Jobs</th>
+              <th className="p-2 text-center whitespace-nowrap">Latest News</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Array.from({ length: Math.max(results.length, jobs.length, news.length) }).map((_, index) => (
+              <tr key={index} className="border-t-2 border-red-500 hover:bg-[#FFF8CC]">
+                <td className="p-2 border-x text-center align-top">
+                  {results[index] ? (
+                    <a href={`/results/${results[index]._id}`} className="text-[#014F59] hover:underline hover:text-blue-800">
+                      {results[index].title}
+                    </a>
+                  ) : "-"}
+                </td>
+                <td className="p-2 border-x text-center align-top">
+                  {jobs[index] ? (
+                    <a href={`/jobs/${jobs[index]._id}`} className="text-[#014F59] hover:underline hover:text-blue-800">
+                      {jobs[index].title}
+                    </a>
+                  ) : "-"}
+                </td>
+                <td className="p-2 text-center align-top">
+                  {news[index] ? (
+                    <a href={`/news/${news[index]._id}`} className="text-[#014F59] hover:underline hover:text-blue-800">
+                      {news[index].title}
+                    </a>
+                  ) : "-"}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
+
+      {/* Section 2: Admit Card / Answer Key / Admission */}
+      <div className="w-full overflow-x-auto">
+        <table className="w-full table-auto border-collapse border border-orange-500 text-xs sm:text-sm md:text-base">
+          <thead>
+            <tr className="bg-red-600 text-[#FCFCD8] font-bold">
+              <th className="p-2 text-center whitespace-nowrap">Admit Card</th>
+              <th className="p-2 text-center whitespace-nowrap">Answer Key</th>
+              <th className="p-2 text-center whitespace-nowrap">Admission</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Array.from({ length: Math.max(admitCards.length, answerKeys.length, admissions.length) }).map((_, index) => (
+              <tr key={index} className="border-t-2 border-red-500 hover:bg-[#FFF8CC]">
+                <td className="p-2 border-x text-center align-top">
+                  {admitCards[index] ? (
+                    <a href={`/admit-cards/${admitCards[index]._id}`} className="text-[#014F59] hover:underline hover:text-blue-800">
+                      {admitCards[index].title}
+                    </a>
+                  ) : "-"}
+                </td>
+                <td className="p-2 border-x text-center align-top">
+                  {answerKeys[index] ? (
+                    <a href={`/answer-keys/${answerKeys[index]._id}`} className="text-[#014F59] hover:underline hover:text-blue-800">
+                      {answerKeys[index].title}
+                    </a>
+                  ) : "-"}
+                </td>
+                <td className="p-2 text-center align-top">
+                  {admissions[index] ? (
+                    <a href={`/admissions/${admissions[index]._id}`} target="_blank" rel="noopener noreferrer" className="text-[#014F59] hover:underline hover:text-blue-800">
+                      {admissions[index].title}
+                    </a>
+                  ) : "-"}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      
+    </div>
+  </main>
+</div>
+
        {/* Announcement Bars */}
        <div className="bg-[#1a124d]">
       <div className="flex flex-col items-center  justify-center bg-[#FFFBD9]  w-10/14 max-w-7xl mx-auto px-4 ">
