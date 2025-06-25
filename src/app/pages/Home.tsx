@@ -147,33 +147,33 @@ export default function Home() {
     <div className="w-full space-y-6 py-4">
       
  {/* Section 1: Results / Jobs / News */}
-<div className="w-full">
-  <table className="w-full table-auto border-collapse border border-orange-500 text-xs sm:text-sm md:text-base">
+ <div className="w-full">
+  <table className="w-full table-fixed border-collapse border border-orange-500 text-xs sm:text-sm md:text-base">
     <thead>
       <tr className="bg-red-600 text-[#FCFCD8] font-bold">
-        <th className="p-2 text-center whitespace-nowrap">Result</th>
-        <th className="p-2 text-center whitespace-nowrap">Latest Jobs</th>
-        <th className="p-2 text-center whitespace-nowrap">Latest News</th>
+        <th className="p-2 text-center break-words whitespace-normal w-1/3">Result</th>
+        <th className="p-2 text-center break-words whitespace-normal w-1/3">Latest Jobs</th>
+        <th className="p-2 text-center break-words whitespace-normal w-1/3">Latest News</th>
       </tr>
     </thead>
     <tbody>
       {Array.from({ length: Math.max(results.length, jobs.length, news.length) }).map((_, index) => (
         <tr key={index} className="border-t-2 border-red-500 hover:bg-[#FFF8CC]">
-          <td className="p-2 border-x text-left sm:text-center align-top break-words whitespace-pre-wrap">
+          <td className="p-2 border-x text-left align-top break-words whitespace-pre-wrap">
             {results[index] ? (
               <a href={`/results/${results[index]._id}`} className="text-[#014F59] hover:underline hover:text-blue-800">
                 {results[index].title}
               </a>
             ) : "-"}
           </td>
-          <td className="p-2 border-x text-left sm:text-center align-top break-words whitespace-pre-wrap">
+          <td className="p-2 border-x text-left align-top break-words whitespace-pre-wrap">
             {jobs[index] ? (
               <a href={`/jobs/${jobs[index]._id}`} className="text-[#014F59] hover:underline hover:text-blue-800">
                 {jobs[index].title}
               </a>
             ) : "-"}
           </td>
-          <td className="p-2 text-left sm:text-center align-top break-words whitespace-pre-wrap">
+          <td className="p-2 text-left align-top break-words whitespace-pre-wrap">
             {news[index] ? (
               <a href={`/news/${news[index]._id}`} className="text-[#014F59] hover:underline hover:text-blue-800">
                 {news[index].title}
@@ -185,6 +185,7 @@ export default function Home() {
     </tbody>
   </table>
 </div>
+
 
 
 
