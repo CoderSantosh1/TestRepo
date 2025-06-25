@@ -225,62 +225,67 @@ export default function Home() {
                         </tbody>
                       </table>
                     </div>
-                    
+                   
+{/* Quiz Section */}
+<div className="mt-8 px-4 sm:px-6 w-full max-w-screen overflow-x-hidden">
+  <div className="text-center">
+    <h2 className="text-blue-500 font-bold text-base sm:text-lg md:text-xl animate-marquee">
+      <a
+        href="/quizzes"
+        className="hover:text-blue-600 hover:underline block w-full text-sm"
+      >
+        Free Mock Tests for All Government Exams
+      </a>
+    </h2>
+  </div>
+
+  {!quizzes || quizzes.length === 0 ? (
+    <div className="text-center py-6 bg-white rounded-lg shadow mt-4">
+      <p className="text-gray-500">No quizzes available at the moment.</p>
+      <p className="text-sm text-gray-400 mt-1">Check back later for new quizzes!</p>
+    </div>
+  ) : (
+    <div className="w-full mt-6">
+      <div className="bg-white border border-orange-500 rounded-md overflow-hidden shadow-sm w-full">
+        <div className="bg-red-600 text-[#FCFCD8] font-bold text-sm sm:text-base py-2 px-4 text-center w-full">
+          Free Test Series for All Government Exams
+        </div>
+        <ul className="divide-y divide-orange-300">
+          {quizzes.slice(0, 6).map((quiz) => (
+            <li
+              key={quiz._id}
+              className="py-3 px-4 hover:bg-[#FFF8CC] text-center break-words w-full"
+            >
+              <a
+                href={`/quizzes`}
+                className="text-[#014F59] font-medium text-sm sm:text-base hover:underline block w-full"
+              >
+                {quiz.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="flex justify-end mt-2 pr-2">
+        <a
+          href="/quizzes"
+          className="text-[#014F59] hover:text-[#014F59]/80 font-medium text-sm underline"
+        >
+          View All Test →
+        </a>
+      </div>
+    </div>
+  )}
+</div>
+
+
+
+
                   </div>
                 </main>
               </div>
-               {/* Quiz Section */}
-              <div className="mt-8 p-[15px]">
-              <div className="relative ">
-                <h2 className="text-blue-500 font-bold text-md animate-marquee ">
-                <a  href="/quizzes"  className="hover:text-blue-600 hover:underline truncate block w-full flex justify-center ">
-                      Free Mock Tests for All Government Exams 
-                      </a>
-                
-                </h2>
-              </div>
-
-
-        {!quizzes || quizzes.length === 0 ? (
-          <div className="text-center py-8 bg-white rounded-lg shadow-sm mt-4">
-            <p className="text-gray-500">No quizzes available at the moment.</p>
-            <p className="text-sm text-gray-400 mt-2">Check back later for new quizzes!</p>
-          </div>
-        ) : (
-          <div className="overflow-x-auto mt-6">
-            <table className="min-w-full table-auto border-collapse border border-orange-500">
-              <thead>
-                <tr className="flex justify-center bg-red-600 text-[#FCFCD8] font-bold text-sm md:text-base">
-                  <th className="p-2 md:p-3 text-left"> Free Test series All Goverments Exam</th>
-                  
-                </tr>
-              </thead>
-              <tbody>
-                {quizzes.slice(0, 6).map((quiz) => (
-                  <tr key={quiz._id} className="border-t-2 border-red-500 hover:bg-[#FFF8CC]">
-                    <td className="p-2 md:p-3 text-[#014F59] font-semibold text-sm md:text-base">
-                      <a  href="/quizzes"  className="hover:text-blue-600 hover:underline truncate block w-full flex justify-center ">
-                        {quiz.title}
-                      </a>
-                    </td>
-                  
-                    
-                  </tr>
-                  
-                ))}
-              </tbody>
-            </table>
-                    <div className="flex justify-end">
-                    <a 
-                  href="/quizzes" 
-                  className="text-[#014F59] hover:text-[#014F59]/80 font-medium text-sm md:text-base underline"
-                >
-                  View All Quizzes →
-                </a>
-                </div>
-          </div>
-        )}
-              </div>
+              
 
        {/* Announcement Bars */}
        <div className="bg-[#1a124d]">
