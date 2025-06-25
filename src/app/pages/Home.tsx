@@ -144,14 +144,14 @@ export default function Home() {
       <Header />
       
       <div className="bg-[#1a124d]">
-      <main className="flex flex-col items-center  justify-center bg-[#FFFBD9]  w-10/14 max-w-7xl mx-auto px-4">
-        <div className="max-w-7xl mx-auto  sm:px-6 py-2 space-y-6">
-          <div className="grid grid-cols-2 gap-2">
+      <main className="flex flex-col items-center justify-center bg-[#FFFBD9] w-full max-w-7xl mx-auto px-2 sm:px-4">
+        <div className="max-w-7xl mx-auto sm:px-6 py-2 space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
             {results.slice(0, 2).map((item) => (
               <a 
                 key={item._id}
                 href={`/results/${item._id}`}
-                className="bg-[#D62628] hover:bg-[#D62628] ite text-white rounded-lg text-center transition-colors flex items-center justify-center"
+                className="bg-[#D62628] hover:bg-[#D62628] ite text-white rounded-lg text-center transition-colors flex items-center justify-center min-h-[60px]"
               >
                 <div>
                   <div className="text-base md:text-lg font-semibold">{item.organization}</div>
@@ -162,7 +162,7 @@ export default function Home() {
               <a 
                 key={item._id}
                 href={`/jobs/${item._id}`}
-                className="bg-[#059669] hover:bg-[#059669] ite text-white rounded-lg text-center transition-colors flex items-center justify-center"
+                className="bg-[#059669] hover:bg-[#059669] ite text-white rounded-lg text-center transition-colors flex items-center justify-center min-h-[60px]"
               >
                 <div>
                   <div className="text-base md:text-lg font-semibold">{item.organization}</div>
@@ -170,41 +170,41 @@ export default function Home() {
               </a>
             ))}
             
-            {admitCards.slice(0, 2).map((item) => (
+            {admitCards.slice(0, 1).map((item) => (
               <a 
                 key={item._id}
                 href={`/admit-cards/${item._id}`}
-                className="bg-[#2563eb] hover:bg-[#2563eb] ite text-white rounded-lg text-center transition-colors flex items-center justify-center"
+                className="bg-[#2563eb] hover:bg-[#2563eb] ite text-white rounded-lg text-center transition-colors flex items-center justify-center min-h-[60px]"
               >
                 <div>
                   <div className="text-base md:text-lg font-semibold">{item.organization}</div>
                 </div>
               </a>
             ))}
-            {news.slice(0, 2).map((item) => (
+            {news.slice(0, 1).map((item) => (
               <a 
                 key={item._id}
                 href={`/news/${item._id}`}
-                className="bg-[#9333ea] hover:bg-[#9333ea] ite text-white rounded-lg text-center transition-colors flex items-center justify-center"
+                className="bg-[#9333ea] hover:bg-[#9333ea] ite text-white rounded-lg text-center transition-colors flex items-center justify-center min-h-[60px]"
               >
                
               </a>
             ))}            
           </div>
-          <div className="max-w-7xl">
-            <table className="min-w-full table-auto border-collapse border border-orange-500">
+          <div className="w-full overflow-x-auto">
+            <table className="min-w-full table-auto border-collapse border border-orange-500 text-xs sm:text-sm md:text-base">
               <thead>
-                <tr className="bg-red-600 text-[#FCFCD8] font-bold text-sm md:text-base">
-                  <th className="p-2 md:p-3 text-center">Result</th>
-                  <th className="p-2 md:p-3 text-center">Latest Jobs</th>
-                  <th className="p-2 md:p-3 text-center">Latest News</th>
+                <tr className="bg-red-600 text-[#FCFCD8] font-bold">
+                  <th className="p-1 sm:p-2 md:p-3 text-center">Result</th>
+                  <th className="p-1 sm:p-2 md:p-3 text-center">Latest Jobs</th>
+                  <th className="p-1 sm:p-2 md:p-3 text-center">Latest News</th>
                 </tr>
               </thead>
               <tbody>
                 {Array.from({ length: Math.max(results.length, admitCards.length, jobs.length) })
                   .map((_, index) => (
                     <tr key={index} className="border-t-2 border-red-500 hover:bg-[#FFF8CC]">
-                      <td className="p-2 md:p-3 border-x text-sm md:text-base">
+                      <td className="p-1 sm:p-2 md:p-3 border-x text-xs sm:text-sm md:text-base">
                         {results[index] ? (
                           <a href={`/results/${results[index]._id}`} className="text-[#014F59] hover:underline hover:text-blue-800">
                             {results[index].title}
@@ -212,14 +212,14 @@ export default function Home() {
                         ) : "-"}
                       </td>
                      
-                      <td className="p-2 md:p-3 border-x text-sm md:text-base">
+                      <td className="p-1 sm:p-2 md:p-3 border-x text-xs sm:text-sm md:text-base">
                         {jobs[index] ? (
                           <a href={`/jobs/${jobs[index]._id}`} className="text-[#014F59] hover:underline hover:text-blue-800">
                             {jobs[index].title}
                           </a>
                         ) : "-"}
                       </td>
-                      <td className="p-2 md:p-3 text-sm md:text-base">
+                      <td className="p-1 sm:p-2 md:p-3 text-xs sm:text-sm md:text-base">
                         {news[index] ? (
                           <a href={`/news/${news[index]._id}`} className="text-[#014F59] hover:underline hover:text-blue-800">
                             {news[index].title}
@@ -231,34 +231,34 @@ export default function Home() {
               </tbody>
             </table>
           </div>
-        {/* <div className="max-w-7xl">
-            <table className="min-w-full table-auto border-collapse border border-orange-500">
+        <div className="w-full overflow-x-auto mt-4">
+            <table className="min-w-full table-auto border-collapse border border-orange-500 text-xs sm:text-sm md:text-base">
               <thead>
-                <tr className="bg-red-600 text-[#FCFCD8] font-bold text-sm md:text-base">
-                  <th className="p-2 md:p-3 text-center">Admit Card</th>
-                  <th className="p-2 md:p-3 text-center">Answer key</th>
-                  <th className="p-2 md:p-3 text-center">Admission</th>
+                <tr className="bg-red-600 text-[#FCFCD8] font-bold">
+                  <th className="p-1 sm:p-2 md:p-3 text-center">Admit Card</th>
+                  <th className="p-1 sm:p-2 md:p-3 text-center">Answer key</th>
+                  <th className="p-1 sm:p-2 md:p-3 text-center">Admission</th>
                 </tr>
               </thead>
               <tbody>
                 {Array.from({ length: Math.max(admitCards.length) })
                   .map((_, index) => (
                     <tr key={index} className="border-t-2 border-red-500 hover:bg-[#FFF8CC]">
-                      <td className="p-2 md:p-3 border-x text-sm md:text-base">
+                      <td className="p-1 sm:p-2 md:p-3 border-x text-xs sm:text-sm md:text-base">
                         {admitCards[index] ? (
                           <a href={`/admit-cards/${admitCards[index]._id}`} className="text-[#014F59] hover:underline hover:text-blue-800">
                             {admitCards[index].title}
                           </a>
                         ) : "-"}
                       </td>
-                      <td className="p-2 md:p-3 border-x text-sm md:text-base">
+                      <td className="p-1 sm:p-2 md:p-3 border-x text-xs sm:text-sm md:text-base">
                         {answerKeys[index] ? (
                           <a href={`/answer-keys/${answerKeys[index]._id}`} className="text-[#014F59] hover:underline hover:text-blue-800">
                             {answerKeys[index].title}
                           </a>
                         ) : "-"}
                       </td>
-                      <td className="p-2 md:p-3 border-x text-sm md:text-base">
+                      <td className="p-1 sm:p-2 md:p-3 border-x text-xs sm:text-sm md:text-base">
                         {admissions[index] ? (
                           <a href={`/admissions/${admissions[index]._id}`} target="_blank" rel="noopener noreferrer" className="text-[#014F59] hover:underline hover:text-blue-800">
                             {admissions[index].title}
@@ -269,62 +269,11 @@ export default function Home() {
                   ))}
               </tbody>
             </table>
-          </div> */}
+          </div>
 
           
          
-          {/* Quiz Section */}
-        {/* <div className="mt-8 p-[15px]">
-        <div className="relative ">
-          <h2 className="text-blue-500 font-bold text-md animate-marquee ">
-          <a  href="/quizzes"  className="hover:text-blue-600 hover:underline truncate block w-full flex justify-center ">
-          Free Mock Tests for All Government Exams {" "} {quizzes.map(q => q.title).join(" | ")}
-                </a>
-           
-          </h2>
-        </div>
-
-
-  {!quizzes || quizzes.length === 0 ? (
-    <div className="text-center py-8 bg-white rounded-lg shadow-sm mt-4">
-      <p className="text-gray-500">No quizzes available at the moment.</p>
-      <p className="text-sm text-gray-400 mt-2">Check back later for new quizzes!</p>
-    </div>
-  ) : (
-    <div className="overflow-x-auto mt-6">
-      <table className="min-w-full table-auto border-collapse border border-orange-500">
-        <thead>
-          <tr className="flex justify-center bg-red-600 text-[#FCFCD8] font-bold text-sm md:text-base">
-            <th className="p-2 md:p-3 text-left"> Free Test series All Goverments Exam</th>
-            
-          </tr>
-        </thead>
-        <tbody>
-          {quizzes.slice(0, 6).map((quiz) => (
-            <tr key={quiz._id} className="border-t-2 border-red-500 hover:bg-[#FFF8CC]">
-              <td className="p-2 md:p-3 text-[#014F59] font-semibold text-sm md:text-base">
-                <a  href="/quizzes"  className="hover:text-blue-600 hover:underline truncate block w-full flex justify-center ">
-                  {quiz.title}
-                </a>
-              </td>
-             
-              
-            </tr>
-            
-          ))}
-        </tbody>
-      </table>
-              <div className="flex justify-end">
-              <a 
-            href="/quizzes" 
-            className="text-[#014F59] hover:text-[#014F59]/80 font-medium text-sm md:text-base underline"
-          >
-            View All Quizzes →
-          </a>
-          </div>
-    </div>
-  )}
-        </div> */}
+         
         </div>
       </main>
       </div>
