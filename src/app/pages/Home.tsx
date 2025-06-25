@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import { useEffect, useState } from 'react';
 import { toast } from "sonner";
 import AnnouncementBar from "@/components/ui/AnnouncementBar";
+import Quiz from "@/lib/models/Quiz";
 
 interface Job {
   _id: string;
@@ -270,101 +271,60 @@ export default function Home() {
             </table>
           </div>
 
+          
           {/* Quiz Section */}
-          <div className="mt-8">
-            <div className="flex items-center justify-between ">
-              <h2 className="text-2xl font-bold text-[#014F59]">Free Mock Tests for All Government Exams</h2>
-              <a 
-                href="/quizzes" 
-                className="text-[#014F59] hover:text-[#014F59]/80 font-medium"
-              >
-                View All Quizzes →
-              </a>
-            </div>
+        <div className="mt-8 p-[15px]">
+        <div className="relative ">
+          <h2 className="text-blue-500 font-bold text-md animate-marquee ">
+          <a  href="/quizzes"  className="hover:text-blue-600 hover:underline truncate block w-full flex justify-center ">
+          Free Mock Tests for All Government Exams {" "} {quizzes.map(q => q.title).join(" | ")}
+                </a>
+           
+          </h2>
+        </div>
+
+
+  {!quizzes || quizzes.length === 0 ? (
+    <div className="text-center py-8 bg-white rounded-lg shadow-sm mt-4">
+      <p className="text-gray-500">No quizzes available at the moment.</p>
+      <p className="text-sm text-gray-400 mt-2">Check back later for new quizzes!</p>
+    </div>
+  ) : (
+    <div className="overflow-x-auto mt-6">
+      <table className="min-w-full table-auto border-collapse border border-orange-500">
+        <thead>
+          <tr className="flex justify-center bg-red-600 text-[#FCFCD8] font-bold text-sm md:text-base">
+            <th className="p-2 md:p-3 text-left"> Free Test series All Goverments Exam</th>
             
-            {!quizzes || quizzes.length === 0 ? (
-              <div className="text-center py-8 bg-white rounded-lg shadow-sm">
-                <p className="text-gray-500">No quizzes available at the moment.</p>
-                <p className="text-sm text-gray-400 mt-2">Check back later for new quizzes!</p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {quizzes.slice(0, 6).map((quiz) => {
-                  console.log('Rendering quiz:', quiz);
-                  return (
-                    <div 
-                      key={quiz._id} 
-                      className="  duration-200 overflow-hidden h"
-                    >
-                        <table className="min-w-full table-auto border-collapse border border-orange-500">
-                        <tr className="border-t-2 border-red-500 hover:bg-[#FFF8CC]">
-                        <td className="text-base font-semibold text-[#014F59]  line-clamp-1 hover:text-blue-500">
-                          <li className="m-4">
-                        <a href="/quizzes">
-                       
-                          {quiz.title}
-                         </a>
-                         </li>
-                        </td> 
-                        </tr>
-                        {/* <p className="text-gray-600 mb-4 line-clamp-2 min-h-[3rem]">
-                          {quiz.description}
-                        </p> */}
-                        {/* <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-                          <div className="flex items-center gap-1">
-                            <svg 
-                              className="w-4 h-4" 
-                              fill="none" 
-                              stroke="currentColor" 
-                              viewBox="0 0 24 24"
-                            >
-                              <path 
-                                strokeLinecap="round" 
-                                strokeLinejoin="round" 
-                                strokeWidth={2} 
-                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" 
-                              />
-                            </svg>
-                            <span>{quiz.timeLimit} minutes</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <svg 
-                              className="w-4 h-4" 
-                              fill="none" 
-                              stroke="currentColor" 
-                              viewBox="0 0 24 24"
-                            >
-                              <path 
-                                strokeLinecap="round" 
-                                strokeLinejoin="round" 
-                                strokeWidth={2} 
-                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" 
-                              />
-                            </svg>
-                            <span>{quiz.questions.length} questions</span>
-                          </div>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <a
-                            href={`/quizzes/${quiz._id}`}
-                            className="bg-[#059669] text-white px-4 py-2 rounded hover:bg-[#047857] transition-colors text-sm font-medium"
-                          >
-                            Start Quiz
-                          </a>
-                          <a
-                            href={`/quizzes/${quiz._id}/preview`}
-                            className="text-[#014F59] hover:text-[#014F59]/80 text-sm font-medium"
-                          >
-                            Preview
-                          </a>
-                        </div> */}
-                      </table>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
+          </tr>
+        </thead>
+        <tbody>
+          {quizzes.slice(0, 6).map((quiz) => (
+            <tr key={quiz._id} className="border-t-2 border-red-500 hover:bg-[#FFF8CC]">
+              <td className="p-2 md:p-3 text-[#014F59] font-semibold text-sm md:text-base">
+                <a  href="/quizzes"  className="hover:text-blue-600 hover:underline truncate block w-full flex justify-center ">
+                  {quiz.title}
+                </a>
+              </td>
+             
+              
+            </tr>
+            
+          ))}
+        </tbody>
+      </table>
+              <div className="flex justify-end">
+              <a 
+            href="/quizzes" 
+            className="text-[#014F59] hover:text-[#014F59]/80 font-medium text-sm md:text-base underline"
+          >
+            View All Quizzes →
+          </a>
           </div>
+    </div>
+  )}
+</div>
+
         </div>
       </main>
       </div>
