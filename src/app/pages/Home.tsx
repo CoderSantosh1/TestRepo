@@ -146,51 +146,7 @@ export default function Home() {
       <div className="bg-[#1a124d]">
       <main className="flex flex-col items-center justify-center bg-[#FFFBD9] w-full max-w-7xl mx-auto px-2 sm:px-4">
         <div className="max-w-7xl mx-auto sm:px-6 py-2 space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
-            {results.slice(0, 2).map((item) => (
-              <a 
-                key={item._id}
-                href={`/results/${item._id}`}
-                className="bg-[#D62628] hover:bg-[#D62628] ite text-white rounded-lg text-center transition-colors flex items-center justify-center min-h-[60px]"
-              >
-                <div>
-                  <div className="text-base md:text-lg font-semibold">{item.organization}</div>
-                </div>
-              </a>
-            ))}
-            {jobs.slice(0, 2).map((item) => (
-              <a 
-                key={item._id}
-                href={`/jobs/${item._id}`}
-                className="bg-[#059669] hover:bg-[#059669] ite text-white rounded-lg text-center transition-colors flex items-center justify-center min-h-[60px]"
-              >
-                <div>
-                  <div className="text-base md:text-lg font-semibold">{item.organization}</div>
-                </div>
-              </a>
-            ))}
-            
-            {admitCards.slice(0, 1).map((item) => (
-              <a 
-                key={item._id}
-                href={`/admit-cards/${item._id}`}
-                className="bg-[#2563eb] hover:bg-[#2563eb] ite text-white rounded-lg text-center transition-colors flex items-center justify-center min-h-[60px]"
-              >
-                <div>
-                  <div className="text-base md:text-lg font-semibold">{item.organization}</div>
-                </div>
-              </a>
-            ))}
-            {news.slice(0, 1).map((item) => (
-              <a 
-                key={item._id}
-                href={`/news/${item._id}`}
-                className="bg-[#9333ea] hover:bg-[#9333ea] ite text-white rounded-lg text-center transition-colors flex items-center justify-center min-h-[60px]"
-              >
-               
-              </a>
-            ))}            
-          </div>
+         
           <div className="w-full overflow-x-auto">
             <table className="min-w-full table-auto border-collapse border border-orange-500 text-xs sm:text-sm md:text-base">
               <thead>
