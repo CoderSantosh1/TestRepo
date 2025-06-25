@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import { useEffect, useState } from 'react';
 import { toast } from "sonner";
 import AnnouncementBar from "@/components/ui/AnnouncementBar";
+import Quiz from "@/lib/models/Quiz";
 
 interface Job {
   _id: string;
@@ -141,233 +142,97 @@ export default function Home() {
   return (
     <>
       <Header />
-      
       <div className="bg-[#1a124d]">
-      <main className="flex flex-col items-center  justify-center bg-[#FFFBD9]  w-10/14 max-w-7xl mx-auto px-4">
-        <div className="max-w-7xl mx-auto  sm:px-6 py-2 space-y-6">
-          <div className="grid grid-cols-2 gap-2">
-            {results.slice(0, 2).map((item) => (
-              <a 
-                key={item._id}
-                href={`/results/${item._id}`}
-                className="bg-[#D62628] hover:bg-[#D62628] ite text-white rounded-lg text-center transition-colors flex items-center justify-center"
-              >
-                <div>
-                  <div className="text-base md:text-lg font-semibold">{item.organization}</div>
-                </div>
+  <main className="flex flex-col items-center justify-center bg-[#FFFBD9] w-full max-w-7xl mx-auto px-2 sm:px-4">
+    <div className="w-full space-y-6 py-4">
+      
+ {/* Section 1: Results / Jobs / News */}
+ <div className="w-full">
+  <table className="w-full table-fixed border-collapse border border-orange-500 text-xs sm:text-sm md:text-base">
+    <thead>
+      <tr className="bg-red-600 text-[#FCFCD8] font-bold">
+        <th className="p-2 text-center break-words whitespace-normal w-1/3">Result</th>
+        <th className="p-2 text-center break-words whitespace-normal w-1/3">Latest Jobs</th>
+        <th className="p-2 text-center break-words whitespace-normal w-1/3">Latest News</th>
+      </tr>
+    </thead>
+    <tbody>
+      {Array.from({ length: Math.max(results.length, jobs.length, news.length) }).map((_, index) => (
+        <tr key={index} className="border-t-2 border-red-500 hover:bg-[#FFF8CC]">
+          <td className="p-2 border-x text-left align-top break-words whitespace-pre-wrap">
+            {results[index] ? (
+              <a href={`/results/${results[index]._id}`} className="text-[#014F59] hover:underline hover:text-blue-800">
+                {results[index].title}
               </a>
-            ))}
-            {jobs.slice(0, 2).map((item) => (
-              <a 
-                key={item._id}
-                href={`/jobs/${item._id}`}
-                className="bg-[#059669] hover:bg-[#059669] ite text-white rounded-lg text-center transition-colors flex items-center justify-center"
-              >
-                <div>
-                  <div className="text-base md:text-lg font-semibold">{item.organization}</div>
-                </div>
+            ) : "-"}
+          </td>
+          <td className="p-2 border-x text-left align-top break-words whitespace-pre-wrap">
+            {jobs[index] ? (
+              <a href={`/jobs/${jobs[index]._id}`} className="text-[#014F59] hover:underline hover:text-blue-800">
+                {jobs[index].title}
               </a>
-            ))}
-            
-            {admitCards.slice(0, 2).map((item) => (
-              <a 
-                key={item._id}
-                href={`/admit-cards/${item._id}`}
-                className="bg-[#2563eb] hover:bg-[#2563eb] ite text-white rounded-lg text-center transition-colors flex items-center justify-center"
-              >
-                <div>
-                  <div className="text-base md:text-lg font-semibold">{item.organization}</div>
-                </div>
+            ) : "-"}
+          </td>
+          <td className="p-2 text-left align-top break-words whitespace-pre-wrap">
+            {news[index] ? (
+              <a href={`/news/${news[index]._id}`} className="text-[#014F59] hover:underline hover:text-blue-800">
+                {news[index].title}
               </a>
-            ))}
-            {news.slice(0, 2).map((item) => (
-              <a 
-                key={item._id}
-                href={`/news/${item._id}`}
-                className="bg-[#9333ea] hover:bg-[#9333ea] ite text-white rounded-lg text-center transition-colors flex items-center justify-center"
-              >
-               
-              </a>
-            ))}            
-          </div>
-          <div className="overflow-x-auto">
-            <table className="min-w-full table-auto border-collapse border border-orange-500">
-              <thead>
-                <tr className="bg-red-600 text-[#FCFCD8] font-bold text-sm md:text-base">
-                  <th className="p-2 md:p-3 text-center">Result</th>
-                  <th className="p-2 md:p-3 text-center">Latest Jobs</th>
-                  <th className="p-2 md:p-3 text-center">Latest News</th>
-                </tr>
-              </thead>
-              <tbody>
-                {Array.from({ length: Math.max(results.length, admitCards.length, jobs.length) })
-                  .map((_, index) => (
-                    <tr key={index} className="border-t-2 border-red-500 hover:bg-[#FFF8CC]">
-                      <td className="p-2 md:p-3 border-x text-sm md:text-base">
-                        {results[index] ? (
-                          <a href={`/results/${results[index]._id}`} className="text-[#014F59] hover:underline hover:text-blue-800">
-                            {results[index].title}
-                          </a>
-                        ) : "-"}
-                      </td>
-                     
-                      <td className="p-2 md:p-3 border-x text-sm md:text-base">
-                        {jobs[index] ? (
-                          <a href={`/jobs/${jobs[index]._id}`} className="text-[#014F59] hover:underline hover:text-blue-800">
-                            {jobs[index].title}
-                          </a>
-                        ) : "-"}
-                      </td>
-                      <td className="p-2 md:p-3 text-sm md:text-base">
-                        {news[index] ? (
-                          <a href={`/news/${news[index]._id}`} className="text-[#014F59] hover:underline hover:text-blue-800">
-                            {news[index].title}
-                          </a>
-                        ) : "-"}
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="min-w-full table-auto border-collapse border border-orange-500">
-              <thead>
-                <tr className="bg-red-600 text-[#FCFCD8] font-bold text-sm md:text-base">
-                  <th className="p-2 md:p-3 text-center">Admit Card</th>
-                  <th className="p-2 md:p-3 text-center">Answer key</th>
-                  <th className="p-2 md:p-3 text-center">Admission</th>
-                </tr>
-              </thead>
-              <tbody>
-                {Array.from({ length: Math.max(admitCards.length) })
-                  .map((_, index) => (
-                    <tr key={index} className="border-t-2 border-red-500 hover:bg-[#FFF8CC]">
-                      <td className="p-2 md:p-3 border-x text-sm md:text-base">
-                        {admitCards[index] ? (
-                          <a href={`/admit-cards/${admitCards[index]._id}`} className="text-[#014F59] hover:underline hover:text-blue-800">
-                            {admitCards[index].title}
-                          </a>
-                        ) : "-"}
-                      </td>
-                      <td className="p-2 md:p-3 border-x text-sm md:text-base">
-                        {answerKeys[index] ? (
-                          <a href={`/answer-keys/${answerKeys[index]._id}`} className="text-[#014F59] hover:underline hover:text-blue-800">
-                            {answerKeys[index].title}
-                          </a>
-                        ) : "-"}
-                      </td>
-                      <td className="p-2 md:p-3 border-x text-sm md:text-base">
-                        {admissions[index] ? (
-                          <a href={`/admissions/${admissions[index]._id}`} target="_blank" rel="noopener noreferrer" className="text-[#014F59] hover:underline hover:text-blue-800">
-                            {admissions[index].title}
-                          </a>
-                        ) : "-"}
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          </div>
+            ) : "-"}
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
 
-          {/* Quiz Section */}
-          <div className="mt-8">
-            <div className="flex items-center justify-between ">
-              <h2 className="text-2xl font-bold text-[#014F59]">Free Mock Tests for All Government Exams</h2>
-              <a 
-                href="/quizzes" 
-                className="text-[#014F59] hover:text-[#014F59]/80 font-medium"
-              >
-                View All Quizzes →
-              </a>
-            </div>
-            
-            {!quizzes || quizzes.length === 0 ? (
-              <div className="text-center py-8 bg-white rounded-lg shadow-sm">
-                <p className="text-gray-500">No quizzes available at the moment.</p>
-                <p className="text-sm text-gray-400 mt-2">Check back later for new quizzes!</p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {quizzes.slice(0, 6).map((quiz) => {
-                  console.log('Rendering quiz:', quiz);
-                  return (
-                    <div 
-                      key={quiz._id} 
-                      className="  duration-200 overflow-hidden h"
-                    >
-                        <table className="min-w-full table-auto border-collapse border border-orange-500">
-                        <tr className="border-t-2 border-red-500 hover:bg-[#FFF8CC]">
-                        <td className="text-base font-semibold text-[#014F59]  line-clamp-1 hover:text-blue-500">
-                          <li className="m-4">
-                        <a href="/quizzes">
-                       
-                          {quiz.title}
-                         </a>
-                         </li>
-                        </td> 
-                        </tr>
-                        {/* <p className="text-gray-600 mb-4 line-clamp-2 min-h-[3rem]">
-                          {quiz.description}
-                        </p> */}
-                        {/* <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-                          <div className="flex items-center gap-1">
-                            <svg 
-                              className="w-4 h-4" 
-                              fill="none" 
-                              stroke="currentColor" 
-                              viewBox="0 0 24 24"
-                            >
-                              <path 
-                                strokeLinecap="round" 
-                                strokeLinejoin="round" 
-                                strokeWidth={2} 
-                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" 
-                              />
-                            </svg>
-                            <span>{quiz.timeLimit} minutes</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <svg 
-                              className="w-4 h-4" 
-                              fill="none" 
-                              stroke="currentColor" 
-                              viewBox="0 0 24 24"
-                            >
-                              <path 
-                                strokeLinecap="round" 
-                                strokeLinejoin="round" 
-                                strokeWidth={2} 
-                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" 
-                              />
-                            </svg>
-                            <span>{quiz.questions.length} questions</span>
-                          </div>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <a
-                            href={`/quizzes/${quiz._id}`}
-                            className="bg-[#059669] text-white px-4 py-2 rounded hover:bg-[#047857] transition-colors text-sm font-medium"
-                          >
-                            Start Quiz
-                          </a>
-                          <a
-                            href={`/quizzes/${quiz._id}/preview`}
-                            className="text-[#014F59] hover:text-[#014F59]/80 text-sm font-medium"
-                          >
-                            Preview
-                          </a>
-                        </div> */}
-                      </table>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-        </div>
-      </main>
+
+
+
+      {/* Section 2: Admit Card / Answer Key / Admission */}
+      <div className="w-full overflow-x-auto">
+        <table className="w-full table-auto border-collapse border border-orange-500 text-xs sm:text-sm md:text-base">
+          <thead>
+            <tr className="bg-red-600 text-[#FCFCD8] font-bold">
+              <th className="p-2 text-center whitespace-nowrap">Admit Card</th>
+              <th className="p-2 text-center whitespace-nowrap">Answer Key</th>
+              <th className="p-2 text-center whitespace-nowrap">Admission</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Array.from({ length: Math.max(admitCards.length, answerKeys.length, admissions.length) }).map((_, index) => (
+              <tr key={index} className="border-t-2 border-red-500 hover:bg-[#FFF8CC]">
+                <td className="p-2 border-x text-center align-top">
+                  {admitCards[index] ? (
+                    <a href={`/admit-cards/${admitCards[index]._id}`} className="text-[#014F59] hover:underline hover:text-blue-800">
+                      {admitCards[index].title}
+                    </a>
+                  ) : "-"}
+                </td>
+                <td className="p-2 border-x text-center align-top">
+                  {answerKeys[index] ? (
+                    <a href={`/answer-keys/${answerKeys[index]._id}`} className="text-[#014F59] hover:underline hover:text-blue-800">
+                      {answerKeys[index].title}
+                    </a>
+                  ) : "-"}
+                </td>
+                <td className="p-2 text-center align-top">
+                  {admissions[index] ? (
+                    <a href={`/admissions/${admissions[index]._id}`} target="_blank" rel="noopener noreferrer" className="text-[#014F59] hover:underline hover:text-blue-800">
+                      {admissions[index].title}
+                    </a>
+                  ) : "-"}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
+      
+    </div>
+  </main>
+</div>
+
        {/* Announcement Bars */}
        <div className="bg-[#1a124d]">
       <div className="flex flex-col items-center  justify-center bg-[#FFFBD9]  w-10/14 max-w-7xl mx-auto px-4 ">

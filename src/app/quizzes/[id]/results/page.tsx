@@ -169,7 +169,7 @@ export default function QuizResults({ params }: { params: { id: string } }) {
   const calculateScore = () => {
     let correctAnswers = 0
     quiz.questions.forEach((question, index) => {
-      if (question.correctAnswer === attempt.answers[index]) {
+      if (Number(question.correctAnswer) === Number(attempt.answers[index])) {
         correctAnswers++
       }
     })
@@ -177,7 +177,7 @@ export default function QuizResults({ params }: { params: { id: string } }) {
   }
 
   const score = calculateScore()
-  const correctAnswers = quiz.questions.filter((q, i) => q.correctAnswer === attempt.answers[i]).length
+  const correctAnswers = quiz.questions.filter((q, i) => Number(q.correctAnswer) === Number(attempt.answers[i])).length
 
   const getScoreColor = (score: number) => {
     if (score >= 80) return "from-lime-400 to-emerald-500"
@@ -401,8 +401,8 @@ export default function QuizResults({ params }: { params: { id: string } }) {
                 </span>
               </h2>
               {quiz.questions.map((question, index) => {
-                const userAnswer = attempt.answers[index]
-                const isCorrect = question.correctAnswer === userAnswer
+                const userAnswer = Number(attempt.answers[index])
+                const isCorrect = Number(question.correctAnswer) === userAnswer
                 const wasAnswered = userAnswer !== -1
 
                 return (
@@ -458,7 +458,7 @@ export default function QuizResults({ params }: { params: { id: string } }) {
                         <div className="space-y-2 sm:space-y-3 ml-6 sm:ml-8 md:ml-10 lg:ml-16">
                           {question.options.map((option, optionIndex) => {
                             const isUserAnswer = optionIndex === userAnswer
-                            const isCorrectAnswer = optionIndex === question.correctAnswer
+                            const isCorrectAnswer = optionIndex === Number(question.correctAnswer)
 
                             return (
                               <div

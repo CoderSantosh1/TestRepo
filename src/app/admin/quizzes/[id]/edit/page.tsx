@@ -230,13 +230,7 @@ export default function EditQuiz({ params }: { params: { id: string } }) {
             <div className="space-y-4">
               <div className="flex justify-between items-center">
                 <h3 className="text-lg font-medium">Questions</h3>
-                <Button
-                  type="button"
-                  onClick={addQuestion}
-                  variant="outline"
-                >
-                  Add Question
-                </Button>
+               
               </div>
 
               {quiz.questions.map((question, questionIndex) => (
@@ -274,7 +268,7 @@ export default function EditQuiz({ params }: { params: { id: string } }) {
                         <input
                           type="radio"
                           name={`correctAnswer-${questionIndex}`}
-                          checked={question.correctAnswer === optionIndex}
+                          checked={Number(question.correctAnswer) === optionIndex}
                           onChange={() => handleCorrectAnswerChange(questionIndex, optionIndex)}
                           className="w-4 h-4"
                         />
@@ -297,6 +291,13 @@ export default function EditQuiz({ params }: { params: { id: string } }) {
               <Button type="submit" disabled={saving}>
                 {saving ? 'Saving...' : 'Save Changes'}
               </Button>
+              <Button
+                  type="button"
+                  onClick={addQuestion}
+                  variant="outline"
+                >
+                  Add Question
+                </Button>
             </div>
           </form>
         </CardContent>
