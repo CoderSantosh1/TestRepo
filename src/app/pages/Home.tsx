@@ -234,7 +234,7 @@ export default function Home() {
               <div className="relative ">
                 <h2 className="text-blue-500 font-bold text-md animate-marquee ">
                 <a  href="/quizzes"  className="hover:text-blue-600 hover:underline truncate block w-full flex justify-center ">
-                Free Mock Tests for All Government Exams {" "} {quizzes.map(q => q.title).join(" | ")}
+                      Free Mock Tests for All Government Exams 
                       </a>
                 
                 </h2>
