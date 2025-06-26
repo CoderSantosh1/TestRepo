@@ -1,5 +1,6 @@
 "use client"
-
+import Footer from "@/components/Footer"
+import Header from "@/components/Header"
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -235,7 +236,8 @@ export default function QuizList() {
   }
 
   return (
-    <div className="container bg-[#1a124d] mx-auto py-4 sm:py-6 px-2 sm:px-4 min-h-screen">
+    <div className="container bg-[#1a124d] ">
+      <Header />
       {/* User Profile Section */}
       {loggedInUser && (
         <div className="mb-6 sm:mb-8">
@@ -268,14 +270,7 @@ export default function QuizList() {
                     </select>
                   </div>
 
-                  <Button
-                    onClick={handleLogout}
-                    variant="outline"
-                    className="border-emerald-400 text-emerald-400 hover:bg-emerald-400 hover:text-white transition-colors duration-300 flex-shrink-0"
-                  >
-                    <LogOut className="w-4 h-4 mr-2" />
-                    {t.logout}
-                  </Button>
+                 
                 </div>
               </div>
 
@@ -293,11 +288,11 @@ export default function QuizList() {
 
       <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-8 text-white flex justify-center">{t.availableTests}</h1>
 
-      <div className="grid gap-4 sm:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center">
+      <div className="grid sm:gap-2 md:grid-cols-2 lg:grid-cols-3 justify-items-center">
         {quizzes.map((quiz) => (
           <Card
             key={quiz._id}
-            className="group relative overflow-hidden rounded-3xl border-0 bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-100 shadow-xl hover:shadow-2xl transition-all duration-500 w-full max-w-[380px] m-2 sm:m-5 hover:-translate-y-2 hover:rotate-1"
+            className="group relative overflow-hidden rounded-3xl border-0 bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-100  transition-all duration-500 w-full  m-2  hover:-translate-y-2 hover:rotate-1"
           >
             {/* Animated background pattern */}
             <div className="absolute inset-0 opacity-10">
@@ -388,6 +383,19 @@ export default function QuizList() {
           </Card>
         ))}
       </div>
+      <div className="flex justify-end">
+        <Button
+        onClick={handleLogout}
+        variant="outline"
+        className=" border border-emerald-400 text-emerald-400 bg-red-500 hover:text-white hover:border-white transition-colors duration-300"
+      >
+        <LogOut className="w-4 h-4" />
+        {t.logout}
+      </Button>
+      </div>
+          
+      <Footer />
     </div>
+   
   )
 }
