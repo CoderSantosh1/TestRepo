@@ -61,6 +61,7 @@ interface Quiz {
   questions: Array<{
     _id: string;
     text: string;
+    
     options: string[];
     correctAnswer: number;
   }>;
@@ -145,6 +146,82 @@ export default function Home() {
       <div className="bg-[#1a124d]">
       <main className="flex flex-col items-center justify-center bg-[#FFFBD9] w-full max-w-7xl mx-auto px-2 sm:px-4">
         <div className="w-full space-y-6 py-4">
+
+        <div className="w-full  overflow-hidden">
+        <div className="inline-block whitespace-nowrap animate-marquee text-sm sm:text-base">
+    
+        {(
+  [
+    ...results.slice(0, 5),
+    ...jobs.slice(0, 5),
+    ...admitCards.slice(0, 5),
+  ] as (Result | Job | AdmitCard)[]
+).reduce<React.ReactNode[]>((acc, item, idx) => {
+  const baseColors = [
+    "text-red-500",
+    "text-green-500",
+    "text-blue-500",
+    "text-yellow-500",
+    "text-purple-500",
+    "text-pink-500",
+    "text-orange-500",
+    "text-teal-500",
+    "text-indigo-500",
+    "text-rose-500"
+  ];
+
+  const hoverColors = [
+    "hover:text-blue-500",
+    "hover:text-pink-500",
+    "hover:text-orange-500",
+    "hover:text-purple-500",
+    "hover:text-green-500",
+    "hover:text-red-500",
+    "hover:text-yellow-500",
+    "hover:text-rose-500",
+    "hover:text-teal-500",
+    "hover:text-indigo-500"
+  ];
+
+  const colorClass = baseColors[idx % baseColors.length];
+  const hoverClass = hoverColors[idx % hoverColors.length];
+
+  const linkText = "organization" in item ? item.organization : "";
+
+  const linkPath =
+    "resultDate" in item
+      ? `/results/${item._id}`
+      : "postedDate" in item
+      ? `/jobs/${item._id}`
+      : "applicationDeadline" in item
+      ? `/admit-cards/${item._id}`
+      : "#";
+
+  if (idx !== 0) {
+    acc.push(
+      <span key={`sep-${idx}`} className="mx-1 text-gray-400">
+        |
+      </span>
+    );
+  }
+
+  acc.push(
+    <a
+      key={`item-${item._id}`}
+      href={linkPath}
+      className={`font-medium inline-block transition-colors duration-200 ${colorClass} ${hoverClass}`}
+    >
+      {linkText}
+    </a>
+  );
+
+  return acc;
+}, [])}
+
+
+                </div>
+              </div>
+
       
                 {/* Section 1: Results / Jobs / News */}
                  <div className="w-full">
