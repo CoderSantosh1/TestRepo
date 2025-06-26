@@ -234,7 +234,7 @@ export default function Home() {
         href="/quizzes"
         className="hover:text-blue-600 hover:underline block w-full text-sm"
       >
-        Free Mock Tests for All Government Exams
+        Free Mock Tests for All Government Exams {""}  {quizzes.map(quiz => quiz.title).join(' | ')}
       </a>
     </h2>
   </div>
@@ -254,11 +254,11 @@ export default function Home() {
           {quizzes.slice(0, 6).map((quiz) => (
             <li
               key={quiz._id}
-              className="py-3 px-4 hover:bg-[#FFF8CC] text-center break-words w-full"
+              className="py-3 px-4 bg-[#FFF8CC] text-center break-words w-full"
             >
               <a
                 href={`/quizzes`}
-                className="text-[#014F59] font-medium text-sm sm:text-base hover:underline block w-full"
+                className="text-[#014F59] hover:text-blue-900 font-medium text-sm sm:text-base hover:underline block w-full"
               >
                 {quiz.title}
               </a>
