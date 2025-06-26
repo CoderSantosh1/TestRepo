@@ -17,7 +17,7 @@ module.exports = {
       },
       animation: {
         'slide-in-right': 'slide-in-right 1s ease-out',
-        marquee: 'marquee 15s linear infinite',
+        marquee: 'marquee 60s linear infinite',
       },
     },
   },
