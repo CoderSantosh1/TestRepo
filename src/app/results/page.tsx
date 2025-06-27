@@ -1,6 +1,8 @@
-'use client';
-
+"use client";
 import { useEffect, useState } from 'react';
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
+
 
 interface Result {
   _id: string;
@@ -49,46 +51,38 @@ export default function ResultsPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8 text-gray-900 ">Latest Results</h1>
-      
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {results.map((result) => (
-          <div 
-            key={result._id}
-            className="block bg-white  rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-200"
-          >
-            <h2 className="text-xl font-semibold mb-2 text-gray-900 ">{result.title}</h2>
-            
-            <div className="mb-4">
-              <p className="text-gray-600 dark:text-gray-300">{result.organization}</p>
-              <p className="text-gray-600 dark:text-gray-300">Result Date: {new Date(result.resultDate).toLocaleDateString()}</p>
-              <p className="text-gray-600 dark:text-gray-300">{result.description}</p>
-            </div>
-            
-            <div className="flex justify-between items-end">
-              <div className="text-sm text-gray-500 dark:text-gray-400">
-                <p>Category: {result.category}</p>
-                <p>Status: {result.status}</p>
-              </div>
-              <a 
-                href={result.downloadLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 dark:text-blue-400 font-semibold hover:underline"
-              >
-                Download Result
-              </a>
-            </div>
+    <>
+    <Header />
+    <div className="max-w-7xl mx-auto px-2 sm:px-4 py-8 w-full">
+      <h1 className="text-3xl font-bold mb-8 text-gray-900">Latest Results</h1>
+      <div className="w-full overflow-x-auto hide-scrollbar">
+        <table className="w-full table-fixed border-collapse border border-orange-500 text-xs sm:text-sm md:text-base">
+          <thead>
+            <tr className="bg-red-600 text-[#FCFCD8] font-bold">
+              <th className="p-2 text-center break-words whitespace-normal">Title</th>
+            </tr>
+          </thead>
+          <tbody>
+            {results.map((result) => (
+              <tr key={result._id} className="border-t-2 border-red-500 bg-[#FFF8CC]">
+                <td className="p-2 border-x text-left align-top break-words whitespace-pre-wrap flex justify-center">
+                  <a href={`/results/${result._id}`} className="text-[#014F59] hover:underline hover:text-blue-800">
+                    {result.title}
+                  </a>
+                </td>
+               
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {results.length === 0 && (
+          <div className="text-center text-gray-600 dark:text-gray-400 mt-8">
+            No results available at the moment.
           </div>
-        ))}
+        )}
       </div>
-
-      {results.length === 0 && (
-        <div className="text-center text-gray-600 dark:text-gray-400 mt-8">
-          No results available at the moment.
-        </div>
-      )}
     </div>
+    <Footer />
+    </>
   );
 }
