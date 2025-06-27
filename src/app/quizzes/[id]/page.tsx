@@ -85,6 +85,13 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
   // Initialize user check
   useEffect(() => {
     if (typeof window !== "undefined") {
+      const quizStarted = localStorage.getItem(`quiz-started-${params.id}`);
+      if (!quizStarted) {
+        // First open: skip validations
+        setIsInitializing(false);
+        return;
+      }
+      // If quiz already started, enforce validations
       const user = localStorage.getItem("user");
       if (!user) {
         setShowRegister(true);
@@ -257,6 +264,13 @@ export default function TakeQuiz({ params }: { params: { id: string } }) {
   }, [timeLeft, submitting, handleSubmit, answers, quiz]);
 
   const handleAnswerChange = (value: string) => {
+    // Mark quiz as started on first answer
+    if (typeof window !== "undefined") {
+      const quizStarted = localStorage.getItem(`quiz-started-${params.id}`);
+      if (!quizStarted) {
+        localStorage.setItem(`quiz-started-${params.id}`, "true");
+      }
+    }
     const newAnswers = [...answers];
     newAnswers[currentQuestion] = parseInt(value);
     setAnswers(newAnswers);

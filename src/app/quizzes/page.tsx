@@ -102,7 +102,6 @@ export default function QuizList() {
   const [quizzes, setQuizzes] = useState<Quiz[]>([])
   const [loading, setLoading] = useState(true)
   const [loggedInUser, setLoggedInUser] = useState<{ _id: string; name: string; mobile: string } | null>(null)
-  const [showAuth, setShowAuth] = useState(false)
   const [currentLanguage, setCurrentLanguage] = useState<string>("en")
   const [languageLoading, setLanguageLoading] = useState(false)
   const router = useRouter()
@@ -120,8 +119,6 @@ export default function QuizList() {
         } catch (error) {
           console.error("Error parsing user data:", error)
         }
-      } else {
-        setShowAuth(true)
       }
 
       // Get saved language preference
@@ -154,13 +151,11 @@ export default function QuizList() {
   const handleLogout = () => {
     localStorage.removeItem("user")
     setLoggedInUser(null)
-    setShowAuth(true)
     toast.success("Logged out successfully")
   }
 
   const handleAuthSuccess = (user: { _id: string; name: string; mobile: string }) => {
     setLoggedInUser(user)
-    setShowAuth(false)
     toast.success(`${t.welcome}, ${user.name}!`)
   }
 
@@ -206,11 +201,6 @@ export default function QuizList() {
     } finally {
       setLanguageLoading(false)
     }
-  }
-
-  // Show auth modal if user is not logged in
-  if (showAuth) {
-    return <AuthModal onSuccess={handleAuthSuccess} />
   }
 
   if (loading) {
