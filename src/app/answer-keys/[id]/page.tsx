@@ -9,7 +9,6 @@ interface AnswerKey {
   _id: string;
   title: string;
   organization: string;
-  examDate: string;
   category: string;
   downloadLink: string;
   description: string;
@@ -93,13 +92,6 @@ export default function AnswerKeyDetail() {
           <div>
             <h2 className="text-lg font-semibold text-gray-700">Category</h2>
             <p className="text-gray-600">{answerKey.category}</p>
-          </div>
-
-          <div>
-            <h2 className="text-lg font-semibold text-gray-700">Exam Date</h2>
-            <p className="text-gray-600">
-              {new Date(answerKey.examDate).toLocaleDateString()}
-            </p>
           </div>
 
           <div>

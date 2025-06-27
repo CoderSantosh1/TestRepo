@@ -322,8 +322,8 @@ export default function Home() {
                             </tr>
                           ))}
                           {(admitCards.length > 10 || answerKeys.length > 10 || admissions.length > 10) && (
-                            <tr className="border-t-2 border-red-500 hover:bg-[#FFF8CC]">
-                              <td className="p-2 border-x text-center align-top break-words whitespace-pre-wrap">
+                            <tr className="hover:bg-[#FFF8CC]">
+                              <td className="text-center ">
                                 {admitCards.length > 10 && (
                                   <a href="/admit-cards" className="text-blue-600 font-semibold hover:underline">See More</a>
                                 )}

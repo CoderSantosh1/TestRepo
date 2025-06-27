@@ -36,12 +36,12 @@ export default function NewsListPage() {
           <table className="w-full table-fixed border-collapse border border-orange-500 text-xs sm:text-sm md:text-base">
             <thead>
               <tr className="bg-red-600 text-[#FCFCD8] font-bold">
-                <th className="p-2 text-center break-words whitespace-normal">Title</th>
+                <th className="p-2 text-center break-words whitespace-normal">Latest News</th>
               </tr>
             </thead>
             <tbody>
               {news.map((news) => (
-                <tr key={news._id} className="border-t-2 border-red-500 hover:bg-[#FFF8CC] ">
+                <tr key={news._id} className="border-t-2 border-red-500 bg-[#FFF8CC] ">
                   <td className="p-2 border-x text-left align-top break-words whitespace-pre-wrap flex justify-center">
                     <a href={`/newss/${news._id}`} className="text-[#014F59] hover:underline hover:text-blue-800">
                       {news.title}
