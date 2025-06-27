@@ -18,11 +18,12 @@ export default function Header() {
         {/* Navigation Menu */}
         <nav className="flex flex-wrap justify-center gap-4 py-1">
           <Link href="/" className="text-[#000000] hover:text-blue-800 font-medium">Home</Link>
-          <Link href="/" className="text-[#000000] hover:text-blue-800 font-medium">Latest Jobs</Link>
-          <Link href="/" className="text-[#000000] hover:text-blue-800 font-medium">Results</Link>
-          <Link href="/" className="text-[#000000] hover:text-blue-800 font-medium">Admit Card</Link>
-          <Link href="/" className="text-[#000000] hover:text-blue-800 font-medium">Answer Key</Link>
-          <Link href="/" className="text-[#000000] hover:text-blue-800 font-medium">Syllabus</Link>
+          <Link href="/quizzes" className="text-[#000000] hover:text-blue-800 font-medium">Free Test Series</Link>
+          <Link href="/jobs" className="text-[#000000] hover:text-blue-800 font-medium">Jobs</Link>
+          <Link href="/results" className="text-[#000000] hover:text-blue-800 font-medium">Results</Link>
+          <Link href="/news" className="text-[#000000] hover:text-blue-800 font-medium">News</Link>
+          <Link href="/admit-cards" className="text-[#000000] hover:text-blue-800 font-medium">Admit Card</Link>
+          <Link href="/answer-keys" className="text-[#000000] hover:text-blue-800 font-medium">Answer Key</Link>
           <Link href="/" className="text-[#000000]hover:text-blue-800 font-medium">Contact Us</Link>
         </nav>
       </div>

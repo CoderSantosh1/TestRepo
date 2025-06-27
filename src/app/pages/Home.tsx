@@ -145,82 +145,82 @@ export default function Home() {
       <Header />
       <div className="bg-[#1a124d]">
       <main className="flex flex-col items-center justify-center bg-[#FFFBD9] w-full max-w-7xl mx-auto px-2 sm:px-4">
-        <div className="w-full space-y-6 py-4">
+                <div className="w-full space-y-6 py-4">
 
-        <div className="w-full  overflow-hidden">
-        <div className="inline-block whitespace-nowrap animate-marquee text-sm sm:text-base">
-    
-        {(
-  [
-    ...results.slice(0, 5),
-    ...jobs.slice(0, 5),
-    ...admitCards.slice(0, 5),
-  ] as (Result | Job | AdmitCard)[]
-).reduce<React.ReactNode[]>((acc, item, idx) => {
-  const baseColors = [
-    "text-red-500",
-    "text-green-500",
-    "text-blue-500",
-    "text-yellow-500",
-    "text-purple-500",
-    "text-pink-500",
-    "text-orange-500",
-    "text-teal-500",
-    "text-indigo-500",
-    "text-rose-500"
-  ];
+                <div className="w-full  overflow-hidden">
+                      <div className="inline-block whitespace-nowrap animate-marquee text-sm sm:text-base">
+                  
+                      {(
+                [
+                  ...results.slice(0, 5),
+                  ...jobs.slice(0, 5),
+                  ...admitCards.slice(0, 5),
+                ] as (Result | Job | AdmitCard)[]
+              ).reduce<React.ReactNode[]>((acc, item, idx) => {
+                const baseColors = [
+                  "text-red-500",
+                  "text-green-500",
+                  "text-blue-500",
+                  "text-yellow-500",
+                  "text-purple-500",
+                  "text-pink-500",
+                  "text-orange-500",
+                  "text-teal-500",
+                  "text-indigo-500",
+                  "text-rose-500"
+                ];
 
-  const hoverColors = [
-    "hover:text-blue-500",
-    "hover:text-pink-500",
-    "hover:text-orange-500",
-    "hover:text-purple-500",
-    "hover:text-green-500",
-    "hover:text-red-500",
-    "hover:text-yellow-500",
-    "hover:text-rose-500",
-    "hover:text-teal-500",
-    "hover:text-indigo-500"
-  ];
+                const hoverColors = [
+                  "hover:text-blue-500",
+                  "hover:text-pink-500",
+                  "hover:text-orange-500",
+                  "hover:text-purple-500",
+                  "hover:text-green-500",
+                  "hover:text-red-500",
+                  "hover:text-yellow-500",
+                  "hover:text-rose-500",
+                  "hover:text-teal-500",
+                  "hover:text-indigo-500"
+                ];
 
-  const colorClass = baseColors[idx % baseColors.length];
-  const hoverClass = hoverColors[idx % hoverColors.length];
+                const colorClass = baseColors[idx % baseColors.length];
+                const hoverClass = hoverColors[idx % hoverColors.length];
 
-  const linkText = "organization" in item ? item.organization : "";
+                const linkText = "organization" in item ? item.organization : "";
 
-  const linkPath =
-    "resultDate" in item
-      ? `/results/${item._id}`
-      : "postedDate" in item
-      ? `/jobs/${item._id}`
-      : "applicationDeadline" in item
-      ? `/admit-cards/${item._id}`
-      : "#";
+                const linkPath =
+                  "resultDate" in item
+                    ? `/results/${item._id}`
+                    : "postedDate" in item
+                    ? `/jobs/${item._id}`
+                    : "applicationDeadline" in item
+                    ? `/admit-cards/${item._id}`
+                    : "#";
 
-  if (idx !== 0) {
-    acc.push(
-      <span key={`sep-${idx}`} className="mx-1 text-gray-400">
-        |
-      </span>
-    );
-  }
+                if (idx !== 0) {
+                  acc.push(
+                    <span key={`sep-${idx}`} className="mx-1 text-gray-400">
+                      |
+                    </span>
+                  );
+                }
 
-  acc.push(
-    <a
-      key={`item-${item._id}`}
-      href={linkPath}
-      className={`font-medium inline-block transition-colors duration-200 ${colorClass} ${hoverClass}`}
-    >
-      {linkText}
-    </a>
-  );
+                acc.push(
+                  <a
+                    key={`item-${item._id}`}
+                    href={linkPath}
+                    className={`font-medium inline-block transition-colors duration-200 ${colorClass} ${hoverClass}`}
+                  >
+                    {linkText}
+                  </a>
+                );
 
-  return acc;
-}, [])}
+                return acc;
+              }, [])}
 
 
+                  </div>
                 </div>
-              </div>
 
       
                 {/* Section 1: Results / Jobs / News */}
@@ -235,7 +235,7 @@ export default function Home() {
                               </tr>
                             </thead>
                             <tbody>
-                              {Array.from({ length: Math.max(results.length, jobs.length, news.length) }).map((_, index) => (
+                              {Array.from({ length: Math.min(10, Math.max(results.length, jobs.length, news.length)) }).map((_, index) => (
                                 <tr key={index} className="border-t-2 border-red-500 hover:bg-[#FFF8CC]">
                                   <td className="p-2 border-x text-left align-top break-words whitespace-pre-wrap">
                                     {results[index] ? (
@@ -260,6 +260,25 @@ export default function Home() {
                                   </td>
                                 </tr>
                               ))}
+                              {(results.length > 10 || jobs.length > 10 || news.length > 10) && (
+                                <tr className=" hover:bg-[#FFF8CC]">
+                                  <td className=" text-center ">
+                                    {results.length > 10 && (
+                                      <a href="/results" className="text-blue-600 font-semibold hover:underline">See More</a>
+                                    )}
+                                  </td>
+                                  <td className="p-2 border-x text-center align-top break-words whitespace-pre-wrap">
+                                    {jobs.length > 10 && (
+                                      <a href="/jobs" className="text-blue-600 font-semibold hover:underline">See More</a>
+                                    )}
+                                  </td>
+                                  <td className="text-center ">
+                                    {news.length > 10 && (
+                                      <a href="/news" className="text-blue-600 font-semibold hover:underline">See More</a>
+                                    )}
+                                  </td>
+                                </tr>
+                              )}
                             </tbody>
                           </table>
                         </div>
@@ -277,7 +296,7 @@ export default function Home() {
                           </tr>
                         </thead>
                         <tbody>
-                          {Array.from({ length: Math.max(admitCards.length, answerKeys.length, admissions.length) }).map((_, index) => (
+                          {Array.from({ length: Math.min(10, Math.max(admitCards.length, answerKeys.length, admissions.length)) }).map((_, index) => (
                             <tr key={index} className="border-t-2 border-red-500 hover:bg-[#FFF8CC]">
                               <td className="p-2 border-x text-left align-top break-words whitespace-pre-wrap">
                                 {admitCards[index] ? (
@@ -302,6 +321,25 @@ export default function Home() {
                               </td>
                             </tr>
                           ))}
+                          {(admitCards.length > 10 || answerKeys.length > 10 || admissions.length > 10) && (
+                            <tr className="hover:bg-[#FFF8CC]">
+                              <td className="text-center ">
+                                {admitCards.length > 10 && (
+                                  <a href="/admit-cards" className="text-blue-600 font-semibold hover:underline">See More</a>
+                                )}
+                              </td>
+                              <td className="p-2 border-x text-center align-top break-words whitespace-pre-wrap">
+                                {answerKeys.length > 10 && (
+                                  <a href="/answer-keys" className="text-blue-600 font-semibold hover:underline">See More</a>
+                                )}
+                              </td>
+                              <td className="p-2 text-center align-top break-words whitespace-pre-wrap">
+                                {admissions.length > 10 && (
+                                  <a href="/admissions" className="text-blue-600 font-semibold hover:underline">See More</a>
+                                )}
+                              </td>
+                            </tr>
+                          )}
                         </tbody>
                       </table>
                     </div>
@@ -366,7 +404,7 @@ export default function Home() {
               
 
        {/* Announcement Bars */}
-       <div className="bg-[#1a124d]">
+       <div className="bg-[#1a124d] mb-4">
       <div className="flex flex-col items-center  justify-center bg-[#FFFBD9]  w-10/14 max-w-7xl mx-auto px-4 ">
         <AnnouncementBar title="Sarkari Results 10+2 Latest Job">
           Most Recent Sarkari Work, Sarkari Test Result, Most Recent On The Web And Disconnected Structure, Concede Card, Prospectus, Affirmation, Ansawer Key, Grant, Notice Etc.If You Need To Get Refreshes Connected With Sarkari Occupations On Sarkari Result.Com.Cm Like Concede Warning Like Govt. Test, Sarkari Result, Most Recent Bord Result, Bihar Result Tenth And So On You Could Sarkari Result 10+2 Most Recent Occupation At Any Point Website Page Consistently.

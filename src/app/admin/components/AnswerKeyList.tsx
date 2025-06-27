@@ -9,7 +9,6 @@ interface AnswerKey {
   _id: string;
   title: string;
   organization: string;
-  examDate: string;
   category: string;
   downloadLink: string;
   description: string;
@@ -48,7 +47,7 @@ export default function AnswerKeyList() {
     setEditingAnswerKey(answerKey);
   };
 
-  const handleUpdate = async (data: Omit<AnswerKey, '_id' | 'createdAt' | 'examDate'> & { examDate: string }) => {
+  const handleUpdate = async (data: Omit<AnswerKey, '_id' | 'createdAt'>) => {
     if (!editingAnswerKey) return;
 
     const updateData = {
@@ -123,9 +122,6 @@ export default function AnswerKeyList() {
               <p className="text-sm text-gray-600 dark:text-gray-400">
                 {answerKey.organization} - Category: {answerKey.category}
               </p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                Exam Date: {new Date(answerKey.examDate).toLocaleDateString()}
-              </p>
               <p className="text-sm text-gray-700 mt-1 truncate">Description: {answerKey.description}</p>
               {answerKey.downloadLink && (
                 <p className="text-sm text-blue-600 hover:underline mt-1">
@@ -166,11 +162,7 @@ export default function AnswerKeyList() {
             <AnswerKeyForm
               initialData={editingAnswerKey}
               onSubmit={async (data) => {
-                const formattedData = {
-                  ...data,
-                  examDate: data.examDate,
-                } as Omit<AnswerKey, '_id' | 'createdAt' | 'examDate'> & { examDate: string };
-                await handleUpdate(formattedData);
+                await handleUpdate(data);
               }}
               onCancel={() => setEditingAnswerKey(null)}
             />
