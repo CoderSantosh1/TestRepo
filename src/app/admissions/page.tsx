@@ -1,6 +1,8 @@
-'use client';
-
+"use client";
+import Head from "next/head";
 import { useEffect, useState } from 'react';
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
 
 interface Admission {
   _id: string;
@@ -21,15 +23,41 @@ export default function AdmissionListPage() {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="max-w-2xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">All Admissions</h1>
-      <ul className="space-y-2">
-        {admissions.map(item => (
-          <li key={item._id}>
-            <a href={`/admissions/${item._id}`} className="text-blue-700 hover:underline">{item.title}</a>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      <Head>
+        <title>Sarkariresultsnow - Admissions</title>
+        <meta name="description" content="All Admissions - Sarkariresultsnow" />
+      </Head>
+      <Header />
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 py-8 w-full">
+        <h1 className="text-3xl font-bold mb-8 text-gray-900">Admissions</h1>
+        <div className="w-full overflow-x-auto hide-scrollbar">
+          <table className="w-full table-fixed border-collapse border border-orange-500 text-xs sm:text-sm md:text-base">
+            <thead>
+              <tr className="bg-red-600 text-[#FCFCD8] font-bold">
+                <th className="p-2 text-center break-words whitespace-normal">Admission Available</th>
+              </tr>
+            </thead>
+            <tbody>
+              {admissions.map((item) => (
+                <tr key={item._id} className="border-t-2 border-red-500 bg-[#FFF8CC] ">
+                  <td className="p-2 border-x text-left align-top break-words whitespace-pre-wrap flex justify-center">
+                    <a href={`/admissions/${item._id}`} className="text-[#014F59] hover:underline hover:text-blue-800">
+                      {item.title}
+                    </a>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {admissions.length === 0 && (
+            <div className="text-center text-gray-600 dark:text-gray-400 mt-8">
+              No admissions available at the moment.
+            </div>
+          )}
+        </div>
+      </div>
+      <Footer />
+    </>
   );
 } 

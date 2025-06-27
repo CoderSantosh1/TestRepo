@@ -9,7 +9,6 @@ interface AnswerKeyFormData {
   _id?: string;
   title: string;
   organization: string;
-  examDate: string;
   category: string;
   downloadLink: string;
   description: string;
@@ -33,7 +32,6 @@ export default function AnswerKeyForm({
   const [formData, setFormData] = useState<AnswerKeyFormData>({
     title: '',
     organization: '',
-    examDate: '',
     category: '',
     downloadLink: '',
     description: '',
@@ -48,7 +46,6 @@ export default function AnswerKeyForm({
     if (initialData) {
       setFormData({
         ...initialData,
-        examDate: initialData.examDate ? new Date(initialData.examDate).toISOString().split('T')[0] : '',
       });
     }
   }, [initialData]);
@@ -57,7 +54,6 @@ export default function AnswerKeyForm({
     const newErrors: Partial<AnswerKeyFormData> = {};
     if (!formData.title.trim()) newErrors.title = 'Title is required';
     if (!formData.organization.trim()) newErrors.organization = 'Organization is required';
-    if (!formData.examDate) newErrors.examDate = 'Exam date is required';
     if (!formData.category.trim()) newErrors.category = 'Category is required';
     if (!formData.downloadLink.trim()) newErrors.downloadLink = 'Download link is required';
     if (!/^https?:\/\/[\w\-\.]+\.\w+(\/\S*)?$/.test(formData.downloadLink))
@@ -86,7 +82,6 @@ export default function AnswerKeyForm({
       setFormData({
         title: '',
         organization: '',
-        examDate: '',
         category: '',
         downloadLink: '',
         description: '',
@@ -122,14 +117,6 @@ export default function AnswerKeyForm({
           </label>
           <Input id="organization" name="organization" value={formData.organization} onChange={handleChange} />
           {errors.organization && <p className="text-red-500 text-sm mt-1">{errors.organization}</p>}
-        </div>
-
-        <div>
-          <label htmlFor="examDate" className="block text-sm font-medium text-gray-700">
-            Exam Date
-          </label>
-          <Input type="date" id="examDate" name="examDate" value={formData.examDate} onChange={handleChange} />
-          {errors.examDate && <p className="text-red-500 text-sm mt-1">{errors.examDate}</p>}
         </div>
 
         <div>
