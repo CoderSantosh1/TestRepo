@@ -1,4 +1,6 @@
 "use client"
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -118,6 +120,8 @@ export default function QuizInstructions({ params }: { params: { id: string } })
   }
 
   return (
+    <>
+    <Header />
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-black p-2">
       {/* Floating particles background - Reduced for mobile */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
@@ -359,5 +363,7 @@ export default function QuizInstructions({ params }: { params: { id: string } })
         </div>
       </div>
     </div>
+    <Footer />
+    </>
   )
 }
