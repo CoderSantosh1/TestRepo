@@ -65,6 +65,10 @@ export async function PUT(
     }
 
     const data = await request.json();
+    // Ensure image is always a string
+    if (typeof data.image !== 'string') {
+      data.image = '';
+    }
     const news = await Job.findByIdAndUpdate(newsId, data, { new: true });
 
     if (!news) {
