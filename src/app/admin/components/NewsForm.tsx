@@ -11,6 +11,7 @@ interface NewsFormData {
   organization: string;
   category: string;
   status: string;
+  image?: string | File; // Allow string (URL) or File
 }
 
 interface NewsFormProps {
@@ -27,7 +28,12 @@ export default function NewsForm({ initialData, onSubmit, onCancel }: NewsFormPr
     organization: initialData?.organization || '',
     category: initialData?.category || '',
     status: initialData?.status || 'draft',
+    image: initialData?.image || '',
   });
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>(
+    typeof initialData?.image === 'string' ? initialData.image : ''
+  );
 
   const [errors, setErrors] = useState<Partial<NewsFormData>>({});
   const [isFormValid, setIsFormValid] = useState(false);
@@ -59,13 +65,23 @@ export default function NewsForm({ initialData, onSubmit, onCancel }: NewsFormPr
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImageFile(file);
+      setImagePreview(URL.createObjectURL(file));
+      setFormData(prev => ({ ...prev, image: file }));
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isSubmitting || !validateForm()) return;
 
     setIsSubmitting(true);
     try {
-      await onSubmit(formData);
+      console.log('Submitting formData.image:', formData.image); // Debug log
+      await onSubmit({ ...formData, image: imageFile || formData.image });
     } finally {
       setIsSubmitting(false);
     }
@@ -137,6 +153,23 @@ export default function NewsForm({ initialData, onSubmit, onCancel }: NewsFormPr
             <option value="draft">Draft</option>
             <option value="published">Published</option>
           </Select>
+        </div>
+
+        <div>
+          <label htmlFor="image" className="block text-sm font-medium text-gray-700">Image (optional)</label>
+          <input
+            id="image"
+            name="image"
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-gray-50 file:text-gray-700 hover:file:bg-gray-100"
+          />
+          {imagePreview && (
+            <div className="mt-2">
+              <img src={imagePreview} alt="Preview" className="max-h-40 rounded border" />
+            </div>
+          )}
         </div>
 
         <div className="flex justify-end space-x-2 pt-4 border-t mt-6">
