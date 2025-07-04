@@ -11,12 +11,13 @@ interface NewsFormData {
   organization: string;
   category: string;
   status: string;
-  image?: string | File; // Allow string (URL) or File
+  image?: string | File;
+  imageUrl?: string;
 }
 
 interface NewsFormProps {
   initialData?: NewsFormData;
-  onSubmit: (data: NewsFormData) => void;
+  onSubmit: (data: NewsFormData) => void | Promise<void>;
   onCancel: () => void;
 }
 
@@ -29,18 +30,44 @@ export default function NewsForm({ initialData, onSubmit, onCancel }: NewsFormPr
     category: initialData?.category || '',
     status: initialData?.status || 'draft',
     image: initialData?.image || '',
+    imageUrl: initialData?.imageUrl || '',
   });
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string>(
-    typeof initialData?.image === 'string' ? initialData.image : ''
-  );
+  const [imagePreview, setImagePreview] = useState<string>('');
 
   const [errors, setErrors] = useState<Partial<NewsFormData>>({});
   const [isFormValid, setIsFormValid] = useState(false);
 
   useEffect(() => {
     validateForm();
-  }, [formData]);
+    // Show preview for existing image if editing
+    if (initialData?.imageUrl) {
+      setImagePreview(initialData.imageUrl);
+    } else if (initialData?.image) {
+      if (typeof initialData.image === 'string') {
+        // If it's already a full URL, use as is. If it's a relative path, prepend base path.
+        const isFullUrl = initialData.image.startsWith('http') || initialData.image.startsWith('data:');
+        setImagePreview(isFullUrl ? initialData.image : '/' + initialData.image.replace(/^\/+/g, ''));
+      } else if (
+        typeof initialData.image === 'object' &&
+        'data' in initialData.image &&
+        'contentType' in initialData.image &&
+        initialData.image.data &&
+        initialData.image.contentType
+      ) {
+        // Convert Buffer to base64 string for preview
+        let base64 = '';
+        if (Array.isArray(initialData.image.data)) {
+          base64 = btoa(String.fromCharCode(...new Uint8Array(initialData.image.data)));
+        } else if (typeof initialData.image.data === 'string') {
+          base64 = initialData.image.data;
+        }
+        setImagePreview(`data:${initialData.image.contentType};base64,${base64}`);
+      }
+    } else {
+      setImagePreview('');
+    }
+  }, [formData, initialData]);
 
   const validateForm = () => {
     const newErrors: Partial<NewsFormData> = {};

@@ -13,7 +13,8 @@ interface News {
   category: string;
   postedDate: string;
   status: string;
-  image: string;
+  image?: string;
+  imageUrl?: string;
 }
 
 export default function NewsDetail() {
@@ -140,17 +141,17 @@ export default function NewsDetail() {
               {news.content}
             </div>
           {/* Image Display - Fully Responsive and Scales on Hover for Desktop */}
-          {news.image && (
-              <div className="mb-6 flex justify-center">
-                <div className="w-full sm:w-auto max-w-full overflow-hidden rounded border shadow transition-transform duration-300 hover:scale-105">
-                  <img
-                    src={news.image}
-                    alt={news.title}
-                    className="w-full h-auto object-contain"
-                  />
-                </div>
+          {news.imageUrl && (
+            <div className="mb-6 flex justify-center">
+              <div className="w-full sm:w-auto max-w-full overflow-hidden rounded border shadow transition-transform duration-300 hover:scale-105">
+                <img
+                  src={news.imageUrl}
+                  alt={news.title}
+                  className="w-full h-auto object-contain"
+                />
               </div>
-            )}
+            </div>
+          )}
             {/* Back Button */}
             <div className="flex justify-between items-center mt-8">
               <button

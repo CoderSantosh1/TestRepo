@@ -628,14 +628,6 @@ export default function AdminDashboard() {
                     onChange={(e) => {
                       const file = e.target.files?.[0];
                       if (file) {
-                        if (!file.type.startsWith('image/')) {
-                          alert('Please select a valid image file.');
-                          return;
-                        }
-                        if (file.size > 2 * 1024 * 1024) { // 2MB limit
-                          alert('Image size should be less than 2MB.');
-                          return;
-                        }
                         setNewsFormData({ ...newsFormData, image: file });
                         setImagePreview(URL.createObjectURL(file));
                       }
