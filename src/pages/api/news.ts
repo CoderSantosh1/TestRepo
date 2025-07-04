@@ -59,7 +59,18 @@ export default async function handler(req: any, res: any) {
     try {
       await dbConnect();
       const news = await News.find({ status: 'published' }).sort({ postedDate: -1 });
-      res.status(200).json({ success: true, data: news });
+      const newsWithImageUrl = news.map((item) => {
+        let imageUrl = '';
+        if (item.image && item.image.data && item.image.contentType) {
+          const base64 = Buffer.from(item.image.data).toString('base64');
+          imageUrl = `data:${item.image.contentType};base64,${base64}`;
+        }
+        return {
+          ...item.toObject(),
+          imageUrl,
+        };
+      });
+      res.status(200).json({ success: true, data: newsWithImageUrl });
     } catch (error) {
       res.status(500).json({ success: false, error: 'Failed to fetch news' });
     }
