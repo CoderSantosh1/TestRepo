@@ -1,6 +1,12 @@
+// @ts-ignore: Could not find module 'cloudinary' types
+import { v2 as cloudinary, UploadApiResponse } from 'cloudinary';
 import { NextResponse } from 'next/server';
-import path from 'path';
-import fs from 'fs/promises';
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 export async function POST(request: Request) {
   try {
@@ -9,19 +15,23 @@ export async function POST(request: Request) {
     if (!file) {
       return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });
     }
-    // Create a unique filename
-    const ext = file.name.split('.').pop();
-    const filename = `caticon_${Date.now()}.${ext}`;
-    const uploadDir = path.join(process.cwd(), 'public', 'uploads', 'category-icons');
-    await fs.mkdir(uploadDir, { recursive: true });
-    const filePath = path.join(uploadDir, filename);
     // Read file as buffer
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
-    await fs.writeFile(filePath, buffer);
-    // Return the public URL
-    const imageUrl = `/uploads/category-icons/${filename}`;
-    return NextResponse.json({ success: true, imageUrl });
+
+    // Upload to Cloudinary
+    const uploadResult = await new Promise<UploadApiResponse>((resolve, reject) => {
+      cloudinary.uploader.upload_stream(
+        { folder: 'quiz-category-icons' },
+        (error: Error | undefined, result: UploadApiResponse | undefined) => {
+          if (error || !result) reject(error);
+          else resolve(result);
+        }
+      ).end(buffer);
+    });
+
+    // Return the Cloudinary URL
+    return NextResponse.json({ success: true, imageUrl: uploadResult.secure_url });
   } catch (error) {
     console.error('Category icon upload error:', error);
     return NextResponse.json({ error: 'Failed to upload icon' }, { status: 500 });
