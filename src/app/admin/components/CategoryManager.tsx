@@ -11,6 +11,10 @@ interface Category {
   subcategories: Subcategory[];
 }
 
+function isCloudinaryUrl(url: string) {
+  return /^https?:\/\/res\.cloudinary\.com\//.test(url);
+}
+
 const CategoryManager: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [newCategory, setNewCategory] = useState('');
@@ -42,6 +46,10 @@ const CategoryManager: React.FC = () => {
     if (!newCategory.trim()) return;
     if (!newCategoryIcon.trim()) {
      
+      return;
+    }
+    if (!isCloudinaryUrl(newCategoryIcon.trim())) {
+      alert('Please upload a valid icon.');
       return;
     }
     await fetch('/api/quiz-categories', {

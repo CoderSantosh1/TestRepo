@@ -35,6 +35,13 @@ function flattenSubcategories(subs: any): Subcategory[] {
   }, []);
 }
 
+function getIconUrl(icon: string | undefined) {
+  if (!icon || typeof icon !== 'string' || !icon.trim()) return DEFAULT_ICON;
+  if (icon.startsWith('http')) return icon;
+  if (icon.startsWith('/')) return icon;
+  return '/' + icon;
+}
+
 const FreeTestSeriesMegaMenu: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -44,14 +51,14 @@ const FreeTestSeriesMegaMenu: React.FC = () => {
   const [openMobileCategory, setOpenMobileCategory] = useState<string | null>(null); // category _id or name
 
   useEffect(() => {
-    if (open && categories.length === 0) {
+    if (open || mobileSidebarOpen) {
       setLoading(true);
       fetch('/api/quiz-categories')
         .then(res => res.json())
         .then(data => setCategories(data))
         .finally(() => setLoading(false));
     }
-  }, [open, categories.length]);
+  }, [open, mobileSidebarOpen]);
 
   useEffect(() => {
     if ((open || mobileSidebarOpen) && categories.length > 0 && !selectedCategory) {
@@ -103,7 +110,7 @@ const FreeTestSeriesMegaMenu: React.FC = () => {
                   aria-selected={selectedCategory?._id === cat._id || selectedCategory?.name === cat.name}
                 >
                   <img
-                    src={cat.icon && typeof cat.icon === 'string' && cat.icon.trim() ? (cat.icon.startsWith('/') ? cat.icon : '/' + cat.icon) : DEFAULT_ICON}
+                    src={getIconUrl(cat.icon)}
                     alt={typeof cat.name === 'string' ? cat.name : ''}
                     className={`w-10 h-10 object-contain rounded bg-white transition
                       ${selectedCategory?._id === cat._id || selectedCategory?.name === cat.name ? 'ring-2 ring-blue-300' : ''}
@@ -120,7 +127,7 @@ const FreeTestSeriesMegaMenu: React.FC = () => {
               <>
                 <div className="mb-6 flex items-center gap-4">
                   <img
-                    src={selectedCategory.icon && typeof selectedCategory.icon === 'string' && selectedCategory.icon.trim() ? (selectedCategory.icon.startsWith('/') ? selectedCategory.icon : '/' + selectedCategory.icon) : DEFAULT_ICON}
+                    src={getIconUrl(selectedCategory.icon)}
                     alt={typeof selectedCategory.name === 'string' ? selectedCategory.name : ''}
                     className="w-10 h-10 object-contain rounded shadow bg-white"
                   />
@@ -135,7 +142,7 @@ const FreeTestSeriesMegaMenu: React.FC = () => {
                       tabIndex={0}
                     >
                       <img
-                        src={sub.icon && typeof sub.icon === 'string' && sub.icon.trim() ? (sub.icon.startsWith('/') ? sub.icon : '/' + sub.icon) : DEFAULT_ICON}
+                        src={getIconUrl(sub.icon)}
                         alt={sub.name}
                         className="w-9 h-9 object-contain rounded bg-white"
                       />
@@ -187,7 +194,7 @@ const FreeTestSeriesMegaMenu: React.FC = () => {
                     aria-selected={selectedCategory?._id === cat._id || selectedCategory?.name === cat.name}
                   >
                     <img
-                      src={cat.icon && typeof cat.icon === 'string' && cat.icon.trim() ? (cat.icon.startsWith('/') ? cat.icon : '/' + cat.icon) : DEFAULT_ICON}
+                      src={getIconUrl(cat.icon)}
                       alt={typeof cat.name === 'string' ? cat.name : ''}
                       className={`w-10 h-10 object-contain rounded bg-white transition
                         ${selectedCategory?._id === cat._id || selectedCategory?.name === cat.name ? 'ring-2 ring-blue-300' : ''}
@@ -215,7 +222,7 @@ const FreeTestSeriesMegaMenu: React.FC = () => {
                 type="button"
               >
                 <img
-                  src={cat.icon && typeof cat.icon === 'string' && cat.icon.trim() ? (cat.icon.startsWith('/') ? cat.icon : '/' + cat.icon) : DEFAULT_ICON}
+                  src={getIconUrl(cat.icon)}
                   alt={typeof cat.name === 'string' ? cat.name : ''}
                   className="w-8 h-8 object-contain rounded bg-white"
                 />
@@ -238,7 +245,7 @@ const FreeTestSeriesMegaMenu: React.FC = () => {
                         tabIndex={0}
                       >
                         <img
-                          src={sub.icon && typeof sub.icon === 'string' && sub.icon.trim() ? (sub.icon.startsWith('/') ? sub.icon : '/' + sub.icon) : DEFAULT_ICON}
+                          src={getIconUrl(sub.icon)}
                           alt={sub.name}
                           className="w-7 h-7 object-contain rounded bg-white"
                         />
