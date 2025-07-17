@@ -10,6 +10,12 @@ cloudinary.config({
 
 export async function POST(request: Request) {
   try {
+    // Debug: Log presence of env vars
+    console.log('Cloudinary ENV:', {
+      CLOUDINARY_CLOUD_NAME: !!process.env.CLOUDINARY_CLOUD_NAME,
+      CLOUDINARY_API_KEY: !!process.env.CLOUDINARY_API_KEY,
+      CLOUDINARY_API_SECRET: !!process.env.CLOUDINARY_API_SECRET,
+    });
     const formData = await request.formData();
     const file = formData.get('file') as File;
     if (!file) {
@@ -32,8 +38,8 @@ export async function POST(request: Request) {
 
     // Return the Cloudinary URL
     return NextResponse.json({ success: true, imageUrl: uploadResult.secure_url });
-  } catch (error) {
-    console.error('Category icon upload error:', error);
-    return NextResponse.json({ error: 'Failed to upload icon' }, { status: 500 });
+  } catch (error: any) {
+    console.error('Category icon upload error:', error, error?.message, error?.stack);
+    return NextResponse.json({ error: error?.message || 'Failed to upload icon', stack: error?.stack }, { status: 500 });
   }
 } 
