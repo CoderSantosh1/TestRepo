@@ -1,6 +1,6 @@
 "use client";
 import Head from "next/head";
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import Link from "next/link";
@@ -15,9 +15,9 @@ export default function AnswerKeyListPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/answer-keys')
-      .then(res => res.json())
-      .then(data => setAnswerKeys(data.data || []))
+    fetch("/api/answer-keys")
+      .then((res) => res.json())
+      .then((data) => setAnswerKeys(data.data || []))
       .finally(() => setLoading(false));
   }, []);
 
@@ -27,7 +27,10 @@ export default function AnswerKeyListPage() {
     <>
       <Head>
         <title>Sarkariresultsnow - Answer Keys</title>
-        <meta name="description" content="All Answer Keys - Sarkariresultsnow" />
+        <meta
+          name="description"
+          content="All Answer Keys - Sarkariresultsnow"
+        />
       </Head>
       <Header />
       <div className="max-w-7xl mx-auto px-2 sm:px-4 py-8 w-full">
@@ -36,14 +39,22 @@ export default function AnswerKeyListPage() {
           <table className="w-full table-fixed border-collapse border border-orange-500 text-xs sm:text-sm md:text-base">
             <thead>
               <tr className="bg-red-600 text-[#FCFCD8] font-bold">
-                <th className="p-2 text-center break-words whitespace-normal">Answer Key Available</th>
+                <th className="p-2 text-center break-words whitespace-normal">
+                  Answer Key Available
+                </th>
               </tr>
             </thead>
             <tbody>
               {answerKeys.map((item) => (
-                <tr key={item._id} className="border-t-2 border-red-500 bg-[#FFF8CC] ">
+                <tr
+                  key={item._id}
+                  className="border-t-2 border-red-500 bg-[#FFF8CC] "
+                >
                   <td className="p-2 border-x text-left align-top break-words whitespace-pre-wrap flex justify-center">
-                    <a href={`/answer-keys/${item._id}`} className="text-[#014F59] hover:underline hover:text-blue-800">
+                    <a
+                      href={`/answer-keys/${item._id}`}
+                      className="text-[#014F59] hover:underline hover:text-blue-800"
+                    >
                       {item.title}
                     </a>
                   </td>
@@ -57,9 +68,9 @@ export default function AnswerKeyListPage() {
             </div>
           )}
         </div>
-        <Link href="/">BACK TO HOME </Link>
+        <Link href="/">BACK TO HOME page </Link>
       </div>
       <Footer />
     </>
   );
-} 
+}
