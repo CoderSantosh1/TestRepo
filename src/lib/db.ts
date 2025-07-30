@@ -32,6 +32,7 @@ if (!cached) {
 
 export default async function connectDB() {
   if (cached.conn) {
+    console.log('Using cached database connection');
     return cached.conn;
   }
 
@@ -50,11 +51,14 @@ export default async function connectDB() {
     let retries = 3;
     const connect = async () => {
       try {
+        console.log('Attempting to connect to MongoDB...');
         const mongooseInstance = await mongoose.connect(MONGODB_URI, opts);
         console.log('MongoDB connected successfully');
         return mongooseInstance;
       } catch (error) {
         const dbError = error as MongoDBError;
+        console.error('MongoDB connection error:', dbError);
+        
         if (dbError.code === 8000 || dbError.message.includes('bad auth')) {
           console.error('MongoDB Authentication Error: Please check your credentials in .env file');
           console.error('Make sure your MongoDB Atlas connection string is in the format: mongodb+srv://<username>:<password>@<cluster-url>/<database>');
@@ -77,6 +81,7 @@ export default async function connectDB() {
     cached.conn = await cached.promise;
   } catch (e) {
     cached.promise = null;
+    console.error('Failed to establish database connection:', e);
     throw e;
   }
 
